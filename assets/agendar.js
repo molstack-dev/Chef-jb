@@ -3,19 +3,16 @@ window.agendarJsLoaded = true;
 (function() {
     'use strict';
 
-    // Asegurar que la función closeComprobanteModal esté disponible
     window.closeComprobanteModal = function() {
         var modal = document.getElementById('comprobante-solicitud-modal');
         if (modal) modal.classList.add('hidden');
     };
 
     document.addEventListener('DOMContentLoaded', function() {
-        // Función para normalizar texto (misma que en loadCatalogData)
         function normalizeServiceValue(text) {
             return text.toLowerCase().replace(/\s+/g, '_').normalize("NFD").replace(/[\u0300-\u036f]/g, "");
         }
 
-        // Configurar modales de inscripción - redirigir a agendar.html con tipo y servicio
         window.showInscriptionModal = function(courseName, coursePrice) {
             var serviceValue = normalizeServiceValue(courseName);
             var typeMap = {
@@ -43,7 +40,6 @@ window.agendarJsLoaded = true;
             if (modal) modal.classList.add('hidden');
         };
 
-        // Mostrar detalles del curso en modal
         window.showCourseDetails = function(title, detail) {
             var modal = document.getElementById('courseDetailsModal');
             var titleEl = document.getElementById('courseTitle');
@@ -59,7 +55,6 @@ window.agendarJsLoaded = true;
             if (modal) modal.classList.add('hidden');
         };
 
-        // ===== FUNCIONES MODAL DESCARGA COMPROBANTE (estilo historial) =====
         window.downloadInscriptionReceipt = function () {
             try {
                 const src = window.__inscription_receipt_src;
@@ -68,7 +63,6 @@ window.agendarJsLoaded = true;
                     notify('No hay comprobante disponible para descargar.', 'error');
                     return;
                 }
-
                 const a = document.createElement('a');
                 a.href = src;
                 a.download = 'comprobante_inscripcion';
@@ -83,23 +77,18 @@ window.agendarJsLoaded = true;
 
         window.handleInscriptionReceiptClick = function (btn) {
             const receipt = btn && btn.getAttribute ? btn.getAttribute('data-receipt') : null;
-
-            const modal = document.getElementById('comprobante-solicitud-modal'); // Cambiado para usar el nuevo modal
-            const contentDiv = document.getElementById('comprobante-solicitud-content'); // Cambiado para usar el nuevo modal
-            const titleEl = document.getElementById('comprobante-modal-title'); // Cambiado para usar el nuevo modal
-            const downloadBtn = document.getElementById('download-inscription-receipt-btn'); // Ya estaba usando el botón correcto
+            const modal = document.getElementById('comprobante-solicitud-modal');
+            const contentDiv = document.getElementById('comprobante-solicitud-content');
+            const titleEl = document.getElementById('comprobante-modal-title');
+            const downloadBtn = document.getElementById('download-inscription-receipt-btn');
 
             if (!modal || !contentDiv || !titleEl || !downloadBtn) return;
-
             titleEl.textContent = 'Comprobante de Pago';
-
             window.__inscription_receipt_src = receipt || null;
 
             if (receipt) {
                 downloadBtn.classList.remove('hidden');
                 downloadBtn.disabled = false;
-
-                // (sin plantilla 1:1) render simple para no afectar el modal de "Ver más"
                 contentDiv.innerHTML =
                     '<div class="flex justify-center w-full pt-0 pb-1">' +
                     '<img id="inscription-receipt-img" src="' + receipt + '" alt="Comprobante" class="max-h-[45vh] w-auto max-w-[420px] object-contain rounded" />' +
@@ -109,16 +98,13 @@ window.agendarJsLoaded = true;
                 downloadBtn.disabled = true;
                 contentDiv.innerHTML = '<div class="text-gray-300 text-sm">Sin comprobante</div>';
             }
-
             modal.classList.remove('hidden');
         };
 
-        // ===== HANDLER DEL FORMULARIO DE AGENDAR =====
         const advisoryForm = document.getElementById('advisory-form');
         if (advisoryForm) {
             advisoryForm.addEventListener('submit', function(e) {
                 e.preventDefault();
-
                 const serviceType = document.querySelector('.service-type-btn.bg-purple-600')?.getAttribute('data-type') || 'asesoria';
                 const termsCheckbox = document.getElementById('terms-checkbox');
                 const notify = window.showToast || window.alert;
@@ -129,7 +115,6 @@ window.agendarJsLoaded = true;
                 }
 
                 let price, date, time, notes;
-
                 let advisoryType = null, advisoryService = null, advisoryMode = null, eventName = null;
                 let numPersons = 1;
 
@@ -140,29 +125,20 @@ window.agendarJsLoaded = true;
                     date = document.getElementById('advisory-date')?.value || '';
                     time = document.getElementById('advisory-time')?.value || '';
                     notes = document.getElementById('advisory-details')?.value || '';
-
                     const selectedOption = document.getElementById('advisory-service')?.selectedOptions[0];
                     price = selectedOption?.dataset?.price || 0;
-
                     if (advisoryType === 'asesoria_negocio') {
                         numPersons = parseInt(document.getElementById('advisory-asesoria-persons')?.value) || 1;
                     }
                 } else if (serviceType === 'curso') {
                     advisoryService = document.getElementById('advisory-course')?.value || '';
                     price = document.getElementById('advisory-course')?.selectedOptions[0]?.dataset?.price || 0;
-
-                    date = '';
-                    time = '';
-                    notes = '';
+                    date = ''; time = ''; notes = '';
                 } else if (serviceType === 'evento') {
                     eventName = document.getElementById('advisory-event')?.value || '';
                     numPersons = parseInt(document.getElementById('advisory-event-persons')?.value) || 1;
-
                     price = document.getElementById('advisory-event')?.selectedOptions[0]?.dataset?.price || 0;
-
-                    date = '';
-                    time = '';
-                    notes = '';
+                    date = ''; time = ''; notes = '';
                     advisoryService = eventName;
                 }
 
@@ -188,7 +164,6 @@ window.agendarJsLoaded = true;
                     advisoryMode: advisoryMode,
                     eventName: eventName
                 };
-
                 window.pendingPrice = totalPrice;
 
                 window.openPaymentModal({
@@ -200,11 +175,9 @@ window.agendarJsLoaded = true;
             });
         }
 
-        // ===== Configurar botones de tipo de servicio =====
         const serviceTypeBtns = document.querySelectorAll('.service-type-btn');
         const serviceFields = document.querySelectorAll('.service-fields');
 
-        // Leer parámetros de URL si existen (desde el catálogo)
         const urlParams = new URLSearchParams(window.location.search);
         const preselectedType = urlParams.get('type');
         const preselectedService = urlParams.get('service');
@@ -212,10 +185,7 @@ window.agendarJsLoaded = true;
 
         window.selectServiceByValue = function(selectId, value) {
             const select = document.getElementById(selectId);
-            if (!select || !value) {
-                console.warn('Select no encontrado o valor vacío:', selectId, value);
-                return false;
-            }
+            if (!select || !value) return false;
             const options = select.options;
             for (let i = 0; i < options.length; i++) {
                 if (options[i].value === value) {
@@ -240,7 +210,6 @@ window.agendarJsLoaded = true;
             targetBtn.classList.add('bg-purple-600');
 
             serviceFields.forEach(field => field.classList.add('hidden'));
-
             const targetFields = document.getElementById('fields-' + type);
             if (targetFields) targetFields.classList.remove('hidden');
 
@@ -256,44 +225,33 @@ window.agendarJsLoaded = true;
             }
         }
 
-        // ===== HANDLER VER COMPROBANTE EN TABLA SOLICITUDES =====
         function wireReceiptButtonsInSolicitudes() {
             const tbody = document.getElementById('solicitudes-tbody');
             if (!tbody) return;
 
-            // Manejar eventos de la tabla de solicitudes
             tbody.addEventListener('click', function(e) {
-                // Botón "Ver Comprobante"
                 const receiptBtn = e.target && e.target.closest ? e.target.closest('.view-inscription-receipt-btn, .view-receipt-btn, .ver-comprobante-btn') : null;
                 if (receiptBtn) {
-                    const receipt = receiptBtn.getAttribute('data-receipt');
-                    if (!receipt) return;
-
                     if (typeof window.handleInscriptionReceiptClick === 'function') {
                         window.handleInscriptionReceiptClick(receiptBtn);
                     }
                     return;
                 }
 
-                // Botón "Ver más" (detalles)
                 const detailsBtn = e.target && e.target.closest ? e.target.closest('.ver-detalles-btn') : null;
                 if (detailsBtn) {
                     const detalles = decodeURIComponent(detailsBtn.getAttribute('data-detalles'));
                     const contentDiv = document.getElementById('detalles-solicitud-content');
                     const titleEl = document.getElementById('detalles-modal-title');
-                    
                     if (titleEl) titleEl.textContent = 'Detalles de la Solicitud';
-                    
                     if (contentDiv) {
                         const lines = detalles.split('\n');
                         contentDiv.innerHTML = lines.map(function(line) {
                             return '<div class="py-2 border-b border-gray-700 last:border-0">' + line + '</div>';
                         }).join('');
                     }
-                    
                     const modal = document.getElementById('detalles-solicitud-modal');
                     if (modal) {
-                        // Ocultar botón de descarga en el modal de detalles
                         const downloadBtn = document.getElementById('download-inscription-receipt-btn');
                         if (downloadBtn) {
                             downloadBtn.classList.add('hidden');
@@ -306,45 +264,33 @@ window.agendarJsLoaded = true;
             });
         }
 
-        // ===== Cargar datos del catálogo =====
         async function loadCatalogData() {
             try {
                 const response = await fetch('/backend/api/cursos-get.php');
                 if (!response.ok) return;
                 const result = await response.json();
                 if (!result.success) return;
-
                 const courses = result.data;
-                
-                // Filtrar eventos pasados para usuarios no administradores
+
                 const isCurrentUserAdmin = () => {
                     const user = window.getCurrentUser ? window.getCurrentUser() : null;
                     return user && user.role === 'admin';
                 };
-                
+
                 const filterPastEvents = (coursesList) => {
-                    if (isCurrentUserAdmin()) {
-                        return coursesList; // Administradores ven todos los eventos, incluyendo pasados
-                    }
-                    
+                    if (isCurrentUserAdmin()) return coursesList;
                     const now = new Date();
                     return coursesList.filter(function(course) {
-                        // Si no es un evento, mantenerlo
-                        if (course.category !== 'eventos' && course.category !== 'evento') {
-                            return true;
-                        }
-                        // Si es un evento, verificar si la fecha ya pasó
+                        if (course.category !== 'eventos' && course.category !== 'evento') return true;
                         if (course.event_date) {
                             const eventDate = new Date(course.event_date + ' ' + (course.event_time || '00:00'));
                             return eventDate >= now;
                         }
-                        // Si no tiene fecha de evento definida, mantenerlo
                         return true;
                     });
                 };
 
                 const filteredCourses = filterPastEvents(courses);
-                
                 const Asesorias = filteredCourses.filter(c => c.category === 'asesorias' || c.category === 'asesoria');
                 const Cursos = filteredCourses.filter(c => c.category === 'cursos' || c.category === 'curso');
                 const Eventos = filteredCourses.filter(c => c.category === 'eventos' || c.category === 'evento');
@@ -380,7 +326,6 @@ window.agendarJsLoaded = true;
                         const opt = document.createElement('option');
                         opt.value = normalizeServiceValue(c.title);
                         opt.textContent = c.title;
-                        // Agregar aviso de evento expirado si es admin y el evento está vencido
                         if (window.getCurrentUser && window.getCurrentUser()?.role === 'admin' && c.is_expired) {
                             opt.textContent = c.title + ' (FECHA VENCIDA)';
                         }
@@ -392,11 +337,9 @@ window.agendarJsLoaded = true;
                 if (preselectedType && preselectedService) {
                     const selectId = preselectedType === 'asesoria' ? 'advisory-service' :
                         preselectedType === 'curso' ? 'advisory-course' : 'advisory-event';
-
                     if (window.selectServiceByValue) {
                         window.selectServiceByValue(selectId, preselectedService);
                     }
-
                     if (urlPrice) {
                         const select = document.getElementById(selectId);
                         if (select && select.selectedIndex > 0) {
@@ -409,7 +352,7 @@ window.agendarJsLoaded = true;
             }
         }
 
-        // ===== Cargar grid de cursos =====
+        // ===== GRID DE CURSOS COMPACTO EN MÓVIL =====
         async function loadCoursesGrid() {
             try {
                 const response = await fetch('/backend/api/cursos-get.php');
@@ -420,47 +363,51 @@ window.agendarJsLoaded = true;
                 if (!grid) return;
 
                 let courses = result.data;
-                
-                // Filtrar eventos pasados para usuarios no administradores
+
                 const isCurrentUserAdmin = () => {
                     const user = window.getCurrentUser ? window.getCurrentUser() : null;
                     return user && user.role === 'admin';
                 };
-                
+
                 const filterPastEvents = (coursesList) => {
-                    if (isCurrentUserAdmin()) {
-                        return coursesList; // Administradores ven todos los eventos, incluyendo pasados
-                    }
-                    
+                    if (isCurrentUserAdmin()) return coursesList;
                     const now = new Date();
                     return coursesList.filter(function(course) {
-                        // Si no es un evento, mantenerlo
-                        if (course.category !== 'eventos' && course.category !== 'evento') {
-                            return true;
-                        }
-                        // Si es un evento, verificar si la fecha ya pasó
+                        if (course.category !== 'eventos' && course.category !== 'evento') return true;
                         if (course.event_date) {
                             const eventDate = new Date(course.event_date + ' ' + (course.event_time || '00:00'));
                             return eventDate >= now;
                         }
-                        // Si no tiene fecha de evento definida, mantenerlo
                         return true;
                     });
                 };
 
-                courses = filterPastEvents(courses);
+                const formatDate = (dateString) => {
+                    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                    return new Date(dateString).toLocaleDateString('es-ES', options);
+                };
 
+                const formatTime = (timeString) => {
+                    if (!timeString) return '';
+                    const [hours, minutes] = timeString.split(':');
+                    const hour = parseInt(hours);
+                    const ampm = hour >= 12 ? 'PM' : 'AM';
+                    const formattedHour = hour % 12 || 12;
+                    return `${formattedHour}:${minutes} ${ampm}`;
+                };
+
+                courses = filterPastEvents(courses);
                 grid.innerHTML = '';
 
                 courses.forEach(function(course) {
                     var priceStr = '$' + Number(course.price).toLocaleString('es-CO');
                     var imageHtml = '';
                     if (course.image) {
-                        imageHtml = '<img src="' + course.image + '" alt="' + course.title + '" class="h-auto w-auto object-cover rounded-lg mb-4 cursor-pointer" onclick="toggleCourseContent(' + course.id + ', this)" >';
+                        imageHtml = '<div class="rounded-lg mb-2 md:mb-3 overflow-hidden bg-gray-700 aspect-video"><img src="' + course.image + '" alt="' + course.title + '" class="w-full h-full object-cover cursor-pointer" onclick="toggleCourseContent(' + course.id + ', this)"></div>';
                     }
 
                     var card = document.createElement('div');
-                    card.className = 'product-card p-4 rounded-lg bg-gray-800';
+                    card.className = 'product-card p-3 md:p-4 rounded-lg bg-gray-800 flex flex-col h-full';
                     card.setAttribute('data-category', course.category);
                     card.setAttribute('data-title', course.title);
                     card.setAttribute('data-detail', course.description_detail || course.description || '');
@@ -473,29 +420,47 @@ window.agendarJsLoaded = true;
                     var categoryLabel = course.category === 'cursos' || course.category === 'curso' ? 'Curso' :
                         course.category === 'asesorias' || course.category === 'asesoria' ? 'Asesoría' :
                         course.category === 'eventos' || course.category === 'evento' ? 'Evento' : course.category;
-                    var durationStr = course.duration ? '<p class="text-gray-500 text-xs mb-2">Duración: ' + course.duration + '</p>' : '';
+                    var durationStr = course.duration ? '<p class="text-gray-500 text-[10px] md:text-xs mb-1 md:mb-2">' + course.duration + '</p>' : '';
 
-                    // Agregar aviso de evento expirado si es admin y el evento está vencido
+                    var eventInfo = '';
+                    if ((course.category === 'eventos' || course.category === 'evento') && course.event_date) {
+                        var dateFormatted = formatDate(course.event_date);
+                        var timeFormatted = formatTime(course.event_time);
+                        eventInfo = '<div class="mb-1.5 md:mb-2 text-[10px] md:text-xs text-gray-300">' +
+                                   '<div class="flex items-center gap-1 mb-0.5">' +
+                                       '<svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-amber-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">' +
+                                           '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />' +
+                                       '</svg>' +
+                                       '<span class="truncate">' + dateFormatted + '</span>' +
+                                   '</div>';
+                        if (timeFormatted) {
+                            eventInfo += '<div class="flex items-center gap-1">' +
+                                            '<svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-amber-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">' +
+                                                '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />' +
+                                            '</svg>' +
+                                            '<span>' + timeFormatted + '</span>' +
+                                         '</div>';
+                        }
+                        eventInfo += '</div>';
+                    }
+
                     var expiredNotice = '';
                     if (window.getCurrentUser && window.getCurrentUser()?.role === 'admin' && course.is_expired) {
-                        expiredNotice = '<div class="bg-red-700 text-white text-xs text-center py-1 rounded mb-2">FECHA VENCIDA</div>';
+                        expiredNotice = '<div class="bg-red-700 text-white text-[10px] md:text-xs text-center py-0.5 md:py-1 rounded mb-1 md:mb-2">FECHA VENCIDA</div>';
                     }
 
                     card.innerHTML = expiredNotice + imageHtml + `
-                        <span class="inline-block px-2 py-1 text-xs font-semibold text-white ${categoryColor} rounded mb-2">${categoryLabel}</span>
-                        <h3 class="text-lg font-semibold text-white mb-1 cursor-pointer hover:text-amber-400" onclick="toggleCourseContent(${course.id}, this)">${course.title}</h3>
+                        <span class="inline-block px-1.5 py-0.5 text-[10px] md:text-xs font-semibold text-white ${categoryColor} rounded mb-1.5 md:mb-2 self-start">${categoryLabel}</span>
+                        <h3 class="text-sm md:text-lg font-semibold text-white mb-1 cursor-pointer hover:text-amber-400 line-clamp-2 leading-tight" onclick="toggleCourseContent(${course.id}, this)">${course.title}</h3>
+                        ${eventInfo}
                         ${durationStr}
-                        <p class="text-gray-400 text-sm mb-3">${course.description}</p>
-                        <div class="flex justify-between items-center">
-                            <span class="text-amber-500 font-bold">${priceStr}</span>
-                            <div class="flex gap-2">
-                                <button class="btn-ver-detalles px-3 py-1 bg-purple-700 text-white rounded text-sm hover:bg-purple-600 transition-colors" onclick="event.stopPropagation(); showCourseDetails('${course.title.replace(/'/g, "\\'")}', '${(course.description_detail || course.description || '').replace(/'/g, "\\'")}')">Ver detalles</button>
-                            </div>
+                        <p class="text-gray-400 text-xs md:text-sm mb-2 md:mb-3 line-clamp-2 hidden sm:block">${course.description}</p>
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1.5 sm:gap-2 mb-2">
+                            <span class="text-amber-500 font-bold text-sm md:text-base">${priceStr}</span>
+                            <button class="btn-ver-detalles px-2 py-1 bg-purple-700 text-white rounded text-[10px] md:text-xs hover:bg-purple-600 transition-colors w-full sm:w-auto" onclick="event.stopPropagation(); showCourseDetails('${course.title.replace(/'/g, "\\'")}', '${(course.description_detail || course.description || '').replace(/'/g, "\\'")}')">Ver detalles</button>
                         </div>
-                        <div class="mt-3">
-                            <button class="inscribirse-btn w-full px-3 py-2 bg-amber-600 text-white rounded text-sm hover:bg-amber-700 transition-colors">Inscribirse</button>
-                        </div>
-                        <div id="course-content-${course.id}" class="hidden mt-4 border-t border-gray-700 pt-4"></div>
+                        <button class="inscribirse-btn w-full px-2 py-1.5 md:py-2 bg-amber-600 text-white rounded text-xs md:text-sm hover:bg-amber-700 transition-colors mt-auto">Inscribirse</button>
+                        <div id="course-content-${course.id}" class="hidden mt-3 border-t border-gray-700 pt-3"></div>
                     `;
 
                     grid.appendChild(card);
@@ -507,39 +472,31 @@ window.agendarJsLoaded = true;
             }
         }
 
-        // Toggle mostrar/ocultar contenido del curso (lecciones)
         window.toggleCourseContent = async function(courseId, element) {
             const contentDiv = document.getElementById('course-content-' + courseId);
             if (!contentDiv) return;
-
             if (!contentDiv.classList.contains('hidden')) {
                 contentDiv.classList.add('hidden');
                 return;
             }
-
             if (contentDiv.innerHTML.trim() !== '') {
                 contentDiv.classList.remove('hidden');
                 return;
             }
-
             try {
                 contentDiv.innerHTML = '<div class="text-gray-400 text-sm py-2">Cargando contenido...</div>';
                 contentDiv.classList.remove('hidden');
-
                 const response = await fetch('/backend/api/course-content-get.php?course_id=' + courseId);
                 const result = await response.json();
-
                 if (!result.success || !result.content || result.content.length === 0) {
                     contentDiv.innerHTML = '<div class="text-gray-500 text-sm py-2">Este curso aún no tiene lecciones disponibles.</div>';
                     return;
                 }
-
                 let lessonsHtml = '<div class="space-y-2">';
                 result.content.forEach(function(lesson, index) {
                     var durationStr = lesson.duration ? lesson.duration : '';
                     var videoUrl = lesson.video_url || '';
                     var isYoutube = videoUrl.includes('youtu.be') || videoUrl.includes('youtube.com');
-
                     lessonsHtml += `
                         <div class="bg-gray-700 rounded-lg p-3 flex items-center justify-between">
                             <div class="flex items-center gap-3">
@@ -554,29 +511,24 @@ window.agendarJsLoaded = true;
                     `;
                 });
                 lessonsHtml += '</div>';
-
                 contentDiv.innerHTML = lessonsHtml;
             } catch (e) {
                 contentDiv.innerHTML = '<div class="text-red-400 text-sm py-2">Error al cargar contenido</div>';
             }
         };
 
-        // Función para configurar los filtros del catálogo
         function setupCatalogFilters() {
             const filterButtons = document.querySelectorAll('.filter-btn');
             const courses = document.querySelectorAll('.product-card[data-category]');
-
             filterButtons.forEach(button => {
                 button.addEventListener('click', function() {
                     filterButtons.forEach(btn => btn.classList.remove('active'));
                     this.classList.add('active');
-
                     const filter = this.getAttribute('data-filter');
-
                     courses.forEach(course => {
                         const categories = course.getAttribute('data-category').split(' ');
                         if (filter === 'all' || categories.includes(filter)) {
-                            course.style.display = 'block';
+                            course.style.display = 'flex';
                         } else {
                             course.style.display = 'none';
                         }
@@ -585,7 +537,6 @@ window.agendarJsLoaded = true;
             });
         }
 
-        // Delegar eventos del grid de cursos
         var coursesGrid = document.getElementById('courses-grid');
         if (coursesGrid) {
             coursesGrid.addEventListener('click', function(e) {
@@ -597,7 +548,6 @@ window.agendarJsLoaded = true;
                     }
                     return;
                 }
-
                 if (e.target.classList.contains('inscribirse-btn')) {
                     var card = e.target.closest('.product-card');
                     if (card) {
@@ -607,20 +557,16 @@ window.agendarJsLoaded = true;
                         var serviceValue = normalizeServiceValue(title);
                         var typeMap = {cursos: 'curso', curso: 'curso', asesorias: 'asesoria', asesoria: 'asesoria', eventos: 'evento', evento: 'evento'};
                         var type = typeMap[category] || 'curso';
-
                         activateServiceType(type);
-
                         setTimeout(function() {
                             var selectId = type === 'asesoria' ? 'advisory-service' : type === 'curso' ? 'advisory-course' : 'advisory-event';
                             if (window.selectServiceByValue) {
                                 window.selectServiceByValue(selectId, serviceValue);
                             }
-
                             var select = document.getElementById(selectId);
                             if (select && select.selectedIndex > 0) {
                                 select.options[select.selectedIndex].dataset.price = price;
                             }
-
                             var formElement = document.getElementById('advisory-form');
                             if (formElement) formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
                         }, 100);
@@ -629,12 +575,10 @@ window.agendarJsLoaded = true;
             });
         }
 
-        // Activar el tipo correcto desde URL
         if (preselectedType) {
             activateServiceType(preselectedType);
         }
 
-        // Listener para mostrar/ocultar número de personas según tipo de asesoría
         const subtypeSelect = document.getElementById('advisory-subtype');
         const numPersonsContainer = document.getElementById('asesoria-num-persons-container');
         const numPersonsInput = document.getElementById('advisory-asesoria-persons');
@@ -651,37 +595,29 @@ window.agendarJsLoaded = true;
             });
         }
 
-// Configurar fecha mínima para asesorías (3 días después de hoy)
         function setMinDateForAdvisory() {
             const dateInput = document.getElementById('advisory-date');
             if (!dateInput) return;
-            
             const today = new Date();
             const minDate = new Date(today);
             minDate.setDate(today.getDate() + 3);
-            
             const year = minDate.getFullYear();
             const month = String(minDate.getMonth() + 1).padStart(2, '0');
             const day = String(minDate.getDate()).padStart(2, '0');
-            
             dateInput.min = year + '-' + month + '-' + day;
-            
-            // Si el valor actual es anterior a la fecha mínima, limpiarlo
             if (dateInput.value && dateInput.value < dateInput.min) {
                 dateInput.value = '';
             }
         }
         setMinDateForAdvisory();
 
-        // Cargar datos y configurar
         loadCatalogData().catch(console.error);
-loadCoursesGrid().catch(console.error);
+        loadCoursesGrid().catch(console.error);
 
         if (typeof loadMyAdvisories === 'function') {
             loadMyAdvisories().catch(console.error);
         }
 
-        // Conectar botón "Ver Comprobante" si existe
         wireReceiptButtonsInSolicitudes();
 
         serviceTypeBtns.forEach(btn => {
@@ -690,7 +626,6 @@ loadCoursesGrid().catch(console.error);
             });
         });
 
-        // ===== FUNCIONES MODAL DE PAGO NEQUI =====
         window.currentPaymentData = null;
         window.pendingPrice = urlPrice || null;
 
@@ -699,7 +634,6 @@ loadCoursesGrid().catch(console.error);
             const modal = document.getElementById('payment-modal');
             const refSpan = document.getElementById('payment-reference');
             const amountSpan = document.getElementById('payment-amount');
-            const paymentNumber = document.getElementById('payment-number');
             const paymentMethodSelect = document.getElementById('payment-method-select');
 
             if (refSpan) refSpan.textContent = serviceData.reference || 'PAGO-' + Date.now();
@@ -712,7 +646,6 @@ loadCoursesGrid().catch(console.error);
                 amountSpan.textContent = '$' + priceNum.toLocaleString('es-CO');
             }
 
-            // Mostrar/ocultar desglose de precio por personas
             var breakdownEl = document.getElementById('payment-price-breakdown');
             var unitPrice = serviceData.unitPrice ? parseFloat(serviceData.unitPrice) : 0;
             var numPersons = serviceData.numPersons ? parseInt(serviceData.numPersons) : 1;
@@ -726,7 +659,6 @@ loadCoursesGrid().catch(console.error);
                 }
             }
 
-            // Actualizar el número de pago según el método seleccionado
             if (paymentMethodSelect) {
                 paymentMethodSelect.onchange = function() {
                     updatePaymentInfo(this.value);
@@ -737,11 +669,9 @@ loadCoursesGrid().catch(console.error);
             if (modal) modal.classList.remove('hidden');
         };
 
-        // Función para actualizar la información del pago según el método seleccionado
         function updatePaymentInfo(method) {
             const paymentNumber = document.getElementById('payment-number');
             if (!paymentNumber) return;
-
             paymentNumber.textContent = '322 945 2346';
         }
 
@@ -749,19 +679,15 @@ loadCoursesGrid().catch(console.error);
             const modal = document.getElementById('terminos-modal');
             if (modal) modal.classList.remove('hidden');
         };
-
         window.closeTerminosModal = function() {
             const modal = document.getElementById('terminos-modal');
             if (modal) modal.classList.add('hidden');
         };
-
         window.closePaymentModal = function() {
             const modal = document.getElementById('payment-modal');
             if (modal) modal.classList.add('hidden');
-
             const input = document.getElementById('payment-receipt-input');
             if (input) input.value = '';
-
             window.currentPaymentData = null;
             window.pendingFormData = null;
         };
@@ -773,19 +699,14 @@ loadCoursesGrid().catch(console.error);
                 notify('Por favor adjunta el comprobante de pago', 'error');
                 return;
             }
-
             const file = input.files[0];
-
             if (!file.type.startsWith('image/')) {
                 const notify = window.showToast || window.alert;
                 notify('Por favor sube una imagen del comprobante', 'error');
                 return;
             }
-
-            // Obtener el método de pago seleccionado
             const paymentMethodSelect = document.getElementById('payment-method-select');
             const paymentMethod = paymentMethodSelect ? paymentMethodSelect.value : 'nequi';
-
             const notify = window.showToast || window.alert;
 
             const reader = new FileReader();
@@ -810,7 +731,7 @@ loadCoursesGrid().catch(console.error);
                     advisoryService: formData.advisoryService,
                     advisoryMode: formData.advisoryMode,
                     eventName: formData.eventName,
-                    payment_method: paymentMethod  // Agregar el método de pago al payload
+                    payment_method: paymentMethod
                 };
 
                 fetch('/backend/api/advisory-registration.php', {
@@ -825,13 +746,11 @@ loadCoursesGrid().catch(console.error);
                         notify(result?.message || 'Error al registrar solicitud', 'error');
                         return Promise.reject(new Error('create failed'));
                     }
-
                     const registrationId = result.data && result.data.id ? result.data.id : null;
                     if (!registrationId) {
                         notify('ID de registro no disponible', 'error');
                         return Promise.reject(new Error('missing id'));
                     }
-
                     return fetch('/backend/api/advisory-receipt.php', {
                         method: 'PUT',
                         credentials: 'include',
@@ -845,10 +764,8 @@ loadCoursesGrid().catch(console.error);
                         window.closePaymentModal();
                         input.value = '';
                         window.pendingFormData = null;
-
                         const advisoryForm = document.getElementById('advisory-form');
                         if (advisoryForm) advisoryForm.reset();
-
                         const successMessage = document.getElementById('success-message');
                         if (successMessage) {
                             successMessage.classList.remove('hidden');
@@ -856,7 +773,6 @@ loadCoursesGrid().catch(console.error);
                                 successMessage.classList.add('hidden');
                             }, 5000);
                         }
-
                         setTimeout(function() {
                             if (typeof loadMyAdvisories === 'function') loadMyAdvisories();
                         }, 2000);
@@ -865,13 +781,10 @@ loadCoursesGrid().catch(console.error);
                     }
                 })
                 .catch(function(err) {
-                    // ya se notificó arriba en la mayoría de casos
                     console.error('Error:', err);
                 });
             };
-
             reader.readAsDataURL(file);
         };
     });
 })();
-

@@ -1515,7 +1515,6 @@ function setupCourseContentManagement() {
                 title: title,
                 description: description,
                 video_url: videoUrl,
-                preview_url: null,
                 duration: duration || null,
                 order_index: orderIndex || 0
             });
@@ -1600,7 +1599,6 @@ function setupCourseContentManagement() {
                             document.getElementById('content-title').value = d.title || '';
                             document.getElementById('content-description').value = d.description || '';
                             document.getElementById('content-video-url').value = d.video_url || '';
-                            document.getElementById('content-preview-url').value = d.preview_url || '';
                             document.getElementById('content-duration').value = d.duration || '';
                             document.getElementById('content-order').value = d.order_index || '';
 
@@ -1613,7 +1611,6 @@ function setupCourseContentManagement() {
                                     title: document.getElementById('content-title').value.trim(),
                                     description: document.getElementById('content-description').value.trim(),
                                     video_url: document.getElementById('content-video-url').value.trim(),
-                                    preview_url: document.getElementById('content-preview-url').value.trim() || null,
                                     duration: document.getElementById('content-duration').value.trim() || null,
                                     order_index: document.getElementById('content-order').value || 0,
                                     is_active: d.is_active
@@ -1636,7 +1633,6 @@ function setupCourseContentManagement() {
                         document.getElementById('edit-content-title').value = d.title || '';
                         document.getElementById('edit-content-description').value = d.description || '';
                         document.getElementById('edit-content-video-url').value = d.video_url || '';
-                        document.getElementById('edit-content-preview-url').value = d.preview_url || '';
                         document.getElementById('edit-content-duration').value = d.duration || '';
                         document.getElementById('edit-content-order').value = d.order_index || 0;
 
@@ -1658,7 +1654,6 @@ function setupCourseContentManagement() {
                                     title: document.getElementById('edit-content-title').value.trim(),
                                     description: document.getElementById('edit-content-description').value.trim(),
                                     video_url: document.getElementById('edit-content-video-url').value.trim(),
-                                    preview_url: document.getElementById('edit-content-preview-url').value.trim() || null,
                                     duration: document.getElementById('edit-content-duration').value.trim() || null,
                                     order_index: document.getElementById('edit-content-order').value || 0,
                                     is_active: d.is_active

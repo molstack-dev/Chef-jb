@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Folleto — Chef Jonathan Buitrago</title>
+<link href="https://fonts.googleapis.com/css2?family=Parisienne&family=Playfair+Display:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="../assets/style.css" rel="stylesheet">
+<style>
+/* ============================================================
+   SAFETY OVERRIDES
+   ============================================================ */
+html, body {
+    background: #1a1a1a;
+    padding: 20px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    min-height: 100vh;
+    overflow-x: visible;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+a { color: inherit; text-decoration: none; font-style: normal; }
+a:hover { font-style: normal; }
+
+:root {
+    --gold: #d6a34a;
+    --gold-bright: #fbbf24;
+    --gold-deep: #b45309;
+    --purple-deep: #1a0a2e;
+    --purple-mid: #581c87;
+    --purple-glow: #7c3aed;
+    --bg: #0a0512;
+    --text: #f3e8ff;
+    --muted: #c4b5fd;
+    --line: rgba(214,163,74,0.3);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+@page { size: 297mm 210mm; margin: 0; }
+
+/* ============================================================
+   PÁGINA
+   ============================================================ */
+.page {
+    width: 297mm;
+    height: 210mm;
+    display: grid;
+    grid-template-columns: 99mm 99mm 99mm;
+    color: var(--text);
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(88,28,135,0.5);
+    position: relative;
+}
+.page + .page { page-break-before: always; }
+
+.panel {
+    padding: 10mm 8mm;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ============================================================
+   FONDOS
+   ============================================================ */
+.bg-portada {
+    background:
+        radial-gradient(ellipse at top left, rgba(124,58,237,0.35) 0%, transparent 55%),
+        radial-gradient(ellipse at bottom right, rgba(88,28,135,0.5) 0%, transparent 60%),
+        linear-gradient(160deg, #0d0d1a 0%, #1a0a2e 50%, #0a0512 100%);
+}
+.bg-interior {
+    background:
+        radial-gradient(ellipse at center right, rgba(124,58,237,0.18) 0%, transparent 60%),
+        linear-gradient(180deg, #0d0d1a 0%, #14102a 100%);
+}
+.bg-interior-alt {
+    background:
+        radial-gradient(ellipse at top right, rgba(124,58,237,0.22) 0%, transparent 55%),
+        linear-gradient(200deg, #14102a 0%, #0d0d1a 60%, #0a0512 100%);
+}
+.bg-contra {
+    background:
+        radial-gradient(ellipse at center, rgba(124,58,237,0.35) 0%, transparent 55%),
+        radial-gradient(ellipse at bottom, rgba(88,28,135,0.4) 0%, transparent 50%),
+        linear-gradient(160deg, #0d0d1a 0%, #1a0a2e 100%);
+}
+
+/* ============================================================
+   PORTADA
+   ============================================================ */
+.portada-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex: 1;
+    padding: 4mm 2mm;
+    position: relative;
+    z-index: 1;
+}
+.portada-marco {
+    position: absolute;
+    inset: 6mm;
+    border: 1px solid var(--line);
+    pointer-events: none;
+}
+.portada-marco::after {
+    content: '';
+    position: absolute;
+    inset: 2mm;
+    border: 1px solid rgba(214,163,74,0.15);
+}
+.portada-eyebrow {
+    font-size: 7pt;
+    letter-spacing: 4px;
+    color: var(--gold);
+    text-transform: uppercase;
+    font-weight: 500;
+    padding: 1.5mm 4mm 1.5mm 6mm;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 6mm;                                     /* ← ajustar espacio debajo del eyebrow */
+}
+/* ╔═══════════════════════════════════════════════════════════╗
+   ║  IMAGEN 1 — FOTO PORTADA (chef.jpg)                       ║
+   ║  Ajusta estas propiedades para cambiar tamaño/posición    ║
+   ╚═══════════════════════════════════════════════════════════╝ */
+.portada-foto {
+    width: 46mm;                                            /* ← ajustar ancho de la foto (ej: 40mm, 50mm, 60mm) */
+    height: 46mm;                                           /* ← ajustar alto de la foto (mantener igual al ancho para círculo) */
+    border-radius: 50%;                                     /* ← 50% = círculo perfecto · 8px = cuadrado redondeado · 0 = cuadrado */
+    object-fit: cover;                                      /* ← cover recorta · contain muestra completa sin recortar */
+    object-position: center;                                /* ← ajustar encuadre: center · top · bottom · left · right */
+    border: 1.5px solid var(--gold);                        /* ← grosor y color del borde */
+    padding: 0.5mm;                                         /* ← espacio entre foto y borde (ej: 0 = pegado, 2mm = más aire) */
+    background: rgba(26,10,46,0.8);                         /* ← color de fondo detrás de la foto */
+    margin-bottom: 6mm;                                     /* ← ajustar espacio debajo de la foto */
+    margin-top: 0mm;                                        /* ← ajustar espacio arriba de la foto */
+    box-shadow: 0 0 40px rgba(124,58,237,0.5);              /* ← ajustar el glow púrpura alrededor */
+}
+
+/* ╔═══════════════════════════════════════════════════════════╗
+   ║  IMAGEN 2A — FOTO BIO (panel "Sobre Mí")                  ║
+   ║  Todas las propiedades ajustables están comentadas        ║
+   ╚═══════════════════════════════════════════════════════════╝ */
+.foto-1 {
+    /* ---------- TAMAÑO DEL MARCO ---------- */
+    width: auto;                                            /* ← ancho del marco · ej: 40mm, 50mm, 65mm */
+    height: 56mm;                                           /* ← alto del marco · mantener = width para círculo */
+
+    /* ---------- FORMA ---------- */
+    border-radius: 30%;                                     /* ← 50% = círculo · 8px = cuadrado redondeado · 0 = cuadrado recto */
+
+    /* ---------- ENCUADRE (qué parte de la foto se ve) ---------- */
+    object-fit: contain;                                      /* ← cover = llena y recorta · contain = muestra completa sin recortar */
+    object-position: center;                                /* ← center · top · bottom · left · right · top left · 30% 50% · center 30% */
+
+    /* ---------- ZOOM (acercar/alejar la imagen dentro del marco) ---------- */
+    transform: scale(1.1);                                    /* ← 1 = tamaño normal · 1.2 = 20% más grande · 0.8 = 20% más pequeña · 1.5 = 50% más */
+    transform-origin: center;                               /* ← desde dónde crece el zoom: center · top · bottom · left · right · top left · center 30% */
+
+    /* ---------- BORDE Y FONDO ---------- */
+    border: 3px solid var(--gold);                          /* ← grosor y color del borde · ej: 1px, 3px, 5px */
+    padding: 0.1mm;                                         /* ← espacio entre foto y borde · ej: 0, 1mm, 3mm */
+    background: rgba(26,10,46,0.8);                         /* ← color de fondo detrás de la foto */
+
+    /* ---------- POSICIÓN DEL BLOQUE ---------- */
+    margin: auto;                                           /* ← auto = centrada horizontalmente · puedes usar "0 auto" o "0 0 0 5mm" */
+    margin-top: 0mm;                                        /* ← espacio arriba de la foto · ej: 0, 5mm, 10mm */
+    margin-bottom: 0mm;                                     /* ← espacio debajo de la foto · ej: 0, 3mm, 8mm */
+
+    /* ---------- COMPORTAMIENTO ---------- */
+    display: block;                                         /* ← no cambiar (necesario para que margin:auto funcione) */
+    overflow: hidden;                                       /* ← recorta lo que sobresale del marco cuando hay zoom */
+
+    /* ---------- GLOW (brillo púrpura alrededor) ---------- */
+    box-shadow: 0 0 40px rgba(124,58,237,0.5);              /* ← 0 0 [tamaño] [color] · usar "none" para quitar el glow */
+}
+
+/* ╔═══════════════════════════════════════════════════════════╗
+   ║  IMAGEN 2B — FOTO VISÍTAME (panel "Visítame")             ║
+   ║  Todas las propiedades ajustables están comentadas        ║
+   ╚═══════════════════════════════════════════════════════════╝ */
+.foto-2 {
+    /* ---------- TAMAÑO DEL MARCO ---------- */
+    width: 66mm;                                            /* ← ancho del marco · ej: 40mm, 50mm, 65mm */
+    height: 66mm;                                           /* ← alto del marco · mantener = width para círculo */
+
+    /* ---------- FORMA ---------- */
+    border-radius: 50%;                                     /* ← 50% = círculo · 8px = cuadrado redondeado · 0 = cuadrado recto */
+
+    /* ---------- ENCUADRE (qué parte de la foto se ve) ---------- */
+    object-fit: cover;                                      /* ← cover = llena y recorta · contain = muestra completa sin recortar */
+    object-position: 70% 10%;                                /* ← center · top · bottom · left · right · top left · 30% 50% · center 30% */
+
+    /* ---------- ZOOM (acercar/alejar la imagen dentro del marco) ---------- */
+    transform: scale(1);                                    /* ← 1 = tamaño normal · 1.2 = 20% más grande · 0.8 = 20% más pequeña · 1.5 = 50% más */
+    transform-origin: center;                               /* ← desde dónde crece el zoom: center · top · bottom · left · right · top left · center 30% */
+
+    /* ---------- BORDE Y FONDO ---------- */
+    border: 3px solid var(--gold);                          /* ← grosor y color del borde · ej: 1px, 3px, 5px */
+    padding: 0.1mm;                                         /* ← espacio entre foto y borde · ej: 0, 1mm, 3mm */
+    background: rgba(26,10,46,0.8);                         /* ← color de fondo detrás de la foto */
+
+    /* ---------- POSICIÓN DEL BLOQUE ---------- */
+    margin: auto;                                           /* ← auto = centrada horizontalmente · puedes usar "0 auto" o "0 0 0 5mm" */
+    margin-top: 0mm;                                        /* ← espacio arriba de la foto · ej: 0, 5mm, 10mm */
+    margin-bottom: 0mm;                                     /* ← espacio debajo de la foto · ej: 0, 3mm, 8mm */
+
+    /* ---------- COMPORTAMIENTO ---------- */
+    display: block;                                         /* ← no cambiar (necesario para que margin:auto funcione) */
+    overflow: hidden;                                       /* ← recorta lo que sobresale del marco cuando hay zoom */
+
+    /* ---------- GLOW (brillo púrpura alrededor) ---------- */
+    box-shadow: 0 0 40px rgba(124,58,237,0.5);              /* ← 0 0 [tamaño] [color] · usar "none" para quitar el glow */
+}
+
+.portada-nombre {
+    font-size: 30pt;
+    color: var(--gold-bright);
+    line-height: 0.95;
+    margin-bottom: 3mm;
+    text-shadow: 0 0 24px rgba(251,191,36,0.55), 0 2px 8px rgba(214,163,74,0.4);
+}
+.portada-linea {
+    width: 30mm;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 3mm auto;
+}
+.portada-subtitulo {
+    font-family: 'Playfair Display', serif;
+    font-size: 10pt;
+    color: var(--text);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 400;
+    line-height: 1.6;
+}
+.portada-eslogan {
+    font-family: 'Playfair Display', serif;
+    font-size: 9pt;
+    color: var(--gold);
+    font-style: italic;
+    margin-top: 8mm;
+    letter-spacing: 1px;
+}
+.portada-estrellas {
+    display: flex;
+    gap: 2mm;
+    margin-top: 5mm;
+}
+.portada-estrellas svg { width: 4mm; height: 4mm; color: var(--gold); }
+.portada-creditos {
+    position: absolute;
+    bottom: 12mm;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 6pt;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.7;
+}
+
+/* ============================================================
+   CONTRAPORTADA
+   ============================================================ */
+.contra-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex: 1;
+    position: relative;
+    z-index: 1;
+}
+.contra-marco {
+    position: absolute;
+    inset: 6mm;
+    border: 1px solid var(--line);
+    pointer-events: none;
+}
+.contra-eyebrow {
+    font-size: 6.5pt;
+    letter-spacing: 3px;
+    color: var(--gold);
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 5mm;
+}
+.contra-nombre {
+    font-size: 34pt;
+    color: var(--gold-bright);
+    line-height: 0.9;
+    margin-bottom: 4mm;
+    text-shadow: 0 0 24px rgba(251,191,36,0.5), 0 2px 8px rgba(214,163,74,0.4);
+}
+.contra-eslogan {
+    font-family: 'Playfair Display', serif;
+    font-size: 10pt;
+    font-style: italic;
+    color: var(--gold);
+    margin-bottom: 8mm;
+    margin-top: 8mm;
+    letter-spacing: 0.5px;
+}
+
+/* ╔═══════════════════════════════════════════════════════════╗
+   ║  IMAGEN 3 — QR CONTRAPORTADA (qr_pagina.svg)              ║
+   ╚═══════════════════════════════════════════════════════════╝ */
+.contra-qr {
+    background: #fff;                                       /* ← color de fondo del QR */
+    padding: 0.5mm;                                         /* ← espacio entre QR y borde dorado */
+    border-radius: 2mm;                                     /* ← redondeo de esquinas */
+    border: 2.5px solid var(--gold);                        /* ← grosor y color del borde */
+    width: 140px;                                           /* ← ajustar ancho del QR (ej: 100px, 120px, 160px) */
+    height: 140px;                                          /* ← ajustar alto (mantener igual al ancho) */
+    margin-bottom: 4mm;                                     /* ← espacio debajo del QR */
+    margin-top: 0mm;                                        /* ← espacio arriba del QR */
+    box-shadow: 0 0 30px rgba(124,58,237,0.55);             /* ← glow alrededor */
+}
+.contra-qr img { width: 100%; height: 100%; display: block; }
+
+.contra-qr-label {
+    font-size: 6.5pt;
+    color: var(--muted);
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    margin-bottom: 8mm;
+}
+.contra-web {
+    font-family: 'Playfair Display', serif;
+    font-size: 11pt;
+    font-weight: 700;
+    color: var(--gold-bright);
+    letter-spacing: 0.5px;
+    margin-bottom: 6mm;
+    text-shadow: 0 0 12px rgba(124,58,237,0.6);
+}
+.contra-socials {
+    display: flex;
+    gap: 4mm;
+    margin-bottom: 6mm;
+}
+.contra-social {
+    width: 7mm;
+    height: 7mm;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(124,58,237,0.4), rgba(88,28,135,0.3));
+    border: 1px solid rgba(214,163,74,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold-bright);
+    box-shadow: 0 0 10px rgba(124,58,237,0.35);
+}
+.contra-social svg { width: 3.5mm; height: 3.5mm; }
+.contra-creditos {
+    position: absolute;
+    bottom: 12mm;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 6pt;
+    color: var(--muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.6;
+}
+
+/* ============================================================
+   CÓMO EMPEZAR
+   ============================================================ */
+.como-titulo {
+    font-family: 'Playfair Display', serif;
+    font-size: 17pt;
+    color: var(--gold-bright);
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 1.5mm;
+    text-shadow: 0 0 15px rgba(124,58,237,0.5);
+}
+.como-titulo-sub {
+    font-size: 6.5pt;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 3mm;
+    font-weight: 500;
+}
+.como-titulo::after {
+    content: '';
+    display: block;
+    width: 12mm;
+    height: 1.5px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    margin-top: 2.5mm;
+    margin-bottom: 5mm;
+}
+.pasos-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 4mm;
+    margin-bottom: 6mm;
+}
+.paso {
+    display: flex;
+    gap: 3.5mm;
+    align-items: flex-start;
+    margin: 3mm;
+}
+.paso-num {
+    flex-shrink: 0;
+    width: 8mm;
+    height: 8mm;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(124,58,237,0.65), rgba(88,28,135,0.4));
+    border: 1.5px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 11pt;
+    font-weight: 700;
+    color: var(--gold-bright);
+    box-shadow: 0 0 12px rgba(124,58,237,0.5);
+}
+.paso-titulo {
+    font-size: 8pt;
+    font-weight: 600;
+    color: var(--gold-bright);
+    line-height: 1.2;
+    margin-bottom: 0.8mm;
+}
+.paso-desc {
+    font-size: 6.8pt;
+    color: var(--text);
+    line-height: 1.4;
+    font-weight: 300;
+}
+.cita-bloque {
+    background: linear-gradient(135deg, rgba(124,58,237,0.22) 0%, rgba(26,10,46,0.55) 100%);
+    border-left: 2.5px solid var(--gold);
+    border-radius: 1.5mm;
+    padding: 3.2mm 3.5mm;
+    margin-bottom: 5mm;
+    position: relative;
+}
+.cita-icono {
+    position: absolute;
+    top: 2mm;
+    right: 3mm;
+    font-family: 'Playfair Display', serif;
+    font-size: 22pt;
+    color: rgba(214,163,74,0.35);
+    line-height: 1;
+}
+.cita-texto {
+    font-family: 'Playfair Display', serif;
+    font-size: 7.8pt;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.5;
+    margin-bottom: 2mm;
+    font-weight: 400;
+}
+.cita-autor {
+    font-size: 6.2pt;
+    color: var(--gold-bright);
+    font-weight: 600;
+    letter-spacing: 0.3px;
+}
+.cita-rol {
+    font-size: 5.8pt;
+    color: var(--muted);
+    font-weight: 300;
+}
+.datos-rapidos {
+    margin-top: auto;
+    padding-top: 3mm;
+    border-top: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: 1.8mm;
+}
+.dato-rapido {
+    display: flex;
+    align-items: center;
+    gap: 2mm;
+    font-size: 8pt;
+    color: var(--text);
+}
+.dato-rapido svg {
+    width: 3mm;
+    height: 3mm;
+    color: var(--gold-bright);
+    flex-shrink: 0;
+}
+.dato-rapido strong {
+    color: var(--gold-bright);
+    font-weight: 600;
+}
+
+/* ============================================================
+   INTERIOR
+   ============================================================ */
+.panel-titulo {
+    font-family: 'Playfair Display', serif;
+    font-size: 17pt;
+    color: var(--gold-bright);
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    margin-bottom: 1.5mm;
+    text-shadow: 0 0 15px rgba(124,58,237,0.5);
+}
+.panel-titulo-sub {
+    font-size: 6.5pt;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 3mm;
+    font-weight: 500;
+}
+.panel-titulo::after {
+    content: '';
+    display: block;
+    width: 12mm;
+    height: 1.5px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    margin-top: 2.5mm;
+    margin-bottom: 3.5mm;
+}
+.bio-texto {
+    font-size: 7.2pt;
+    line-height: 1.5;
+    color: var(--text);
+    margin-bottom: 3.5mm;
+    font-weight: 300;
+}
+.bio-texto strong { color: var(--gold-bright); font-weight: 600; }
+.bio-texto em { color: var(--gold); font-style: italic; }
+
+.timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 5.5mm;
+    position: relative;
+    padding-left: 2mm;
+    margin-top: 1mm;
+    margin-bottom: 7mm;
+}
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 6.5mm;
+    top: 2mm;
+    bottom: 2mm;
+    width: 1px;
+    background: linear-gradient(180deg, transparent, var(--gold), var(--gold), var(--gold), transparent);
+}
+.tl-item {
+    display: flex;
+    gap: 3mm;
+    align-items: flex-start;
+    position: relative;
+}
+.tl-año {
+    flex-shrink: 0;
+    width: 9mm;
+    height: 9mm;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgb(124, 58, 237), rgba(89, 28, 135, 0.932));
+    border: 1.5px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5.8pt;
+    font-weight: 700;
+    color: var(--gold-bright);
+    box-shadow: 0 0 10px rgba(124,58,237,0.5);
+    z-index: 1;
+}
+.tl-body { flex: 1; padding-top: 0.5mm; }
+.tl-titulo {
+    font-size: 7.5pt;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.25;
+}
+.tl-desc {
+    font-size: 6.2pt;
+    color: var(--muted);
+    line-height: 1.35;
+    margin-top: 0.3mm;
+    font-weight: 300;
+}
+
+.mv-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 3mm;
+    padding-top: 5mm;
+    border-top: 1px solid var(--line);
+    margin-bottom: 5mm;
+}
+.mv-item { display: flex; gap: 2.5mm; align-items: flex-start; }
+.mv-icon {
+    flex-shrink: 0;
+    width: 6mm;
+    height: 6mm;
+    border-radius: 1mm;
+    background: linear-gradient(135deg, rgba(124,58,237,0.6), rgba(88,28,135,0.35));
+    border: 1px solid rgba(214,163,74,0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold-bright);
+    box-shadow: 0 0 8px rgba(124,58,237,0.4);
+    margin-top: 3mm;
+}
+.mv-icon svg { width: 3.2mm; height: 3.2mm; }
+.mv-titulo {
+    font-family: 'Playfair Display', serif;
+    font-size: 8pt;
+    color: var(--gold-bright);
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    margin-bottom: 1mm;
+    margin-top: 1mm;
+}
+.mv-texto {
+    font-size: 8pt;
+    color: var(--text);
+    line-height: 1.4;
+    font-weight: 300;
+}
+.valores-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1mm;
+    margin-top: 1mm;
+}
+.valor-chip {
+    font-size: 5.8pt;
+    padding: 1mm 2mm;
+    border-radius: 999px;
+    background: rgba(124,58,237,0.2);
+    border: 1px solid rgba(214,163,74,0.3);
+    color: var(--gold-bright);
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    margin-bottom: 2mm;
+}
+
+.servicios-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2mm;
+    margin-top: 2mm;
+}
+.servicio-item {
+    background: linear-gradient(135deg, rgba(88,28,135,0.25) 0%, rgba(26,10,46,0.4) 100%);
+    border: 1px solid rgba(124,58,237,0.3);
+    border-radius: 1.5mm;
+    padding: 2mm 2.5mm;
+    display: flex;
+    align-items: center;
+    gap: 2.5mm;
+    backdrop-filter: blur(10px);
+    margin-top: 2mm;
+    margin-bottom: 2mm;
+}
+.servicio-icono {
+    flex-shrink: 0;
+    width: 7mm;
+    height: 7mm;
+    border-radius: 1.2mm;
+    background: linear-gradient(135deg, rgba(124,58,237,0.7), rgba(88,28,135,0.4));
+    border: 1px solid rgba(214,163,74,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold-bright);
+    box-shadow: 0 0 12px rgba(124,58,237,0.4);
+}
+.servicio-icono svg { width: 4mm; height: 4mm; }
+.servicio-titulo {
+    font-size: 7.2pt;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.2;
+}
+.servicio-desc {
+    font-size: 5.8pt;
+    color: var(--muted);
+    margin-top: 0.3mm;
+    line-height: 1.3;
+    font-weight: 300;
+}
+
+.horarios-bloque {
+    margin-bottom: 0mm;
+    padding-top: 1mm;
+    border-top: 1px solid var(--line);
+}
+.horarios-titulo {
+    font-family: 'Playfair Display', serif;
+    font-size: 9.5pt;
+    color: var(--gold-bright);
+    font-weight: 700;
+    margin-bottom: 2mm;
+    margin-top: 2mm;
+    letter-spacing: 0.4px;
+}
+.horarios-titulo::after {
+    content: '';
+    display: block;
+    width: 7mm;
+    height: 1px;
+    background: var(--gold);
+    margin-top: 1.2mm;
+    margin-bottom: 1mm;
+}
+.horarios-lista { display: flex; flex-direction: column; gap: 0mm; }
+.horario-linea {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 6.5pt;
+    padding: 5mm 0;
+    border-bottom: 1px dashed rgba(124,58,237,0.25);
+}
+.horario-linea:last-child { border-bottom: none; }
+.horario-dia { color: var(--muted); }
+.horario-hora { color: var(--text); font-weight: 600; }
+
+.testimonio-compacto {
+    background: linear-gradient(135deg, rgba(124,58,237,0.18) 0%, rgba(26,10,46,0.5) 100%);
+    border-left: 2px solid var(--gold);
+    border-radius: 1.2mm;
+    padding: 2.5mm 3mm;
+    margin-bottom: 1rem;
+    margin-top: 3mm;
+    position: relative;
+}
+.testimonio-compacto .cita-icono { font-size: 16pt; top: 1mm; right: 2.5mm; }
+.testimonio-compacto .cita-texto { font-size: 6.8pt; margin-bottom: 1.5mm; }
+.testimonio-compacto .cita-autor { font-size: 5.8pt; }
+.testimonio-compacto .cita-rol { font-size: 5.4pt; }
+
+.contacto-bloque {
+    margin-top: 1rem;
+    padding-top: 3mm;
+    border-top: 1px solid var(--line);
+}
+.contacto-titulo {
+    font-family: 'Playfair Display', serif;
+    font-size: 11pt;
+    color: var(--gold-bright);
+    font-weight: 700;
+    margin-bottom: 2mm;
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 10px rgba(124,58,237,0.5);
+}
+.contacto-titulo::after {
+    content: '';
+    display: block;
+    width: 9mm;
+    height: 1.5px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+    margin-top: 1.5mm;
+}
+.contacto-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 5mm;
+    align-items: center;
+    margin-top: 3mm;
+}
+
+/* ╔═══════════════════════════════════════════════════════════╗
+   ║  IMAGEN 4 — QR CONTACTO (qr_contacto.svg)                 ║
+   ╚═══════════════════════════════════════════════════════════╝ */
+.qr-contenedor {
+    background: #ffffff;                                    /* ← color de fondo del QR */
+    padding: 0.5mm;                                         /* ← espacio entre QR y borde dorado */
+    border-radius: 1.5mm;                                   /* ← redondeo de esquinas */
+    width: 30mm;                                            /* ← ajustar ancho del QR (ej: 22mm, 28mm, 35mm) */
+    height: 30mm;                                           /* ← ajustar alto (mantener igual al ancho) */
+    border: 2px solid var(--gold);                          /* ← grosor y color del borde */
+    box-shadow: 0 0 20px rgba(124,58,237,0.4);              /* ← glow alrededor */
+}
+.qr-contenedor img { width: 100%; height: 100%; display: block; }
+
+.contacto-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3.5mm;
+}
+.contacto-linea {
+    display: flex;
+    align-items: center;
+    gap: 1.8mm;
+    font-size: 8pt;
+    color: var(--text);
+    line-height: 1.3;
+}
+.contacto-linea svg {
+    width: 3mm;
+    height: 3mm;
+    flex-shrink: 0;
+    color: var(--gold-bright);
+}
+.web-url {
+    font-size: 9pt;
+    font-weight: 700;
+    color: var(--gold-bright);
+    letter-spacing: 0.4px;
+    margin-top: 1mm;
+    padding-top: 1.2mm;
+    border-top: 1px solid rgba(214,163,74,0.3);
+    text-shadow: 0 0 10px rgba(124,58,237,0.5);
+}
+
+/* Marcas de pliegue */
+@media screen {
+    .page::before,
+    .page::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 1px;
+        background: repeating-linear-gradient(to bottom, rgba(214,163,74,0.35) 0 4px, transparent 4px 8px);
+        z-index: 100;
+        pointer-events: none;
+    }
+    .page::before { left: 99mm; }
+    .page::after { right: 99mm; }
+}
+
+@media print {
+    html, body { background: #fff; padding: 0; gap: 0; min-height: auto; display: block; }
+    .page { box-shadow: none; page-break-after: always; }
+    .page:last-child { page-break-after: auto; }
+    .page::before, .page::after { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PÁGINA 1 — EXTERIOR
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page">
+
+    <!-- PANEL IZQUIERDO: CÓMO EMPEZAR -->
+    <section class="panel bg-interior">
+        <h2 class="como-titulo">Cómo Empezar</h2>
+        <p class="como-titulo-sub">En 3 Pasos</p>
+
+        <div class="pasos-lista">
+            <div class="paso">
+                <div class="paso-num">1</div>
+                <div>
+                    <p class="paso-titulo">Explora el Catálogo</p>
+                    <p class="paso-desc">Visita el sitio web y descubre los cursos, asesorías, eventos y certificados disponibles.</p>
+                </div>
+            </div>
+
+            <div class="paso">
+                <div class="paso-num">2</div>
+                <div>
+                    <p class="paso-titulo">Elige tu Servicio</p>
+                    <p class="paso-desc">Regístrate en el Área de Miembros y selecciona el programa que mejor se adapte a tus metas.</p>
+                </div>
+            </div>
+            
+            <div class="paso">
+                <div class="paso-num">3</div>
+                <div>
+                    <p class="paso-titulo">Confirma por WhatsApp</p>
+                    <p class="paso-desc">Adjunta tu comprobante de pago y recibe la confirmación inmediata con los detalles de tu inscripción.</p>
+                </div>
+            </div>
+        </div>
+        <div class="testimonio-compacto">
+            <span class="cita-icono">"</span>
+            <p class="cita-texto">Los cursos de Chef Jonathan han transformado mi forma de cocinar. Las técnicas aprendidas son excepcionales.</p>
+            <p class="cita-autor">Ana Gómez</p>
+            <p class="cita-rol">Estudiante de Cocina Básica</p>
+        </div>
+        
+        <div class="testimonio-compacto">
+            <span class="cita-icono">"</span>
+            <p class="cita-texto">Los mejores cursos que he tomado. El chef es un verdadero maestro y sus explicaciones son muy claras.</p>
+            <p class="cita-autor">Laura Martínez</p>
+            <p class="cita-rol">Estudiante de Pastelería</p>
+        </div>
+
+        <div class="testimonio-compacto">
+            <span class="cita-icono">"</span>
+            <p class="cita-texto">La asesoría personalizada me ayudó a abrir mi propio restaurante. ¡Increíble experiencia!</p>
+            <p class="cita-autor">Carlos Pérez</p>
+            <p class="cita-rol">Emprendedor Gastronómico</p>
+        </div>
+
+        <div class="datos-rapidos">
+            <div class="dato-rapido">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <span>Certificado al completar cada curso</span>
+            </div>
+            <div class="dato-rapido">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <span>Acceso de por vida a las lecciones</span>
+            </div>
+            <div class="dato-rapido">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                <span>Soporte técnico durante el curso</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- PANEL CENTRAL: CONTRAPORTADA -->
+    <section class="panel bg-contra">
+        <div class="contra-inner">
+            <div class="contra-marco"></div>
+
+            <p class="contra-eyebrow">Chef · Pastelero · Chocolatero</p>
+            <h1 class="parisienne-font contra-nombre">Jonathan<br>Buitrago</h1>
+            <p class="contra-eslogan">"Arte dulce, tradición viva"</p>
+
+            <!-- ⬇️ IMAGEN 3 — QR CONTRAPORTADA (ajustar en .contra-qr) -->
+            <div class="contra-qr">
+                <img src="img/qr_pagina.svg" alt="QR Chef Jonathan Buitrago">
+            </div>
+            <p class="contra-qr-label">Escanea para visitar</p>
+
+            <p class="contra-web">chef-jb.freedev.app</p>
+
+            <div class="contra-socials">
+                <div class="contra-social">
+                    <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.644-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4z"/></svg>
+                </div>
+                <div class="contra-social">
+                    <svg fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884"/></svg>
+                </div>
+                <div class="contra-social">
+                    <svg fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                </div>
+            </div>
+
+            <p class="contra-creditos">Bogotá · Colombia</p>
+        </div>
+    </section>
+
+    <!-- PANEL DERECHO: PORTADA -->
+    <section class="panel bg-portada">
+        <div class="portada-inner">
+            <div class="portada-marco"></div>
+
+            <div class="portada-eyebrow">Chef Colombiano</div>
+
+            <!-- ⬇️ IMAGEN 1 — FOTO PORTADA (ajustar en .portada-foto) -->
+            <img src="img/chef.jpg" alt="Chef Jonathan Buitrago" class="portada-foto">
+
+            <h1 class="parisienne-font portada-nombre">Jonathan<br>Buitrago</h1>
+
+            <div class="portada-linea"></div>
+
+            <p class="portada-subtitulo">Pastelero &amp; <br>Chocolatero</p>
+
+            <p class="portada-eslogan">"Arte dulce, tradición viva"</p>
+
+            <div class="portada-estrellas">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+
+            <p class="portada-creditos">Bogotá · Colombia</p>
+        </div>
+    </section>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PÁGINA 2 — INTERIOR
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page">
+
+    <!-- PANEL IZQUIERDO: BIOGRAFÍA + LOGROS -->
+    <section class="panel bg-interior">
+        <h2 class="panel-titulo">Sobre Mí</h2>
+        <p class="panel-titulo-sub">Pasión · Trayectoria</p>
+
+        <p class="bio-texto">
+            Chef pastelero y chocolatero colombiano con más de <strong>10 años</strong> de experiencia. Su pasión por la repostería lo ha llevado a convertirse en una figura destacada de la pastelería nacional e internacional.
+        </p>
+
+        <p class="bio-texto">
+            Combina tradición e innovación creando obras que deleitan los sentidos. En <strong>2026</strong> representó a Colombia en el Premio Internacional Paco Torreblanca con <em>"Macondo"</em>, una tarta inspirada en <em>Cien Años de Soledad</em> y en la riqueza del Caribe colombiano.
+        </p>
+
+        <h3 class="panel-titulo" style="font-size:13pt;margin-top:2mm;">Logros Destacados</h3>
+
+        <div class="timeline">
+            <div class="tl-item">
+                <div class="tl-año">2015</div>
+                <div class="tl-body">
+                    <p class="tl-titulo">Campeón Nacional de Pastelería Juvenil</p>
+                    <p class="tl-desc">Primer reconocimiento a su excelencia técnica.</p>
+                </div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-año">2018</div>
+                <div class="tl-body">
+                    <p class="tl-titulo">Mejor Chocolatero de Colombia</p>
+                    <p class="tl-desc">Campeón Nacional de Chocolatería · "El Cacao Hecho Arte".</p>
+                </div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-año">2019</div>
+                <div class="tl-body">
+                    <p class="tl-titulo">Nominado Premios La Barra</p>
+                    <p class="tl-desc">Mejor Pastelero de Bogotá.</p>
+                </div>
+            </div>
+            <div class="tl-item">
+                <div class="tl-año">2026</div>
+                <div class="tl-body">
+                    <p class="tl-titulo">Premio Paco Torreblanca</p>
+                    <p class="tl-desc">Ganador ronda Colombia · Finalista internacional en Alicante, España.</p>
+                </div>
+            </div>
+        </div>
+        <!-- ⬇️ IMAGEN 1A — FOTO BIO (ajustar en .foto-1) -->
+        <img src="img/IMG_1117.PNG" alt="Chef Jonathan Buitrago" class="foto-1">
+    </section>
+
+    <!-- PANEL CENTRAL: MISIÓN / VISIÓN / VALORES + SERVICIOS -->
+    <section class="panel bg-interior-alt">
+        <h2 class="panel-titulo">Mi Filosofía</h2>
+        <p class="panel-titulo-sub">Misión · Visión · Valores</p>
+
+        <div class="mv-grid">
+            <div class="mv-item">
+                <div class="mv-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                    </svg>
+                </div>
+                <div>
+                    <p class="mv-titulo">Misión</p>
+                    <p class="mv-texto">Innovar y crear experiencias gastronómicas únicas, apoyando a emprendedores del sector con formación de excelencia.</p>
+                </div>
+            </div>
+
+            <div class="mv-item">
+                <div class="mv-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                    </svg>
+                </div>
+                <div>
+                    <p class="mv-titulo">Visión</p>
+                    <p class="mv-texto">Ser referente nacional en formación y asesoría en repostería y chocolatería, reconocido por la calidad e impacto en la comunidad gastronómica.</p>
+                </div>
+            </div>
+
+            <div class="mv-item">
+                <div class="mv-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                    </svg>
+                </div>
+                <div style="flex: 1;">
+                    <p class="mv-titulo">Valores</p>
+                    <div class="valores-chips">
+                        <span class="valor-chip">Excelencia</span>
+                        <span class="valor-chip">Innovación</span>
+                        <span class="valor-chip">Compromiso</span>
+                    </div>
+                    <div class="valores-chips">
+                        <span class="valor-chip">Pasión</span>
+                        <span class="valor-chip">Tradición</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h3 class="panel-titulo" style="font-size:13pt;margin-top:2mm;">Servicios</h3>
+
+        <div class="servicios-grid">
+            <div class="servicio-item">
+                <div class="servicio-icono">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                    </svg>
+                </div>
+                <div>
+                    <p class="servicio-titulo">Cursos Especializados</p>
+                    <p class="servicio-desc">Chocolatería, pastelería y repostería de vanguardia</p>
+                </div>
+            </div>
+
+            <div class="servicio-item">
+                <div class="servicio-icono">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                </div>
+                <div>
+                    <p class="servicio-titulo">Asesorías Personalizadas</p>
+                    <p class="servicio-desc">Para emprendedores y negocios gastronómicos</p>
+                </div>
+            </div>
+
+            <div class="servicio-item">
+                <div class="servicio-icono">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18z"/>
+                    </svg>
+                </div>
+                <div>
+                    <p class="servicio-titulo">Eventos &amp; Catas</p>
+                    <p class="servicio-desc">Experiencias gastronómicas a medida</p>
+                </div>
+            </div>
+
+            <div class="servicio-item">
+                <div class="servicio-icono">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                    </svg>
+                </div>
+                <div>
+                    <p class="servicio-titulo">Certificados</p>
+                    <p class="servicio-desc">Constancia de formación al completar cursos</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PANEL DERECHO: HORARIOS + IMAGEN + CONTACTO -->
+    <section class="panel bg-interior">
+        <h2 class="panel-titulo">Visítame</h2>
+        <p class="panel-titulo-sub">Horarios · Contacto</p>
+
+        <div class="horarios-bloque" style="border-top:none;padding-top:0;">
+            <h3 class="horarios-titulo">Horario de Atención</h3>
+            <div class="horarios-lista">
+                <div class="horario-linea">
+                    <span class="horario-dia">Lunes – Viernes</span>
+                    <span class="horario-hora">9:00 AM – 6:00 PM</span>
+                </div>
+                <div class="horario-linea">
+                    <span class="horario-dia">Sábados</span>
+                    <span class="horario-hora">10:00 AM – 2:00 PM</span>
+                </div>
+                <div class="horario-linea">
+                    <span class="horario-dia">Domingos y Festivos</span>
+                    <span class="horario-hora">Sin atención</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ⬇️ IMAGEN 2A — FOTO VISÍTAME (misma clase .foto-2) -->
+        <img src="img/img_0314.webp" alt="Chef Jonathan Buitrago" class="foto-2">
+
+        <div class="contacto-bloque">
+            <h3 class="contacto-titulo">Contacto</h3>
+
+            <div class="contacto-grid">
+                <!-- ⬇️ IMAGEN 4 — QR CONTACTO (ajustar en .qr-contenedor) -->
+                <div class="qr-contenedor">
+                    <img src="img/qr_contacto.svg" alt="QR Chef Jonathan Buitrago">
+                </div>
+                <div class="contacto-info">
+                    <div class="contacto-linea">
+                        <svg fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                        </svg>
+                        <span>+57 322 945 2346</span>
+                    </div>
+                    <div class="contacto-linea">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                        <span>info@chefjonathanbuitrago.com</span>
+                    </div>
+                    <div class="contacto-linea">
+                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.644-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4z"/></svg>
+                        <span>@chef_jonathan_buitrago</span>
+                    </div>
+                    <p class="web-url">chef-jb.freedev.app</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+</body>
+</html>

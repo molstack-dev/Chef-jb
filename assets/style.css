@@ -76,8 +76,6 @@ textarea:focus {
     background: #00520b;
 }
 
-
-
 /* Estilos base para inputs, selects y textareas */
 input, select, textarea {
     background: linear-gradient(145deg, #2d3748 0%, #1a202c 100%);
@@ -193,15 +191,13 @@ button {
     object-fit: cover;
 }
 
-.faq-answer {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1);
-    will-change: max-height;
-    background: rgba(26, 32, 44, 0.7);
-    padding-top: 6px;
-    padding-bottom: 10%;
-}
+/* ============================================================
+   FAQ ANSWER
+   La visibilidad la controla la clase .hidden (display:none) de Tailwind.
+   NO se usa max-height para animar porque recortaba el contenido largo
+   y hacía que las respuestas se vieran incompletas en móvil.
+   ============================================================ */
+
 
 .faq-question {
     background: linear-gradient(145deg, #1a202c 0%, #1a1c2a 100%);
@@ -288,7 +284,7 @@ header.scrolled {
 
 /* Estilos para las esquinas del header al desplegar/contraer la lista */
 header.header-hidden.with-open-dropdown {
-    border-radius: 0.5rem 0.5rem 0 0; /* Solo esquinas inferiores en ángulo recto, superiores redondeadas */
+    border-radius: 0.5rem 0.5rem 0 0;
 }
 
 footer {
@@ -302,7 +298,7 @@ footer {
 
 /* Header hide/show functionality */
 .header-hidden {
-    background: rgba(30, 30, 30, 0.9) !important; /* Aumentar la opacidad inicial */
+    background: rgba(30, 30, 30, 0.9) !important;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     transform: translateY(0);
@@ -315,8 +311,8 @@ footer {
 
 /* Si el header tiene la clase con-open-dropdown (menú abierto), mantener opacidad alta */
 .header-hidden.with-open-dropdown {
-    background: rgba(30, 30, 30, 0.9)  !important; /* Mayor opacidad cuando el menú está abierto */
-    border-radius: 0.5rem 0.5rem 0 0; /* Solo esquinas inferiores en ángulo recto, superiores redondeadas */
+    background: rgba(30, 30, 30, 0.9)  !important;
+    border-radius: 0.5rem 0.5rem 0 0;
 }
 
 /* 
@@ -729,6 +725,155 @@ footer {
     color: #962b1b;
 }
 
+/* Estilos para tarjetas de catálogo más pequeñas en responsive */
+@media (max-width: 768px) {
+    #courses-grid.grid {
+        gap: 0.75rem !important;
+    }
+    
+    #courses-grid .product-card {
+        padding: 1rem !important;
+        margin-bottom: 0.75rem;
+    }
+    
+    #courses-grid .product-card h4 {
+        font-size: 1.1rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    #courses-grid .product-card .text-amber-500 {
+        font-size: 0.9rem !important;
+    }
+    
+    #courses-grid .product-card .text-gray-400 {
+        font-size: 0.75rem !important;
+    }
+    
+    #courses-grid .product-card p {
+        font-size: 0.8rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    #courses-grid .product-card img {
+        max-height: 100px !important;
+        object-fit: cover;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    #courses-grid .product-card span.inline-block {
+        font-size: 0.7rem !important;
+        padding: 0.2rem 0.5rem !important;
+    }
+    
+    #courses-grid .product-card button,
+    #courses-grid .product-card a {
+        font-size: 0.75rem !important;
+        padding: 0.5rem !important;
+    }
+    
+    /* Event info styles for smaller screens */
+    #courses-grid .product-card .text-xs.text-gray-300 div {
+        font-size: 0.7rem !important;
+    }
+    
+    #courses-grid .product-card .text-xs.text-gray-300 svg {
+        height: 0.75rem !important;
+        width: 0.75rem !important;
+    }
+}
+
+@media (max-width: 640px) {
+    #courses-grid.grid {
+        gap: 0.5rem !important;
+    }
+    
+    #courses-grid .product-card {
+        padding: 0.75rem !important;
+    }
+    
+    #courses-grid .product-card h4 {
+        font-size: 1rem !important;
+    }
+    
+    #courses-grid .product-card .text-amber-500 {
+        font-size: 0.85rem !important;
+    }
+    
+    #courses-grid .product-card .text-gray-400 {
+        font-size: 0.7rem !important;
+    }
+    
+    #courses-grid .product-card p {
+        font-size: 0.75rem !important;
+    }
+    
+    #courses-grid .product-card img {
+        max-height: 80px !important;
+    }
+    
+    #courses-grid .product-card span.inline-block {
+        font-size: 0.65rem !important;
+        padding: 0.15rem 0.4rem !important;
+    }
+    
+    #courses-grid .product-card button,
+    #courses-grid .product-card a {
+        font-size: 0.7rem !important;
+        padding: 0.4rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    #courses-grid.grid {
+        gap: 0.25rem !important;
+    }
+    
+    #courses-grid .product-card {
+        padding: 0.5rem !important;
+    }
+    
+    #courses-grid .product-card h4 {
+        font-size: 0.9rem !important;
+    }
+    
+    #courses-grid .product-card .text-amber-500 {
+        font-size: 0.8rem !important;
+    }
+    
+    #courses-grid .product-card .text-gray-400 {
+        font-size: 0.65rem !important;
+    }
+    
+    #courses-grid .product-card p {
+        font-size: 0.7rem !important;
+    }
+    
+    #courses-grid .product-card img {
+        max-height: 70px !important;
+    }
+    
+    #courses-grid .product-card span.inline-block {
+        font-size: 0.6rem !important;
+        padding: 0.1rem 0.3rem !important;
+    }
+    
+    #courses-grid .product-card button,
+    #courses-grid .product-card a {
+        font-size: 0.65rem !important;
+        padding: 0.3rem !important;
+    }
+    
+    #courses-grid .product-card .text-xs.text-gray-300 div {
+        font-size: 0.6rem !important;
+    }
+    
+    #courses-grid .product-card .text-xs.text-gray-300 svg {
+        height: 0.6rem !important;
+        width: 0.6rem !important;
+    }
+}
+
+
 .text-red:hover {
     color: #00520b;
 }
@@ -799,13 +944,13 @@ footer {
 
 /* Estilos para el gorro de chef */
 .chef-icon {
-            fill: #000000; /* Cambia el color del gorro */
-            width: 100px;  /* Ajusta el tamaño */
+            fill: #000000;
+            width: 100px;
             height: 100px;
             transition: fill 0.3s ease;
         }
 .chef-icon:hover {
-    fill: #500092; /* Color al pasar el ratón */
+    fill: #500092;
 }
 
 .user-page-shell {
@@ -1295,7 +1440,6 @@ footer {
  * =============================================================================
  */
 
-/* ---------- Shared hero base ---------- */
 .user-welcome-hero,
 .admin-welcome-hero {
     position: relative;
@@ -1304,7 +1448,6 @@ footer {
     border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
-/* Grain / noise overlay */
 .user-welcome-hero::before,
 .admin-welcome-hero::before {
     content: '';
@@ -1316,7 +1459,6 @@ footer {
     pointer-events: none;
 }
 
-/* ---------- Inner layout ---------- */
 .user-welcome-inner,
 .admin-welcome-inner {
     position: relative;
@@ -1330,7 +1472,6 @@ footer {
     padding: 3.5rem 0 2rem;
 }
 
-/* Left side decoration bar */
 .user-welcome-deco,
 .admin-welcome-deco {
     position: absolute;
@@ -1343,14 +1484,12 @@ footer {
     border-radius: 9999px;
 }
 
-/* ---------- Text content ---------- */
 .user-welcome-content,
 .admin-welcome-content {
     flex: 1;
     min-width: 0;
 }
 
-/* Badge / eyebrow */
 .user-welcome-badge,
 .admin-welcome-badge {
     display: inline-flex;
@@ -1368,7 +1507,6 @@ footer {
     text-transform: uppercase;
 }
 
-/* Name heading */
 .user-welcome-name,
 .admin-welcome-name {
     margin: 0 0 1rem;
@@ -1380,7 +1518,6 @@ footer {
     overflow-wrap: anywhere;
 }
 
-/* Subtitle */
 .user-welcome-copy,
 .admin-welcome-copy {
     max-width: 36rem;
@@ -1390,7 +1527,6 @@ footer {
     margin: 0 0 1.5rem;
 }
 
-/* ---------- Action buttons (user only) ---------- */
 .user-welcome-actions {
     display: flex;
     flex-wrap: wrap;
@@ -1440,7 +1576,6 @@ footer {
     font-style: normal;
 }
 
-/* ---------- Decorative icon ---------- */
 .user-welcome-icon-wrap,
 .admin-welcome-icon-wrap {
     flex-shrink: 0;
@@ -1460,7 +1595,6 @@ footer {
     box-shadow: 0 0 40px rgba(180, 83, 9, 0.08);
 }
 
-/* ---------- Wave separator ---------- */
 .user-welcome-wave,
 .admin-welcome-wave {
     position: relative;
@@ -1475,12 +1609,6 @@ footer {
     height: 50px;
     display: block;
 }
-
-/* =============================================================================
- * DASHBOARD CARDS
- * Tarjetas del panel de inicio para user.html y admin.html
- * =============================================================================
- */
 
 .dashboard-grid {
     display: grid;
@@ -1520,9 +1648,6 @@ footer {
     opacity: 1;
 }
 
-/* --- Color variants --- */
-
-/* Amber */
 .dash-card--amber {
     border-left: 3px solid #b45309;
 }
@@ -1541,7 +1666,6 @@ footer {
     color: #fbbf24;
 }
 
-/* Blue */
 .dash-card--blue {
     border-left: 3px solid #1d4ed8;
 }
@@ -1560,7 +1684,6 @@ footer {
     color: #93c5fd;
 }
 
-/* Green */
 .dash-card--green {
     border-left: 3px solid #15803d;
 }
@@ -1579,7 +1702,6 @@ footer {
     color: #86efac;
 }
 
-/* Purple */
 .dash-card--purple {
     border-left: 3px solid #6d28d9;
 }
@@ -1598,7 +1720,31 @@ footer {
     color: #ddd6fe;
 }
 
-/* --- Card inner parts --- */
+.dash-card--red {
+    border-left: 3px solid #b91c1c;
+}
+
+.dash-card--red::before {
+    background: radial-gradient(
+        ellipse at left,
+        rgba(185, 28, 28, 0.07) 0%,
+        transparent 70%
+    );
+}
+
+.dash-card--red:hover {
+    border-color: #b91c1c;
+    border-left-color: #ef4444;
+}
+
+.dash-card--red .dash-card__icon {
+    background: rgba(185, 28, 28, 0.12);
+    color: #f87171;
+}
+
+.dash-card--red .dash-card__title {
+    color: #fecaca;
+}
 
 .dash-card__icon {
     flex-shrink: 0;
@@ -1647,7 +1793,6 @@ footer {
     transform: translateX(4px);
 }
 
-/* --- Responsive --- */
 @media (max-width: 640px) {
     .dashboard-grid {
         grid-template-columns: 1fr;
@@ -1713,7 +1858,6 @@ footer {
     }
 }
 
-/* Rose — certificados admin */
 .dash-card--rose {
     border-left: 3px solid #be185d;
 }
@@ -1732,12 +1876,10 @@ footer {
     color: #fbcfe8;
 }
 
-/* Admin dashboard: 3 columnas en desktop para acomodar 5 tarjetas */
 .admin-page-shell .dashboard-grid {
     grid-template-columns: repeat(3, 1fr);
 }
 
-/* La 5ª tarjeta ocupa las 2 columnas centrales en desktop */
 .admin-page-shell .dashboard-grid > .dash-card:last-child {
     grid-column: 2 / 3;
 }
@@ -1751,13 +1893,6 @@ footer {
     }
 }
 
-/* =============================================================================
- * ADMIN MOBILE DROPDOWN NAV
- * Menú desplegable para móvil en páginas admin
- * =============================================================================
- */
-
-/* Botón hamburguesa */
 .admin-mobile-menu-btn {
     display: none;
     align-items: center;
@@ -1783,14 +1918,13 @@ footer {
     }
 }
 
-/* Panel dropdown - con estilos idénticos al header */
 .admin-mobile-dropdown {
     position: absolute;
     top: 100%;
     left: 0;
     width: 100%;
-    background: rgba(30, 30, 30, 0.9); /* Fondo opaco como el header */
-    backdrop-filter: blur(15px); /* Conserva el efecto de blur */
+    background: rgba(30, 30, 30, 0.9);
+    backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -1798,51 +1932,49 @@ footer {
     z-index: 998;
     overflow-y: auto;
     display: none;
-    padding-top: 1.25rem; /* py-5 = 20px = 1.25rem */
-    padding-bottom: 1.25rem; /* py-5 = 20px = 1.25rem */
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
 }
 
 .admin-mobile-dropdown.open {
     display: block;
 }
 
-/* Estilos para los enlaces en el menú desplegable para que coincidan con el header */
 .admin-dropdown-nav {
-    padding: 0.5rem 0; /* Espaciado consistente */
+    padding: 0.5rem 0;
 }
 
 .admin-dropdown-nav a {
     display: flex;
     align-items: center;
-    gap: 0.5rem; /* Espacio entre ícono y texto */
-    padding: 0.5rem 1rem; /* Espaciado similar a los enlaces del header */
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
     color: white;
     font-size: 0.9rem;
     font-weight: 500;
     text-decoration: none;
     transition: all 0.3s ease;
     border: 1px solid transparent;
-    border-radius: 0.375rem; /* rounded-md equivalente */
-    margin: 0.125rem 0; /* Pequeño margen entre elementos */
+    border-radius: 0.375rem;
+    margin: 0.125rem 0;
 }
 
 .admin-dropdown-nav a:hover {
     background: rgba(255,255,255,0.1);
-    color: #a855f7; /* purple-500 */
+    color: #a855f7;
     border-color: rgba(255,255,255,0.1);
 }
 
 .admin-dropdown-nav a.active-page {
-    background: rgba(166, 85, 247, 0.2); /* purple-500 con transparencia */
-    color: #a855f7; /* purple-500 */
-    border-color: rgba(166, 85, 247, 0.4); /* Más consistente con el estilo del header */
+    background: rgba(166, 85, 247, 0.2);
+    color: #a855f7;
+    border-color: rgba(166, 85, 247, 0.4);
 }
 
-/* Estilos para enlaces activos en el header principal */
 header nav a.active-page {
-    background: rgba(166, 85, 247, 0.2); /* purple-500 con transparencia */
-    color: #a855f7 !important; /* purple-500 */
-    border-radius: 0.375rem; /* rounded-md equivalente */
+    background: rgba(166, 85, 247, 0.2);
+    color: #a855f7 !important;
+    border-radius: 0.375rem;
     padding: 0.25rem 0.5rem;
 }
 
@@ -1856,7 +1988,6 @@ header nav a.active-page {
     opacity: 1;
 }
 
-/* Fila superior del dropdown */
 .admin-dropdown-header {
     display: flex;
     align-items: center;
@@ -1892,7 +2023,6 @@ header nav a.active-page {
     color: #fff;
 }
 
-/* Lista de enlaces */
 .admin-dropdown-nav {
     display: flex;
     flex-direction: column;
@@ -1920,30 +2050,22 @@ header nav a.active-page {
     border-color: rgba(255,255,255,0.06);
 }
 
-/* Estilos para enlaces activos en el header principal */
 header nav a.active-page-main {
-    background: rgba(166, 85, 247, 0.2); /* purple-500 con transparencia */
-    color: #a855f7 !important; /* purple-500 */
-    border: 1px solid rgba(166, 85, 247, 0.4); /* Borde consistente con el estilo del header */
-    border-radius: 0.375rem; /* rounded-md equivalente */
+    background: rgba(166, 85, 247, 0.2);
+    color: #a855f7 !important;
+    border: 1px solid rgba(166, 85, 247, 0.4);
+    border-radius: 0.375rem;
     padding: 0.25rem 0.5rem;
     height: 37px;
-    
-    /* 1. Activamos Flexbox */
     display: flex;
-    
-    /* 2. Centramos horizontalmente */
     justify-content: center;
-    
-    /* 3. Centramos verticalmente */
     align-items: center;
 }
 
-
 .admin-dropdown-nav a.active-page {
-    background: rgba(166, 85, 247, 0.2); /* purple-500 con transparencia */
-    color: #a855f7; /* purple-500 */
-    border-color: rgba(166, 85, 247, 0.4); /* Más consistente con el estilo del header */
+    background: rgba(166, 85, 247, 0.2);
+    color: #a855f7;
+    border-color: rgba(166, 85, 247, 0.4);
 }
 
 .admin-dropdown-nav a svg {
@@ -1956,11 +2078,10 @@ header nav a.active-page-main {
     opacity: 1;
 }
 
-/* Estilos para la línea separadora y enlace de cerrar sesión en el menú móvil */
 .admin-dropdown-nav hr {
     border: 0;
     height: 1px;
-    background-color: #dc2626; /* Rojo más intenso */
+    background-color: #dc2626;
     margin: 10px 0;
 }
 
@@ -1968,17 +2089,16 @@ header nav a.active-page-main {
     display: flex;
     align-items: center;
     gap: 8px;
-    color: #dc2626 !important; /* Rojo más intenso */
+    color: #dc2626 !important;
     padding: 10px 0;
     text-decoration: none;
     font-weight: 500;
 }
 
 .cerrar-sesion-link:hover {
-    background-color: rgba(220, 38, 38, 0.1); /* Rojo más intenso con transparencia */
+    background-color: rgba(220, 38, 38, 0.1);
 }
 
-/* Separador antes de logout */
 .admin-dropdown-nav .dropdown-divider {
     height: 1px;
     background: rgba(255,255,255,0.07);
@@ -1995,7 +2115,6 @@ header nav a.active-page-main {
     border-color: rgba(239, 68, 68, 0.15);
 }
 
-/* Overlay para cerrar */
 .admin-dropdown-overlay {
     position: fixed;
     top: 0;
@@ -2007,9 +2126,7 @@ header nav a.active-page-main {
     display: none;
 }
 
-/* Eliminar el fondo del overlay para menú que se despliega desde el header */
 .header-menu-overlay {
-    /* Esta clase no tendrá fondo */
     position: fixed;
     top: 0;
     left: 0;
@@ -2018,12 +2135,6 @@ header nav a.active-page-main {
     z-index: 999;
     display: none;
 }
-
-/* =============================================================================
- * ADMIN PAGE — SECCIÓN HEADING MEJORADO
- * Subtítulo descriptivo bajo el heading de cada módulo
- * =============================================================================
- */
 
 .admin-section-heading {
     position: relative;
@@ -2058,11 +2169,6 @@ header nav a.active-page-main {
     margin: 0;
 }
 
-/* =============================================================================
- * ADMIN TABLES — mejoras visuales
- * =============================================================================
- */
-
 .admin-page-shell table thead tr {
     border-bottom: 1px solid #1e2028;
 }
@@ -2096,17 +2202,11 @@ header nav a.active-page-main {
     vertical-align: middle;
 }
 
-/* =============================================================================
- * ADMIN CARDS — mejoras para product-card en contexto admin
- * =============================================================================
- */
-
 .admin-page-shell .product-card {
     border-radius: 0.75rem;
     padding: 1.5rem;
 }
 
-/* Subtítulo de sección dentro de tarjeta */
 .admin-card-title {
     font-size: 1rem;
     font-weight: 700;
@@ -2116,7 +2216,6 @@ header nav a.active-page-main {
     border-bottom: 1px solid #1e2028;
 }
 
-/* Filtros en fila */
 .admin-filter-row {
     display: flex;
     flex-wrap: wrap;
