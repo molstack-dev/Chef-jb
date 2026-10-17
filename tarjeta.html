@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Tarjeta — Chef Jonathan Buitrago</title>
+<title>Tarjeta — Chef Jonathan Buitrago (6+6 Letter)</title>
 <link href="https://fonts.googleapis.com/css2?family=Parisienne&family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link href="../assets/style.css" rel="stylesheet">
 <style>
@@ -25,6 +25,8 @@ html, body {
 a { color: inherit; text-decoration: none; font-style: normal; }
 a:hover { font-style: normal; }
 
+span { font-weight: 500; }
+
 :root {
     --gold: #d6a34a;
     --gold-bright: #fbbf24;
@@ -38,21 +40,42 @@ a:hover { font-style: normal; }
     --line: rgba(214,163,74,0.3);
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
-@page { size: 85mm 55mm; margin: 0; }
+
+@page { size: 8.5in 11in; margin: 0; }
+
+/* ============================================================
+   HOJA LETTER
+   ============================================================ */
+.sheet {
+    width: 215.9mm;
+    height: 279.4mm;
+    background: #1a1a1a;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    align-items: flex-start;
+    gap: 3mm;
+    padding: 10mm;
+    box-sizing: border-box;
+    position: relative;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+.sheet + .sheet { page-break-before: always; }
 
 /* ============================================================
    TARJETA
    ============================================================ */
 .tarjeta {
-    width: 85mm;                                            /* ← ancho de la tarjeta (estándar 85mm) */
-    height: 55mm;                                           /* ← alto de la tarjeta (estándar 55mm) */
-    border-radius: 2mm;                                     /* ← redondeo de esquinas */
+    width: 85mm;
+    height: 55mm;
+    border-radius: 2mm;
     position: relative;
     overflow: hidden;
     color: var(--text);
     box-shadow: 0 15px 40px rgba(88,28,135,0.6);
+    flex-shrink: 0;
 }
-.tarjeta + .tarjeta { page-break-before: always; }
 
 /* ============================================================
    CARA FRONTAL
@@ -64,58 +87,39 @@ a:hover { font-style: normal; }
         linear-gradient(135deg, #0d0d1a 0%, #1a0a2e 50%, #0a0512 100%);
     display: flex;
     flex-direction: column;
-    padding: 5mm;                                           /* ← padding interno (antes 6mm) */
+    padding: 5mm;
     justify-content: space-between;
 }
 .tarjeta-frontal::before {
     content: '';
     position: absolute;
-    inset: 2mm;                                             /* ← distancia del marco interior */
+    inset: 2mm;
     border: 0.5px solid var(--line);
     border-radius: 1.5mm;
     pointer-events: none;
 }
 
-/* ============================================================
-   FOTO EN LA CARA FRONTAL — esquina superior derecha
-   Ajusta aquí tamaño, encuadre y zoom
-   ============================================================ */
+/* FOTO / LOGO — esquina superior derecha */
 .tarjeta-foto {
-    /* ---------- TAMAÑO DEL MARCO ---------- */
-    width: 26mm;                                            /* ← ancho del marco · ej: 20mm, 26mm, 32mm */
-    height: 26mm;                                           /* ← alto · igual al ancho para círculo */
-
-    /* ---------- FORMA ---------- */
-    border-radius: 50%;                                     /* ← 50% = círculo · 3mm = cuadrado redondeado */
-
-    /* ---------- ENCUADRE ---------- */
-    object-fit: cover;                                      /* ← cover recorta · contain completa */
-    object-position: center top;                            /* ← encuadre: center · top · bottom · center 30% */
-
-    /* ---------- ZOOM ---------- */
-    transform: scale(1);                                    /* ← 1 normal · 1.2 = +20% · 0.9 = -10% */
-    transform-origin: center;                               /* ← desde dónde crece el zoom */
-
-    /* ---------- BORDE Y FONDO ---------- */
-    border: 2px solid var(--gold);                          /* ← grosor del borde · ej: 1px, 2px, 3px */
-    padding: 0.1mm;                                         /* ← espacio entre foto y borde */
-    background: rgba(26,10,46,0.85);                        /* ← color de fondo detrás */
-    overflow: hidden;                                       /* ← recorta lo que sobresale con zoom */
-
-    /* ---------- POSICIÓN ---------- */
-    position: absolute;                                     /* ← no cambiar (posición libre) */
-    top: 14mm;                                               /* ← distancia desde arriba */
-    right: 5mm;                                             /* ← distancia desde la derecha */
-    z-index: 2;                                             /* ← por encima del marco decorativo */
-
-    /* ---------- GLOW ---------- */
+    width: 26mm;
+    height: 26mm;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center top;
+    transform: scale(1);
+    transform-origin: center;
+    border: 2px solid var(--gold);
+    padding: 0.1mm;
+    background: rgba(26,10,46,0.85);
+    overflow: hidden;
+    position: absolute;
+    top: 14mm;
+    right: 5mm;
+    z-index: 2;
     box-shadow: 0 0 12px rgba(251,191,36,0.5),
                 0 0 6px rgba(124,58,237,0.6);
 }
 
-/* ============================================================
-   LOGO / MARCA SUPERIOR
-   ============================================================ */
 .tarjeta-marca {
     display: flex;
     align-items: center;
@@ -131,18 +135,15 @@ a:hover { font-style: normal; }
 }
 .tarjeta-marca-texto {
     font-family: 'Playfair Display', serif;
-    font-size: 5.5pt;
+    font-size: 6.5pt;
     color: var(--gold);
     letter-spacing: 2.5px;
     text-transform: uppercase;
-    font-weight: 500;
+    font-weight: 600;
 }
 
-/* ============================================================
-   NOMBRE — usa .parisienne-font de style.css
-   ============================================================ */
 .tarjeta-nombre {
-    font-size: 20pt;                                        /* ← tamaño del nombre (antes 24pt) */
+    font-size: 20pt;
     color: var(--gold-bright);
     line-height: 0.9;
     text-shadow: 0 0 12px rgba(251,191,36,0.55),
@@ -150,30 +151,25 @@ a:hover { font-style: normal; }
     position: relative;
     z-index: 1;
 }
-
 .tarjeta-nombre-linea {
-    width: 18mm;                                            /* ← ancho de la línea dorada */
+    width: 18mm;
     height: 0.5px;
     background: linear-gradient(90deg, var(--gold), transparent);
     margin: 1.5mm 0;
     position: relative;
     z-index: 1;
 }
-
 .tarjeta-rol {
     font-family: 'Playfair Display', serif;
     font-size: 6pt;
     color: var(--text);
     letter-spacing: 1.6px;
     text-transform: uppercase;
-    font-weight: 400;
+    font-weight: 650;
     position: relative;
     z-index: 1;
 }
 
-/* ============================================================
-   FOOTER FRONTAL
-   ============================================================ */
 .tarjeta-footer {
     display: flex;
     align-items: center;
@@ -189,7 +185,7 @@ a:hover { font-style: normal; }
     filter: drop-shadow(0 0 3px rgba(251,191,36,0.6));
 }
 .tarjeta-web {
-    font-size: 5pt;
+    font-size: 5.6pt;
     color: var(--gold-bright);
     font-weight: 600;
     letter-spacing: 0.5px;
@@ -203,7 +199,7 @@ a:hover { font-style: normal; }
     background:
         radial-gradient(ellipse at top left, rgba(124,58,237,0.3) 0%, transparent 55%),
         linear-gradient(135deg, #0d0d1a 0%, #1a0a2e 100%);
-    padding: 5mm;                                           /* ← padding interno */
+    padding: 5mm;
     display: grid;
     grid-template-columns: 1fr auto;
     gap: 3.5mm;
@@ -217,7 +213,7 @@ a:hover { font-style: normal; }
     top: 0;
     bottom: 0;
     width: 1mm;
-    height: auto;                                             /* ← barra dorada lateral */
+    height: auto;
     background: linear-gradient(180deg, var(--purple-glow), var(--gold-bright), var(--purple-glow));
 }
 
@@ -230,7 +226,7 @@ a:hover { font-style: normal; }
 }
 .tarjeta-trasera-titulo {
     font-family: 'Playfair Display', serif;
-    font-size: 7.5pt;
+    font-size: 8pt;
     color: var(--gold-bright);
     font-weight: 700;
     letter-spacing: 0.3px;
@@ -240,7 +236,7 @@ a:hover { font-style: normal; }
 .tarjeta-trasera-titulo::after {
     content: '';
     display: block;
-    width: 7mm;                                             /* ← ancho de la línea bajo el título */
+    width: 7mm;
     height: 0.7px;
     background: var(--gold);
     margin-top: 0.8mm;
@@ -263,26 +259,16 @@ a:hover { font-style: normal; }
     color: var(--gold-bright);
 }
 
-/* ============================================================
-   QR TRASERO — ajusta aquí tamaño, encuadre y zoom
-   ============================================================ */
+/* QR trasero */
 .tarjeta-qr {
-    /* ---------- TAMAÑO ---------- */
-    width: 24mm;                                            /* ← ancho del QR · ej: 12mm, 16mm, 20mm */
-    height: 24mm;                                           /* ← alto · igual al ancho */
-
-    /* ---------- FORMA Y BORDE ---------- */
-    background: #fff;                                       /* ← fondo blanco */
-    padding: 0.6mm;                                         /* ← espacio entre QR y borde */
-    border-radius: 1mm;                                     /* ← redondeo de esquinas */
-    border: 1px solid var(--gold);                          /* ← grosor del borde dorado */
-
-    /* ---------- ZOOM (opcional) ---------- */
-    transform: scale(1);                                    /* ← 1 normal · 1.1 +10% · 0.9 -10% */
-
-    /* ---------- GLOW ---------- */
+    width: 24mm;
+    height: 24mm;
+    background: #fff;
+    padding: 0.6mm;
+    border-radius: 1mm;
+    border: 2px solid var(--gold);
+    transform: scale(1);
     box-shadow: 0 0 10px rgba(124,58,237,0.6);
-
     position: relative;
     z-index: 1;
 }
@@ -290,10 +276,10 @@ a:hover { font-style: normal; }
 
 .tarjeta-qr-label {
     position: absolute;
-    bottom: -3.5mm;                                         /* ← distancia de la etiqueta debajo del QR */
+    bottom: -4.5mm;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 4.5pt;
+    font-size: 5.8pt;
     color: var(--muted);
     text-align: center;
     white-space: nowrap;
@@ -304,82 +290,331 @@ a:hover { font-style: normal; }
    PRINT
    ============================================================ */
 @media print {
-    html, body { background: #fff; padding: 0; gap: 0; min-height: auto; display: block; }
-    .tarjeta { box-shadow: none; border-radius: 0; }
+    html, body {
+        background: #fff;
+        padding: 0;
+        gap: 0;
+        min-height: auto;
+        display: block;
+    }
+    .sheet {
+        box-shadow: none;
+        background: #fff;
+        margin: 0;
+        page-break-after: always;
+    }
+    .sheet:last-child {
+        page-break-after: auto;
+    }
+    .tarjeta {
+        box-shadow: none;
+        border-radius: 0;
+    }
 }
 </style>
 </head>
 <body>
 
 <!-- ═══════════════════════════════════════════════════════════
-     CARA FRONTAL
+     HOJA 1 — 6 CARAS FRONTALES
      ═══════════════════════════════════════════════════════════ -->
-<div class="tarjeta tarjeta-frontal">
+<div class="sheet">
 
-    <!-- ⬇️ FOTO DEL CHEF — esquina superior derecha -->
-    <img src="../img/chef.jpg" alt="Chef Jonathan Buitrago" class="tarjeta-foto">
-
-    <div class="tarjeta-marca">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-        <span class="tarjeta-marca-texto">Chef Colombiano</span>
-    </div>
-
-    <div>
-        <h1 class="parisienne-font tarjeta-nombre">Jonathan<br>Buitrago</h1>
-        <div class="tarjeta-nombre-linea"></div>
-        <p class="tarjeta-rol">Pastelero &amp; Chocolatero</p>
-    </div>
-
-    <div class="tarjeta-footer">
-        <div class="tarjeta-logros-mini">
+    <!-- TARJETA 1 -->
+    <div class="tarjeta tarjeta-frontal">
+        <img src="../img/chef.jpg" alt="Chef Jonathan Buitrago" class="tarjeta-foto">
+        <div class="tarjeta-marca">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <span class="tarjeta-marca-texto">Chef Colombiano</span>
         </div>
-        <span class="tarjeta-web">chef-jb.freedev.app</span>
+        <div>
+            <h1 class="parisienne-font tarjeta-nombre">Jonathan<br>Buitrago</h1>
+            <div class="tarjeta-nombre-linea"></div>
+            <p class="tarjeta-rol">Pastelero &amp; Chocolatero</p>
+        </div>
+        <div class="tarjeta-footer">
+            <div class="tarjeta-logros-mini">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <span class="tarjeta-web">chef-jb.freedev.app</span>
+        </div>
     </div>
+
+    <!-- TARJETA 2 -->
+    <div class="tarjeta tarjeta-frontal">
+        <img src="../img/chef.jpg" alt="Chef Jonathan Buitrago" class="tarjeta-foto">
+        <div class="tarjeta-marca">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <span class="tarjeta-marca-texto">Chef Colombiano</span>
+        </div>
+        <div>
+            <h1 class="parisienne-font tarjeta-nombre">Jonathan<br>Buitrago</h1>
+            <div class="tarjeta-nombre-linea"></div>
+            <p class="tarjeta-rol">Pastelero &amp; Chocolatero</p>
+        </div>
+        <div class="tarjeta-footer">
+            <div class="tarjeta-logros-mini">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <span class="tarjeta-web">chef-jb.freedev.app</span>
+        </div>
+    </div>
+
+    <!-- TARJETA 3 -->
+    <div class="tarjeta tarjeta-frontal">
+        <img src="../img/chef.jpg" alt="Chef Jonathan Buitrago" class="tarjeta-foto">
+        <div class="tarjeta-marca">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <span class="tarjeta-marca-texto">Chef Colombiano</span>
+        </div>
+        <div>
+            <h1 class="parisienne-font tarjeta-nombre">Jonathan<br>Buitrago</h1>
+            <div class="tarjeta-nombre-linea"></div>
+            <p class="tarjeta-rol">Pastelero &amp; Chocolatero</p>
+        </div>
+        <div class="tarjeta-footer">
+            <div class="tarjeta-logros-mini">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <span class="tarjeta-web">chef-jb.freedev.app</span>
+        </div>
+    </div>
+
+    <!-- TARJETA 4 -->
+    <div class="tarjeta tarjeta-frontal">
+        <img src="../img/chef.jpg" alt="Chef Jonathan Buitrago" class="tarjeta-foto">
+        <div class="tarjeta-marca">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <span class="tarjeta-marca-texto">Chef Colombiano</span>
+        </div>
+        <div>
+            <h1 class="parisienne-font tarjeta-nombre">Jonathan<br>Buitrago</h1>
+            <div class="tarjeta-nombre-linea"></div>
+            <p class="tarjeta-rol">Pastelero &amp; Chocolatero</p>
+        </div>
+        <div class="tarjeta-footer">
+            <div class="tarjeta-logros-mini">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <span class="tarjeta-web">chef-jb.freedev.app</span>
+        </div>
+    </div>
+
+    <!-- TARJETA 5 -->
+    <div class="tarjeta tarjeta-frontal">
+        <img src="../img/chef.jpg" alt="Chef Jonathan Buitrago" class="tarjeta-foto">
+        <div class="tarjeta-marca">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <span class="tarjeta-marca-texto">Chef Colombiano</span>
+        </div>
+        <div>
+            <h1 class="parisienne-font tarjeta-nombre">Jonathan<br>Buitrago</h1>
+            <div class="tarjeta-nombre-linea"></div>
+            <p class="tarjeta-rol">Pastelero &amp; Chocolatero</p>
+        </div>
+        <div class="tarjeta-footer">
+            <div class="tarjeta-logros-mini">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <span class="tarjeta-web">chef-jb.freedev.app</span>
+        </div>
+    </div>
+
+    <!-- TARJETA 6 -->
+    <div class="tarjeta tarjeta-frontal">
+        <img src="../img/chef.jpg" alt="Chef Jonathan Buitrago" class="tarjeta-foto">
+        <div class="tarjeta-marca">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <span class="tarjeta-marca-texto">Chef Colombiano</span>
+        </div>
+        <div>
+            <h1 class="parisienne-font tarjeta-nombre">Jonathan<br>Buitrago</h1>
+            <div class="tarjeta-nombre-linea"></div>
+            <p class="tarjeta-rol">Pastelero &amp; Chocolatero</p>
+        </div>
+        <div class="tarjeta-footer">
+            <div class="tarjeta-logros-mini">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            </div>
+            <span class="tarjeta-web">chef-jb.freedev.app</span>
+        </div>
+    </div>
+
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════
-     CARA TRASERA
+     HOJA 2 — 6 CARAS TRASERAS
      ═══════════════════════════════════════════════════════════ -->
-<div class="tarjeta tarjeta-trasera">
-    <div class="tarjeta-trasera-info">
-        <h2 class="tarjeta-trasera-titulo">Contacto</h2>
+<div class="sheet">
 
-        <div class="tarjeta-dato">
-            <svg fill="currentColor" viewBox="0 0 24 24">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-            </svg>
-            <span>+57 322 945 2346</span>
+    <!-- TARJETA 1 -->
+    <div class="tarjeta tarjeta-trasera">
+        <div class="tarjeta-trasera-info">
+            <h2 class="tarjeta-trasera-titulo">Contacto</h2>
+            <div class="tarjeta-dato">
+                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                <span>+57 322 945 2346</span>
+            </div>
+            <div class="tarjeta-dato">
+                <svg fill="none" stroke="currentColor" viewBox="4 0 17 21" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                <span>info@chefjonathanbuitrago.com</span>
+            </div>
+            <div class="tarjeta-dato">
+                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.644-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4z"/></svg>
+                <span>@chef_jonathan_buitrago</span>
+            </div>
+            <div class="tarjeta-dato" style="margin-top: 2mm; padding-top: 1mm; border-top: 0.5px solid rgba(214,163,74,0.3);">
+                <span style="color: var(--gold-bright); font-weight: 600; font-size: 5.5pt; letter-spacing: 0.4px;">chef-jb.freedev.app</span>
+            </div>
         </div>
-
-        <div class="tarjeta-dato">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-            </svg>
-            <span>info@chefjonathanbuitrago.com</span>
-        </div>
-
-        <div class="tarjeta-dato">
-            <svg fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.644-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4z"/>
-            </svg>
-            <span>@chef_jonathan_buitrago</span>
-        </div>
-
-        <div class="tarjeta-dato" style="margin-top: 0.5mm; padding-top: 1mm; border-top: 0.5px solid rgba(214,163,74,0.3);">
-            <span style="color: var(--gold-bright); font-weight: 600; font-size: 5.5pt; letter-spacing: 0.4px;">chef-jb.freedev.app</span>
+        <div style="position: relative;">
+            <div class="tarjeta-qr"><img src="img/qr_pagina.svg" alt="QR"></div>
+            <span class="tarjeta-qr-label">Escanea</span>
         </div>
     </div>
 
-    <!-- ⬇️ QR TRASERO — ajustar en .tarjeta-qr -->
-    <div style="position: relative;">
-        <div class="tarjeta-qr">
-            <img src="img/qr_pagina.svg" alt="QR">
+    <!-- TARJETA 2 -->
+    <div class="tarjeta tarjeta-trasera">
+        <div class="tarjeta-trasera-info">
+            <h2 class="tarjeta-trasera-titulo">Contacto</h2>
+            <div class="tarjeta-dato">
+                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                <span>+57 322 945 2346</span>
+            </div>
+            <div class="tarjeta-dato">
+                <svg fill="none" stroke="currentColor" viewBox="4 0 17 21" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                <span>info@chefjonathanbuitrago.com</span>
+            </div>
+            <div class="tarjeta-dato">
+                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.644-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4z"/></svg>
+                <span>@chef_jonathan_buitrago</span>
+            </div>
+            <div class="tarjeta-dato" style="margin-top: 2mm; padding-top: 1mm; border-top: 0.5px solid rgba(214,163,74,0.3);">
+                <span style="color: var(--gold-bright); font-weight: 600; font-size: 5.5pt; letter-spacing: 0.4px;">chef-jb.freedev.app</span>
+            </div>
         </div>
-        <span class="tarjeta-qr-label">Escanea</span>
+        <div style="position: relative;">
+            <div class="tarjeta-qr"><img src="img/qr_pagina.svg" alt="QR"></div>
+            <span class="tarjeta-qr-label">Escanea</span>
+        </div>
     </div>
+
+    <!-- TARJETA 3 -->
+    <div class="tarjeta tarjeta-trasera">
+        <div class="tarjeta-trasera-info">
+            <h2 class="tarjeta-trasera-titulo">Contacto</h2>
+            <div class="tarjeta-dato">
+                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                <span>+57 322 945 2346</span>
+            </div>
+            <div class="tarjeta-dato">
+                <svg fill="none" stroke="currentColor" viewBox="4 0 17 21" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                <span>info@chefjonathanbuitrago.com</span>
+            </div>
+            <div class="tarjeta-dato">
+                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.644-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4z"/></svg>
+                <span>@chef_jonathan_buitrago</span>
+            </div>
+            <div class="tarjeta-dato" style="margin-top: 2mm; padding-top: 1mm; border-top: 0.5px solid rgba(214,163,74,0.3);">
+                <span style="color: var(--gold-bright); font-weight: 600; font-size: 5.5pt; letter-spacing: 0.4px;">chef-jb.freedev.app</span>
+            </div>
+        </div>
+        <div style="position: relative;">
+            <div class="tarjeta-qr"><img src="img/qr_pagina.svg" alt="QR"></div>
+            <span class="tarjeta-qr-label">Escanea</span>
+        </div>
+    </div>
+
+    <!-- TARJETA 4 -->
+    <div class="tarjeta tarjeta-trasera">
+        <div class="tarjeta-trasera-info">
+            <h2 class="tarjeta-trasera-titulo">Contacto</h2>
+            <div class="tarjeta-dato">
+                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                <span>+57 322 945 2346</span>
+            </div>
+            <div class="tarjeta-dato">
+                <svg fill="none" stroke="currentColor" viewBox="4 0 17 21" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                <span>info@chefjonathanbuitrago.com</span>
+            </div>
+            <div class="tarjeta-dato">
+                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.644-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4z"/></svg>
+                <span>@chef_jonathan_buitrago</span>
+            </div>
+            <div class="tarjeta-dato" style="margin-top: 2mm; padding-top: 1mm; border-top: 0.5px solid rgba(214,163,74,0.3);">
+                <span style="color: var(--gold-bright); font-weight: 600; font-size: 5.5pt; letter-spacing: 0.4px;">chef-jb.freedev.app</span>
+            </div>
+        </div>
+        <div style="position: relative;">
+            <div class="tarjeta-qr"><img src="img/qr_pagina.svg" alt="QR"></div>
+            <span class="tarjeta-qr-label">Escanea</span>
+        </div>
+    </div>
+
+    <!-- TARJETA 5 -->
+    <div class="tarjeta tarjeta-trasera">
+        <div class="tarjeta-trasera-info">
+            <h2 class="tarjeta-trasera-titulo">Contacto</h2>
+            <div class="tarjeta-dato">
+                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                <span>+57 322 945 2346</span>
+            </div>
+            <div class="tarjeta-dato">
+                <svg fill="none" stroke="currentColor" viewBox="4 0 17 21" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                <span>info@chefjonathanbuitrago.com</span>
+            </div>
+            <div class="tarjeta-dato">
+                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.644-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4z"/></svg>
+                <span>@chef_jonathan_buitrago</span>
+            </div>
+            <div class="tarjeta-dato" style="margin-top: 2mm; padding-top: 1mm; border-top: 0.5px solid rgba(214,163,74,0.3);">
+                <span style="color: var(--gold-bright); font-weight: 600; font-size: 5.5pt; letter-spacing: 0.4px;">chef-jb.freedev.app</span>
+            </div>
+        </div>
+        <div style="position: relative;">
+            <div class="tarjeta-qr"><img src="img/qr_pagina.svg" alt="QR"></div>
+            <span class="tarjeta-qr-label">Escanea</span>
+        </div>
+    </div>
+
+    <!-- TARJETA 6 -->
+    <div class="tarjeta tarjeta-trasera">
+        <div class="tarjeta-trasera-info">
+            <h2 class="tarjeta-trasera-titulo">Contacto</h2>
+            <div class="tarjeta-dato">
+                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                <span>+57 322 945 2346</span>
+            </div>
+            <div class="tarjeta-dato">
+                <svg fill="none" stroke="currentColor" viewBox="4 0 17 21" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                <span>info@chefjonathanbuitrago.com</span>
+            </div>
+            <div class="tarjeta-dato">
+                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.644-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4z"/></svg>
+                <span>@chef_jonathan_buitrago</span>
+            </div>
+            <div class="tarjeta-dato" style="margin-top: 2mm; padding-top: 1mm; border-top: 0.5px solid rgba(214,163,74,0.3);">
+                <span style="color: var(--gold-bright); font-weight: 600; font-size: 5.5pt; letter-spacing: 0.4px;">chef-jb.freedev.app</span>
+            </div>
+        </div>
+        <div style="position: relative;">
+            <div class="tarjeta-qr"><img src="img/qr_pagina.svg" alt="QR"></div>
+            <span class="tarjeta-qr-label">Escanea</span>
+        </div>
+    </div>
+
 </div>
 
 </body>
