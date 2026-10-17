@@ -5,6 +5,15 @@
  * Organizado en secciones para facilitar el mantenimiento
  */
 
+ /* Estilos generales */
+ /*
+  * =============================================================================
+  * FONTS
+  * Estilos para fuentes personalizadas
+  * =============================================================================
+  */
+ 
+ /* Already included in GENERAL STYLES section */
 /* Importar la fuente Parisienne */
 @import url('https://fonts.googleapis.com/css2?family=Parisienne&display=swap');
 
@@ -22,15 +31,6 @@
     font-family: 'Parisienne', cursive;
 }
 
-/* Estilos generales */
-/*
- * =============================================================================
- * FONTS
- * Estilos para fuentes personalizadas
- * =============================================================================
- */
-
-/* Already included in GENERAL STYLES section */
 
 /* 
  * =============================================================================
