@@ -75,7 +75,7 @@
             card.setAttribute('data-price', Number(c.price) || 0);
 
             var imgHtml = c.image
-                ? '<div class="rounded-lg mb-2 md:mb-4 overflow-hidden flex items-center justify-center bg-gray-700 aspect-video"><img src="' + c.image + '" class="w-full h-full object-cover rounded-lg" alt="' + c.title + '"></div>'
+                ? '<div class="rounded-lg mb-2 md:mb-4 overflow-hidden bg-gray-700 aspect-square"><img src="' + c.image + '" class="w-full h-full object-cover rounded-lg" alt="' + c.title + '"></div>'
                 : '';
 
             var expiredNotice = '';
@@ -105,7 +105,7 @@
                 eventInfo += '</div>';
             }
 
-            var inscriptionBtn = '<a href="registro" class="flex-1 text-center py-1.5 md:py-2 px-2 bg-green-600 text-white rounded-lg text-xs md:text-base font-semibold hover:bg-green-700 transition-colors">Inscribirse</a>';
+            var inscriptionBtn = '<a href="registro.html" class="flex-1 text-center py-1.5 md:py-2 px-2 bg-green-600 text-white rounded-lg text-[10px] md:text-sm font-semibold hover:bg-green-700 transition-colors">Inscribirse</a>';
 
             card.innerHTML =
                 expiredNotice +

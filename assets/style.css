@@ -2230,3 +2230,82 @@ header nav a.active-page-main {
     min-width: 160px;
     max-width: 280px;
 }
+
+
+/* =============================================================================
+ * COURSE IMAGES — Cuadradas perfectas que escalan con el ancho de la tarjeta
+ * Sobrescribe TODAS las restricciones de max-height anteriores (con !important)
+ * garantizando que la imagen sea SIEMPRE 1:1 y del ancho de la tarjeta.
+ * ============================================================================= */
+
+#courses-grid .product-card > div:first-child {
+    aspect-ratio: 1 / 1 !important;
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: hidden !important;
+    position: relative !important;
+    background: #374151 !important;
+}
+
+#courses-grid .product-card img {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: none !important;
+    min-height: 0 !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    margin: 0 !important;
+    display: block !important;
+    border-radius: 0.5rem !important;
+}
+
+/* Sobrescribir TODAS las restricciones de altura anteriores por breakpoint */
+@media (max-width: 768px) {
+    #courses-grid .product-card img {
+        max-height: none !important;
+        height: 100% !important;
+    }
+    #courses-grid .product-card > div:first-child {
+        aspect-ratio: 1 / 1 !important;
+        height: auto !important;
+        max-height: none !important;
+    }
+}
+
+@media (max-width: 640px) {
+    #courses-grid .product-card img {
+        max-height: none !important;
+        height: 100% !important;
+    }
+    #courses-grid .product-card > div:first-child {
+        aspect-ratio: 1 / 1 !important;
+        height: auto !important;
+        max-height: none !important;
+    }
+}
+
+@media (max-width: 480px) {
+    #courses-grid .product-card img {
+        max-height: none !important;
+        height: 100% !important;
+    }
+    #courses-grid .product-card > div:first-child {
+        aspect-ratio: 1 / 1 !important;
+        height: auto !important;
+        max-height: none !important;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    #courses-grid .product-card img {
+        max-height: none !important;
+        height: 100% !important;
+        object-fit: cover !important;
+    }
+    #courses-grid .product-card > div:first-child {
+        aspect-ratio: 1 / 1 !important;
+        height: auto !important;
+        max-height: none !important;
+    }
+}
