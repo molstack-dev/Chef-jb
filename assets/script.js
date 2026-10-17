@@ -935,7 +935,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                         
                         setTimeout(() => {
-                            window.location.href = '/views/registro.html';
+                            window.location.href = '/views/registro';
                         }, 2000);
                     } else {
                         showAlert(result.message || 'Error en el registro', 'error');
@@ -978,7 +978,7 @@ const response = await fetch('/backend/api/login.php', {
                             var after = sessionStorage.getItem('redirectAfterLogin');
                             sessionStorage.removeItem('redirectAfterLogin');
                             if (after === 'catalogo') {
-                                window.location.href = '/views/catalogo.html';
+                                window.location.href = '/views/catalogo';
                                 return;
                             }
                         } catch (e) {}
@@ -1000,7 +1000,7 @@ const response = await fetch('/backend/api/login.php', {
         if (user) {
             userNameElement.textContent = user.name;
         } else {
-            window.location.href = '/views/registro.html';
+            window.location.href = '/views/registro';
         }
     }
     
@@ -1133,7 +1133,7 @@ function redirectToDashboard() {
         var user = getCurrentUser();
         if (!user) {
             try { sessionStorage.setItem('redirectAfterLogin', 'catalogo'); } catch (e) {}
-            window.location.href = '/views/registro.html';
+            window.location.href = '/views/registro';
             return;
         }
         var modal = document.getElementById('inscriptionModal');
@@ -1160,10 +1160,10 @@ function redirectToDashboard() {
     if (user) {
         switch(user.role) {
             case 'admin':
-                window.location.href = '/views/admin/admin.html';
+                window.location.href = '/views/admin/admin';
                 break;
             case 'user':
-                window.location.href = '/views/user/user.html';
+                window.location.href = '/views/user/user';
                 break;
             default:
                 window.location.href = '/?i=1';
@@ -1325,21 +1325,21 @@ window.setupPaginationControls = function(tableName) {
         }
 
         const map = [
-            { href: 'user.html', label: 'Panel' },
-            { href: 'mis-servicios.html', label: 'Servicios' },
-            { href: 'historial.html', label: 'Historial' },
-            { href: 'certificados.html', label: 'Certificados' },
-            { href: 'agendar.html', label: 'Compras' },
-            { href: 'perfil.html', label: 'Perfil' },
+            { href: 'user', label: 'Panel' },
+            { href: 'mis-servicios', label: 'Servicios' },
+            { href: 'historial', label: 'Historial' },
+            { href: 'certificados', label: 'Certificados' },
+            { href: 'agendar', label: 'Compras' },
+            { href: 'perfil', label: 'Perfil' },
             { href: 'javascript:void(0)', label: 'Cerrar sesión' },
-            { href: 'informacion.html', label: 'Información' },
-            { href: 'registro.html', label: 'Inicio de Sesión' },
-            { href: 'catalogo.html', label: 'Catálogo' },
-            { href: 'admin-usuarios.html', label: 'Usuarios' },
-            { href: 'admin-inscripciones.html', label: 'Inscripciones' },
-            { href: 'admin-servicios.html', label: 'Servicios' },
-            { href: 'admin-reembolsos.html', label: 'Reembolsos' },
-            { href: 'admin-certificados.html', label: 'Certificados' },
+            { href: 'informacion', label: 'Información' },
+            { href: 'registro', label: 'Inicio de Sesión' },
+            { href: 'catalogo', label: 'Catálogo' },
+            { href: 'admin-usuarios', label: 'Usuarios' },
+            { href: 'admin-inscripciones', label: 'Inscripciones' },
+            { href: 'admin-servicios', label: 'Servicios' },
+            { href: 'admin-reembolsos', label: 'Reembolsos' },
+            { href: 'admin-certificados', label: 'Certificados' },
         ];
 
         function applyTooltips(container){

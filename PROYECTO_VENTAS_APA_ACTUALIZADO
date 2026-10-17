@@ -112,7 +112,7 @@
   <p class="note"><b>Nota de consistencia:</b> los archivos <i>clients.php</i>, <i>sellers.php</i> y sus listados asociados permanecen en el repositorio, pero sus tablas no son creadas por <i>init_db.php</i>. Se consideran endpoints heredados y no forman parte del alcance operativo documentado.</p>
 
   <h1>5. Metodología de actualización documental</h1>
-  <p>Se aplicó revisión estática y trazabilidad entre cuatro fuentes internas: (a) el repositorio Git configurado con el remoto del proyecto; (b) las páginas de <i>views/</i> e <i>index.html</i>; (c) los scripts de <i>assets/</i> que consumen la API; y (d) los archivos PHP de <i>backend/</i>, especialmente el inicializador de base de datos. Los requisitos y el diccionario se redactaron a partir de esas evidencias. No se infirieron módulos por el nombre de archivos que no tengan soporte en el esquema o la interfaz actual.</p>
+  <p>Se aplicó revisión estática y trazabilidad entre cuatro fuentes internas: (a) el repositorio Git configurado con el remoto del proyecto; (b) las páginas de <i>views/</i> e <i>index</i>; (c) los scripts de <i>assets/</i> que consumen la API; y (d) los archivos PHP de <i>backend/</i>, especialmente el inicializador de base de datos. Los requisitos y el diccionario se redactaron a partir de esas evidencias. No se infirieron módulos por el nombre de archivos que no tengan soporte en el esquema o la interfaz actual.</p>
 </section>
 
 <section class="page">
@@ -130,7 +130,7 @@
   <p class="caption">Figura 1. Arquitectura lógica verificada en la implementación.</p>
   <table>
     <tr><th>Componente</th><th>Tecnología y evidencia</th><th>Responsabilidad</th></tr>
-    <tr><td>Cliente</td><td>HTML, CSS, JavaScript vanilla; archivos en <i>views/</i>, <i>assets/</i> e <i>index.html</i>.</td><td>Interfaz, formularios, renderizado del catálogo y consumo de la API.</td></tr>
+    <tr><td>Cliente</td><td>HTML, CSS, JavaScript vanilla; archivos en <i>views/</i>, <i>assets/</i> e <i>index</i>.</td><td>Interfaz, formularios, renderizado del catálogo y consumo de la API.</td></tr>
     <tr><td>Presentación</td><td>Tailwind CSS por CDN y <i>assets/style.css</i>.</td><td>Diseño responsivo y estilos visuales.</td></tr>
     <tr><td>Servidor</td><td>PHP 8.x, Apache/XAMPP o servidor PHP integrado.</td><td>Reglas de negocio, sesiones, validación y respuestas JSON.</td></tr>
     <tr><td>Persistencia</td><td>MySQL/MariaDB, PDO, InnoDB y utf8mb4.</td><td>Usuarios, cursos, solicitudes, pagos, reembolsos y contenido.</td></tr>
@@ -144,8 +144,8 @@
   <h1>7. Requisitos funcionales</h1>
   <table>
     <tr><th>ID</th><th>Requisito verificable</th><th>Actor</th><th>Evidencia principal</th></tr>
-    <tr><td>RF-01</td><td>El sistema debe mostrar la oferta de cursos/servicios con sus datos básicos.</td><td>Visitante, usuario</td><td><i>catalogo.html</i>, <i>cursos-get.php</i>.</td></tr>
-    <tr><td>RF-02</td><td>Debe permitir registrar usuarios con nombre, correo, teléfono, contraseña y pregunta de seguridad.</td><td>Visitante</td><td><i>registro.html</i>, <i>register.php</i>.</td></tr>
+    <tr><td>RF-01</td><td>El sistema debe mostrar la oferta de cursos/servicios con sus datos básicos.</td><td>Visitante, usuario</td><td><i>catalogo</i>, <i>cursos-get.php</i>.</td></tr>
+    <tr><td>RF-02</td><td>Debe permitir registrar usuarios con nombre, correo, teléfono, contraseña y pregunta de seguridad.</td><td>Visitante</td><td><i>registro</i>, <i>register.php</i>.</td></tr>
     <tr><td>RF-03</td><td>Debe autenticar usuarios y redirigir según el rol almacenado.</td><td>Usuario, administrador</td><td><i>login.php</i>, <i>dashboard.php</i>.</td></tr>
     <tr><td>RF-04</td><td>Debe permitir recuperar la contraseña validando la pregunta y respuesta de seguridad.</td><td>Usuario</td><td><i>forgot-password.php</i>.</td></tr>
     <tr><td>RF-05</td><td>Debe permitir actualizar datos de perfil, pregunta de seguridad y preferencias de notificación.</td><td>Usuario</td><td><i>perfil.js</i>, <i>profile-update.php</i>, <i>update-security.php</i>, <i>update-notifications.php</i>.</td></tr>
@@ -158,9 +158,9 @@
     <tr><td>RF-12</td><td>Debe registrar el avance de cada contenido y completar la inscripción cuando se han completado todos los contenidos activos.</td><td>Usuario</td><td><i>content-progress.php</i>.</td></tr>
     <tr><td>RF-13</td><td>Debe listar certificados para inscripciones cuyo estado sea <i>completed</i>.</td><td>Usuario</td><td><i>certificados.php</i>.</td></tr>
     <tr><td>RF-14</td><td>Debe permitir solicitar y cancelar solicitudes pendientes de reembolso.</td><td>Usuario</td><td><i>refund-request.php</i>, <i>refund-cancel.php</i>.</td></tr>
-    <tr><td>RF-15</td><td>Debe permitir aprobar o rechazar reembolsos y actualizar el estado del servicio relacionado.</td><td>Administrador</td><td><i>refund-process.php</i>, <i>admin-reembolsos.html</i>.</td></tr>
-    <tr><td>RF-16</td><td>Debe permitir al administrador crear, editar y eliminar cursos y su contenido.</td><td>Administrador</td><td><i>courses.php</i>, <i>course-content.php</i>, <i>admin-servicios.html</i>.</td></tr>
-    <tr><td>RF-17</td><td>Debe permitir al administrador crear, editar, listar y eliminar usuarios.</td><td>Administrador</td><td><i>users.php</i>, <i>admin-usuarios.html</i>.</td></tr>
+    <tr><td>RF-15</td><td>Debe permitir aprobar o rechazar reembolsos y actualizar el estado del servicio relacionado.</td><td>Administrador</td><td><i>refund-process.php</i>, <i>admin-reembolsos</i>.</td></tr>
+    <tr><td>RF-16</td><td>Debe permitir al administrador crear, editar y eliminar cursos y su contenido.</td><td>Administrador</td><td><i>courses.php</i>, <i>course-content.php</i>, <i>admin-servicios</i>.</td></tr>
+    <tr><td>RF-17</td><td>Debe permitir al administrador crear, editar, listar y eliminar usuarios.</td><td>Administrador</td><td><i>users.php</i>, <i>admin-usuarios</i>.</td></tr>
     <tr><td>RF-18</td><td>Debe permitir al usuario eliminar su cuenta, eliminando antes sus registros dependientes.</td><td>Usuario</td><td><i>usuarios.php</i>.</td></tr>
   </table>
 </section>
@@ -280,7 +280,7 @@
     <li>Configurar, si es necesario, las variables <i>DB_HOST</i>, <i>DB_USER</i>, <i>DB_PASS</i> y <i>DB_NAME</i>. Por defecto se usa <i>127.0.0.1</i>, usuario <i>root</i>, contraseña vacía y base <i>chef_jonathan</i>.</li>
     <li>Servir la carpeta del proyecto desde el servidor HTTP.</li>
     <li>Abrir <i>backend/init_db.php</i> una sola vez para crear la base e insertar los datos de demostración. <b>Advertencia:</b> el archivo elimina y recrea las tablas principales; no debe ejecutarse sobre datos reales sin una copia de seguridad.</li>
-    <li>Abrir <i>index.html</i> a través de la URL del servidor, por ejemplo <i>http://localhost/</i>.</li>
+    <li>Abrir <i>index</i> a través de la URL del servidor, por ejemplo <i>http://localhost/</i>.</li>
   </ol>
   <h2>Datos de demostración definidos en el inicializador</h2>
   <table><tr><th>Rol</th><th>Correo</th><th>Contraseña inicial</th></tr><tr><td>Administrador</td><td>admin@chefjonathan.com</td><td>Admin@2026</td></tr><tr><td>Usuario</td><td>edwinalex8712@gmail.com</td><td>User@2026</td></tr></table>

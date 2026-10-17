@@ -100,34 +100,34 @@ Deberías ver un mensaje ✓ de inicialización. Ese script ya crea tablas, usua
 ```
 views/
 ├── admin/
-│   ├── admin.html          # Dashboard admin
-│   ├── admin-usuarios.html # Gestión de usuarios
-│   ├── admin-inscripciones.html # Gestión de inscripciones
-│   └── admin-servicios.html # Gestión de servicios (cursos)
+│   ├── admin          # Dashboard admin
+│   ├── admin-usuarios # Gestión de usuarios
+│   ├── admin-inscripciones # Gestión de inscripciones
+│   └── admin-servicios # Gestión de servicios (cursos)
 ├── user/
-│   ├── user.html           # Dashboard usuario
-│   ├── perfil.html         # Perfil del usuario
-│   ├── mis-servicios.html     # Cursos inscritos
-│   ├── historial.html      # Historial
-│   ├── certificados.html   # Certificados
-│   └── agendar.html        # Agendar asesoría
-├── catalogo.html           # Catálogo de cursos
-├── registro.html           # Registro / Login
-└── informacion.html        # Información
+│   ├── user           # Dashboard usuario
+│   ├── perfil         # Perfil del usuario
+│   ├── mis-servicios     # Cursos inscritos
+│   ├── historial      # Historial
+│   ├── certificados   # Certificados
+│   └── agendar        # Agendar asesoría
+├── catalogo           # Catálogo de cursos
+├── registro           # Registro / Login
+└── informacion        # Información
 ```
 
 ---
 
 ## Flujo de inscripción
 ### Catálogo (usuario)
-En `views/catalogo.html` los cursos se renderizan desde:
+En `views/catalogo` los cursos se renderizan desde:
 - `assets/catalog-courses.js`
 
 El botón **Inscribirse** abre modal con link a WhatsApp para confirmar pago.
 
 ### Admin — Inscripciones
 Página:
-- `views/admin/admin-inscripciones.html`
+- `views/admin/admin-inscripciones`
 
 Formulario conectado a:
 - `backend/api/inscripciones.php`

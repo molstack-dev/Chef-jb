@@ -451,7 +451,7 @@
                 if (title) title.textContent = 'Comprobante de Pago';
 
                 if (receipt) {
-                    // Igualar a historial.html: padding/altura y clases
+                    // Igualar a historial: padding/altura y clases
                     content.innerHTML =
                         '<div class="flex justify-center w-full pt-0 pb-1">' +
                         '<img id="admin-receipt-img" src="' +

@@ -556,14 +556,14 @@
                     <h2>${info.title}</h2>
                     <p>${info.desc}</p>
                     ${statusCode === 401 ? `
-                        <a href="/views/user/user.html" class="btn">
+                        <a href="/views/user/user" class="btn">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4m-5-5L5 5m7 0L5 5"/>
                             </svg>
                             Iniciar Sesión
                         </a>
                     ` : `
-                        <a href="/views/user/mis-servicios.html" class="btn">
+                        <a href="/views/user/mis-servicios" class="btn">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
                             </svg>

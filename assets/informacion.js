@@ -1,7 +1,7 @@
 /* ============================================================
    INFORMACION.JS
    FAQ (event delegation) + Carrusel Instagram
-   Solo se usa en views/informacion.html
+   Solo se usa en views/informacion
    ============================================================ */
 
 /* ============================================================

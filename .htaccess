@@ -4,7 +4,7 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteBase /
-    DirectoryIndex index.php index.html
+    DirectoryIndex index.php index
 
     # Redirigir requests al archivo index correspondiente
     # (Manejar extensiones .php que no existen como files)
@@ -15,7 +15,7 @@
     RewriteRule ^api/([a-z-]+)/?$ backend/api/$1.php [L,QSA]
 
     # Redirigir vistas
-    RewriteRule ^view/([a-z]+)/?$ views/$1.html [L,QSA]
+    RewriteRule ^view/([a-z]+)/?$ views/$1 [L,QSA]
 </IfModule>
 
 # Seguridad: Prevenir acceso a archivos sensibles

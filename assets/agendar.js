@@ -1,4 +1,4 @@
-// agendar.js - JavaScript para views/user/agendar.html
+// agendar.js - JavaScript para views/user/agendar
 window.agendarJsLoaded = true;
 (function() {
     'use strict';
@@ -27,12 +27,12 @@ window.agendarJsLoaded = true;
                     var category = cards[i].getAttribute('data-category');
                     var type = typeMap[category] || 'curso';
                     var rawPrice = cards[i].getAttribute('data-price') || coursePrice;
-                    window.location.href = 'agendar.html?type=' + type + '&service=' + encodeURIComponent(serviceValue) + '&price=' + encodeURIComponent(rawPrice);
+                    window.location.href = 'agendar?type=' + type + '&service=' + encodeURIComponent(serviceValue) + '&price=' + encodeURIComponent(rawPrice);
                     return;
                 }
             }
 
-            window.location.href = 'agendar.html?service=' + encodeURIComponent(serviceValue) + '&price=' + encodeURIComponent(coursePrice);
+            window.location.href = 'agendar?service=' + encodeURIComponent(serviceValue) + '&price=' + encodeURIComponent(coursePrice);
         };
 
         window.closeInscriptionModal = function() {
