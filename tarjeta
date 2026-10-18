@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Tarjeta — Chef Jonathan Buitrago (6+6 Letter)</title>
+<title>Tarjeta — Chef Jonathan Buitrago (10×2 Legal)</title>
 <link href="https://fonts.googleapis.com/css2?family=Parisienne&family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link href="../assets/style.css" rel="stylesheet">
 <style>
@@ -24,7 +24,6 @@ html, body {
 }
 a { color: inherit; text-decoration: none; font-style: normal; }
 a:hover { font-style: normal; }
-
 span { font-weight: 500; }
 
 :root {
@@ -41,31 +40,23 @@ span { font-weight: 500; }
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-@page { size: 8.5in 11in; margin: 0; }
+@page { size: legal; margin: 5mm; }
 
-/* ============================================================
-   HOJA LETTER
-   ============================================================ */
-.sheet {
-    width: 215.9mm;
-    height: 279.4mm;
+.pagina {
+    width: 205.9mm;
+    height: 345.6mm;
     background: #1a1a1a;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(2, 85mm);
+    grid-template-rows: repeat(5, 55mm);
+    gap: 6mm;
     justify-content: center;
     align-content: center;
-    align-items: flex-start;
-    gap: 3mm;
-    padding: 10mm;
-    box-sizing: border-box;
-    position: relative;
+    page-break-after: always;
     box-shadow: 0 10px 40px rgba(0,0,0,0.5);
 }
-.sheet + .sheet { page-break-before: always; }
+.pagina:last-child { page-break-after: auto; }
 
-/* ============================================================
-   TARJETA
-   ============================================================ */
 .tarjeta {
     width: 85mm;
     height: 55mm;
@@ -74,544 +65,457 @@ span { font-weight: 500; }
     overflow: hidden;
     color: var(--text);
     box-shadow: 0 15px 40px rgba(88,28,135,0.6);
-    flex-shrink: 0;
 }
 
-/* ============================================================
-   CARA FRONTAL
-   ============================================================ */
+:root { --morado:#6d28d9; --morado-osc:#3b0a8a; --negro:#0a0610; --lila:#c4b5fd; --oro:#fbbf24; }
+* { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.parisienne-font { font-family: 'Parisienne', cursive; font-weight: 400; }
+
+.tarjeta-frontal, .tarjeta-trasera {
+    display: grid; grid-template-rows: repeat(3, 1fr); padding: 0;
+    background-repeat: no-repeat;
+}
 .tarjeta-frontal {
-    background:
-        radial-gradient(ellipse at top right, rgba(124,58,237,0.55) 0%, transparent 55%),
-        radial-gradient(ellipse at bottom left, rgba(88,28,135,0.5) 0%, transparent 55%),
-        linear-gradient(135deg, #0d0d1a 0%, #1a0a2e 50%, #0a0512 100%);
-    display: flex;
-    flex-direction: column;
-    padding: 5mm;
-    justify-content: space-between;
+    background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20850%2040%27%20preserveAspectRatio%3D%27none%27%3E%3Cpath%20d%3D%27M0%2C0%20L0%2C12%20L42.0%2C12%20Q49.0%2C12%2049.0%2C19%20L49.0%2C19.0%20A11.0%2C11.0%200%200%200%2071.0%2C19.0%20L71.0%2C19%20Q71.0%2C12%2078.0%2C12%20L130.0%2C12%20Q137.0%2C12%20137.0%2C19%20L137.0%2C9.0%20A13.0%2C13.0%200%200%200%20163.0%2C9.0%20L163.0%2C19%20Q163.0%2C12%20170.0%2C12%20L217.0%2C12%20Q224.0%2C12%20224.0%2C19%20L224.0%2C23.0%20A11.0%2C11.0%200%200%200%20246.0%2C23.0%20L246.0%2C19%20Q246.0%2C12%20253.0%2C12%20L310.0%2C12%20Q317.0%2C12%20317.0%2C19%20L317.0%2C11.0%20A13.0%2C13.0%200%200%200%20343.0%2C11.0%20L343.0%2C19%20Q343.0%2C12%20350.0%2C12%20L402.0%2C12%20Q409.0%2C12%20409.0%2C19%20L409.0%2C21.0%20A11.0%2C11.0%200%200%200%20431.0%2C21.0%20L431.0%2C19%20Q431.0%2C12%20438.0%2C12%20L500.0%2C12%20Q507.0%2C12%20507.0%2C19%20L507.0%2C9.0%20A13.0%2C13.0%200%200%200%20533.0%2C9.0%20L533.0%2C19%20Q533.0%2C12%20540.0%2C12%20L582.0%2C12%20Q589.0%2C12%20589.0%2C19%20L589.0%2C23.0%20A11.0%2C11.0%200%200%200%20611.0%2C23.0%20L611.0%2C19%20Q611.0%2C12%20618.0%2C12%20L680.0%2C12%20Q687.0%2C12%20687.0%2C19%20L687.0%2C13.0%20A13.0%2C13.0%200%200%200%20713.0%2C13.0%20L713.0%2C19%20Q713.0%2C12%20720.0%2C12%20L762.0%2C12%20Q769.0%2C12%20769.0%2C19%20L769.0%2C21.0%20A11.0%2C11.0%200%200%200%20791.0%2C21.0%20L791.0%2C19%20Q791.0%2C12%20798.0%2C12%20L850%2C12%20L850%2C0%20Z%27%20fill%3D%27%236d28d9%27%2F%3E%3C%2Fsvg%3E"), url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20850%2040%27%20preserveAspectRatio%3D%27none%27%3E%3Cpath%20d%3D%27M0%2C0%20L0%2C12%20L76.0%2C12%20Q83.0%2C12%2083.0%2C19%20L83.0%2C14.0%20A12.0%2C12.0%200%200%200%20107.0%2C14.0%20L107.0%2C19%20Q107.0%2C12%20114.0%2C12%20L172.0%2C12%20Q179.0%2C12%20179.0%2C19%20L179.0%2C23.0%20A11.0%2C11.0%200%200%200%20201.0%2C23.0%20L201.0%2C19%20Q201.0%2C12%20208.0%2C12%20L270.0%2C12%20Q277.0%2C12%20277.0%2C19%20L277.0%2C11.0%20A13.0%2C13.0%200%200%200%20303.0%2C11.0%20L303.0%2C19%20Q303.0%2C12%20310.0%2C12%20L367.0%2C12%20Q374.0%2C12%20374.0%2C19%20L374.0%2C21.0%20A11.0%2C11.0%200%200%200%20396.0%2C21.0%20L396.0%2C19%20Q396.0%2C12%20403.0%2C12%20L465.0%2C12%20Q472.0%2C12%20472.0%2C19%20L472.0%2C9.0%20A13.0%2C13.0%200%200%200%20498.0%2C9.0%20L498.0%2C19%20Q498.0%2C12%20505.0%2C12%20L567.0%2C12%20Q574.0%2C12%20574.0%2C19%20L574.0%2C23.0%20A11.0%2C11.0%200%200%200%20596.0%2C23.0%20L596.0%2C19%20Q596.0%2C12%20603.0%2C12%20L665.0%2C12%20Q672.0%2C12%20672.0%2C19%20L672.0%2C15.0%20A13.0%2C13.0%200%200%200%20698.0%2C15.0%20L698.0%2C19%20Q698.0%2C12%20705.0%2C12%20L762.0%2C12%20Q769.0%2C12%20769.0%2C19%20L769.0%2C19.0%20A11.0%2C11.0%200%200%200%20791.0%2C19.0%20L791.0%2C19%20Q791.0%2C12%20798.0%2C12%20L850%2C12%20L850%2C0%20Z%27%20fill%3D%27%23ffffff%27%2F%3E%3C%2Fsvg%3E"),
+        linear-gradient(to bottom, #6d28d9 0 33.3333%, #fff 33.3333% 66.6667%, #0a0610 66.6667% 100%);
+    background-position: 0 17.13mm, 0 35.47mm, 0 0;
+    background-size: 85mm 4mm, 85mm 4mm, 100% 100%;
 }
-.tarjeta-frontal::before {
-    content: '';
-    position: absolute;
-    inset: 2mm;
-    border: 0.5px solid var(--line);
-    border-radius: 1.5mm;
-    pointer-events: none;
+.tarjeta-trasera {
+    background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20850%2040%27%20preserveAspectRatio%3D%27none%27%3E%3Cpath%20d%3D%27M0%2C0%20L0%2C12%20L42.0%2C12%20Q49.0%2C12%2049.0%2C19%20L49.0%2C19.0%20A11.0%2C11.0%200%200%200%2071.0%2C19.0%20L71.0%2C19%20Q71.0%2C12%2078.0%2C12%20L130.0%2C12%20Q137.0%2C12%20137.0%2C19%20L137.0%2C9.0%20A13.0%2C13.0%200%200%200%20163.0%2C9.0%20L163.0%2C19%20Q163.0%2C12%20170.0%2C12%20L217.0%2C12%20Q224.0%2C12%20224.0%2C19%20L224.0%2C23.0%20A11.0%2C11.0%200%200%200%20246.0%2C23.0%20L246.0%2C19%20Q246.0%2C12%20253.0%2C12%20L310.0%2C12%20Q317.0%2C12%20317.0%2C19%20L317.0%2C11.0%20A13.0%2C13.0%200%200%200%20343.0%2C11.0%20L343.0%2C19%20Q343.0%2C12%20350.0%2C12%20L402.0%2C12%20Q409.0%2C12%20409.0%2C19%20L409.0%2C21.0%20A11.0%2C11.0%200%200%200%20431.0%2C21.0%20L431.0%2C19%20Q431.0%2C12%20438.0%2C12%20L500.0%2C12%20Q507.0%2C12%20507.0%2C19%20L507.0%2C9.0%20A13.0%2C13.0%200%200%200%20533.0%2C9.0%20L533.0%2C19%20Q533.0%2C12%20540.0%2C12%20L582.0%2C12%20Q589.0%2C12%20589.0%2C19%20L589.0%2C23.0%20A11.0%2C11.0%200%200%200%20611.0%2C23.0%20L611.0%2C19%20Q611.0%2C12%20618.0%2C12%20L680.0%2C12%20Q687.0%2C12%20687.0%2C19%20L687.0%2C13.0%20A13.0%2C13.0%200%200%200%20713.0%2C13.0%20L713.0%2C19%20Q713.0%2C12%20720.0%2C12%20L762.0%2C12%20Q769.0%2C12%20769.0%2C19%20L769.0%2C21.0%20A11.0%2C11.0%200%200%200%20791.0%2C21.0%20L791.0%2C19%20Q791.0%2C12%20798.0%2C12%20L850%2C12%20L850%2C0%20Z%27%20fill%3D%27%230a0610%27%2F%3E%3C%2Fsvg%3E"), url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20850%2040%27%20preserveAspectRatio%3D%27none%27%3E%3Cpath%20d%3D%27M0%2C0%20L0%2C12%20L76.0%2C12%20Q83.0%2C12%2083.0%2C19%20L83.0%2C14.0%20A12.0%2C12.0%200%200%200%20107.0%2C14.0%20L107.0%2C19%20Q107.0%2C12%20114.0%2C12%20L172.0%2C12%20Q179.0%2C12%20179.0%2C19%20L179.0%2C23.0%20A11.0%2C11.0%200%200%200%20201.0%2C23.0%20L201.0%2C19%20Q201.0%2C12%20208.0%2C12%20L270.0%2C12%20Q277.0%2C12%20277.0%2C19%20L277.0%2C11.0%20A13.0%2C13.0%200%200%200%20303.0%2C11.0%20L303.0%2C19%20Q303.0%2C12%20310.0%2C12%20L367.0%2C12%20Q374.0%2C12%20374.0%2C19%20L374.0%2C21.0%20A11.0%2C11.0%200%200%200%20396.0%2C21.0%20L396.0%2C19%20Q396.0%2C12%20403.0%2C12%20L465.0%2C12%20Q472.0%2C12%20472.0%2C19%20L472.0%2C9.0%20A13.0%2C13.0%200%200%200%20498.0%2C9.0%20L498.0%2C19%20Q498.0%2C12%20505.0%2C12%20L567.0%2C12%20Q574.0%2C12%20574.0%2C19%20L574.0%2C23.0%20A11.0%2C11.0%200%200%200%20596.0%2C23.0%20L596.0%2C19%20Q596.0%2C12%20603.0%2C12%20L665.0%2C12%20Q672.0%2C12%20672.0%2C19%20L672.0%2C15.0%20A13.0%2C13.0%200%200%200%20698.0%2C15.0%20L698.0%2C19%20Q698.0%2C12%20705.0%2C12%20L762.0%2C12%20Q769.0%2C12%20769.0%2C19%20L769.0%2C19.0%20A11.0%2C11.0%200%200%200%20791.0%2C19.0%20L791.0%2C19%20Q791.0%2C12%20798.0%2C12%20L850%2C12%20L850%2C0%20Z%27%20fill%3D%27%23ffffff%27%2F%3E%3C%2Fsvg%3E"),
+        linear-gradient(to bottom, #0a0610 0 33.3333%, #fff 33.3333% 66.6667%, #6d28d9 66.6667% 100%);
+    background-position: 0 17.13mm, 0 35.47mm, 0 0;
+    background-size: 85mm 4mm, 85mm 4mm, 100% 100%;
 }
+.tarjeta-frontal::before, .tarjeta-trasera::before {
+    content: ''; position: absolute; left: 0; right: 0; top: 18.3333mm; height: 18.3333mm;
+    background-size: 100% 100%; z-index: 0; pointer-events: none; border: none;
+}
+.tarjeta-frontal::before { background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20850%20183%27%3E%3Crect%20x%3D%27138.6%27%20y%3D%27120.9%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23fde68a%27%20transform%3D%27rotate%28114%20145.6%20123.2%29%27%2F%3E%3Crect%20x%3D%27704.3%27%20y%3D%27171.0%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23a78bfa%27%20transform%3D%27rotate%2885%20711.3%20173.3%29%27%2F%3E%3Crect%20x%3D%27154.1%27%20y%3D%2793.9%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23e9d5ff%27%20transform%3D%27rotate%28142%20161.1%2096.1%29%27%2F%3E%3Crect%20x%3D%27310.5%27%20y%3D%27103.5%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23c4b5fd%27%20transform%3D%27rotate%2812%20317.5%20105.8%29%27%2F%3E%3Crect%20x%3D%27769.5%27%20y%3D%27121.6%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23fbbf24%27%20transform%3D%27rotate%2879%20776.5%20123.9%29%27%2F%3E%3Crect%20x%3D%27643.8%27%20y%3D%2773.7%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23ddd6fe%27%20transform%3D%27rotate%2880%20650.8%2075.9%29%27%2F%3E%3Crect%20x%3D%27451.5%27%20y%3D%27121.6%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23ddd6fe%27%20transform%3D%27rotate%28117%20458.5%20123.9%29%27%2F%3E%3Crect%20x%3D%2720.4%27%20y%3D%27129.5%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23e9d5ff%27%20transform%3D%27rotate%2816%2027.4%20131.8%29%27%2F%3E%3Crect%20x%3D%27378.9%27%20y%3D%2797.9%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23fde68a%27%20transform%3D%27rotate%2862%20385.9%20100.2%29%27%2F%3E%3Crect%20x%3D%27127.0%27%20y%3D%27116.8%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23c4b5fd%27%20transform%3D%27rotate%2885%20134.0%20119.1%29%27%2F%3E%3Crect%20x%3D%2763.2%27%20y%3D%2738.7%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23fbbf24%27%20transform%3D%27rotate%28121%2070.2%2041.0%29%27%2F%3E%3Crect%20x%3D%27630.5%27%20y%3D%27133.1%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23fbbf24%27%20transform%3D%27rotate%28105%20637.5%20135.4%29%27%2F%3E%3Crect%20x%3D%2760.2%27%20y%3D%2799.3%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23fde68a%27%20transform%3D%27rotate%28101%2067.2%20101.5%29%27%2F%3E%3Crect%20x%3D%27168.7%27%20y%3D%27159.9%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23fde68a%27%20transform%3D%27rotate%28160%20175.7%20162.2%29%27%2F%3E%3Crect%20x%3D%27244.5%27%20y%3D%27165.2%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23ddd6fe%27%20transform%3D%27rotate%2890%20251.5%20167.4%29%27%2F%3E%3Crect%20x%3D%27830.7%27%20y%3D%2770.3%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23e9d5ff%27%20transform%3D%27rotate%285%20837.7%2072.6%29%27%2F%3E%3Crect%20x%3D%27133.6%27%20y%3D%27125.3%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23e9d5ff%27%20transform%3D%27rotate%28177%20140.6%20127.6%29%27%2F%3E%3Crect%20x%3D%27410.9%27%20y%3D%2797.7%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23c4b5fd%27%20transform%3D%27rotate%28135%20417.9%2099.9%29%27%2F%3E%3Crect%20x%3D%27477.6%27%20y%3D%2759.0%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23e9d5ff%27%20transform%3D%27rotate%28176%20484.6%2061.2%29%27%2F%3E%3Crect%20x%3D%27151.7%27%20y%3D%2734.2%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23ddd6fe%27%20transform%3D%27rotate%2863%20158.7%2036.4%29%27%2F%3E%3Crect%20x%3D%27290.1%27%20y%3D%27105.5%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23e9d5ff%27%20transform%3D%27rotate%2855%20297.1%20107.7%29%27%2F%3E%3Crect%20x%3D%27141.7%27%20y%3D%27159.9%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23fde68a%27%20transform%3D%27rotate%2831%20148.7%20162.2%29%27%2F%3E%3Crect%20x%3D%27313.6%27%20y%3D%27119.9%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23fbbf24%27%20transform%3D%27rotate%28122%20320.6%20122.1%29%27%2F%3E%3Crect%20x%3D%27800.2%27%20y%3D%2773.7%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23fbbf24%27%20transform%3D%27rotate%28178%20807.2%2076.0%29%27%2F%3E%3Crect%20x%3D%27493.5%27%20y%3D%27153.2%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23fde68a%27%20transform%3D%27rotate%2888%20500.5%20155.5%29%27%2F%3E%3Crect%20x%3D%27557.2%27%20y%3D%27162.1%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23a78bfa%27%20transform%3D%27rotate%2844%20564.2%20164.4%29%27%2F%3E%3C%2Fsvg%3E"); }
+.tarjeta-trasera::before { background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20850%20183%27%3E%3Crect%20x%3D%27138.6%27%20y%3D%27120.9%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23fde68a%27%20transform%3D%27rotate%28114%20145.6%20123.2%29%27%2F%3E%3Crect%20x%3D%27704.3%27%20y%3D%27171.0%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23a78bfa%27%20transform%3D%27rotate%2885%20711.3%20173.3%29%27%2F%3E%3Crect%20x%3D%27154.1%27%20y%3D%2793.9%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23e9d5ff%27%20transform%3D%27rotate%28142%20161.1%2096.1%29%27%2F%3E%3Crect%20x%3D%27310.5%27%20y%3D%27103.5%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23c4b5fd%27%20transform%3D%27rotate%2812%20317.5%20105.8%29%27%2F%3E%3Crect%20x%3D%27769.5%27%20y%3D%27121.6%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23fbbf24%27%20transform%3D%27rotate%2879%20776.5%20123.9%29%27%2F%3E%3Crect%20x%3D%27643.8%27%20y%3D%2773.7%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23ddd6fe%27%20transform%3D%27rotate%2880%20650.8%2075.9%29%27%2F%3E%3Crect%20x%3D%27451.5%27%20y%3D%27121.6%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23ddd6fe%27%20transform%3D%27rotate%28117%20458.5%20123.9%29%27%2F%3E%3Crect%20x%3D%2720.4%27%20y%3D%27129.5%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23e9d5ff%27%20transform%3D%27rotate%2816%2027.4%20131.8%29%27%2F%3E%3Crect%20x%3D%27378.9%27%20y%3D%2797.9%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23fde68a%27%20transform%3D%27rotate%2862%20385.9%20100.2%29%27%2F%3E%3Crect%20x%3D%27127.0%27%20y%3D%27116.8%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23c4b5fd%27%20transform%3D%27rotate%2885%20134.0%20119.1%29%27%2F%3E%3Crect%20x%3D%2763.2%27%20y%3D%2738.7%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23fbbf24%27%20transform%3D%27rotate%28121%2070.2%2041.0%29%27%2F%3E%3Crect%20x%3D%27630.5%27%20y%3D%27133.1%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23fbbf24%27%20transform%3D%27rotate%28105%20637.5%20135.4%29%27%2F%3E%3Crect%20x%3D%2760.2%27%20y%3D%2799.3%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23fde68a%27%20transform%3D%27rotate%28101%2067.2%20101.5%29%27%2F%3E%3Crect%20x%3D%27168.7%27%20y%3D%27159.9%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23fde68a%27%20transform%3D%27rotate%28160%20175.7%20162.2%29%27%2F%3E%3Crect%20x%3D%27244.5%27%20y%3D%27165.2%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23ddd6fe%27%20transform%3D%27rotate%2890%20251.5%20167.4%29%27%2F%3E%3Crect%20x%3D%27830.7%27%20y%3D%2770.3%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23e9d5ff%27%20transform%3D%27rotate%285%20837.7%2072.6%29%27%2F%3E%3Crect%20x%3D%27133.6%27%20y%3D%27125.3%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23e9d5ff%27%20transform%3D%27rotate%28177%20140.6%20127.6%29%27%2F%3E%3Crect%20x%3D%27410.9%27%20y%3D%2797.7%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23c4b5fd%27%20transform%3D%27rotate%28135%20417.9%2099.9%29%27%2F%3E%3Crect%20x%3D%27477.6%27%20y%3D%2759.0%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23e9d5ff%27%20transform%3D%27rotate%28176%20484.6%2061.2%29%27%2F%3E%3Crect%20x%3D%27151.7%27%20y%3D%2734.2%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23ddd6fe%27%20transform%3D%27rotate%2863%20158.7%2036.4%29%27%2F%3E%3Crect%20x%3D%27290.1%27%20y%3D%27105.5%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23e9d5ff%27%20transform%3D%27rotate%2855%20297.1%20107.7%29%27%2F%3E%3Crect%20x%3D%27141.7%27%20y%3D%27159.9%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23fde68a%27%20transform%3D%27rotate%2831%20148.7%20162.2%29%27%2F%3E%3Crect%20x%3D%27313.6%27%20y%3D%27119.9%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23fbbf24%27%20transform%3D%27rotate%28122%20320.6%20122.1%29%27%2F%3E%3Crect%20x%3D%27800.2%27%20y%3D%2773.7%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23fbbf24%27%20transform%3D%27rotate%28178%20807.2%2076.0%29%27%2F%3E%3Crect%20x%3D%27493.5%27%20y%3D%27153.2%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23fde68a%27%20transform%3D%27rotate%2888%20500.5%20155.5%29%27%2F%3E%3Crect%20x%3D%27557.2%27%20y%3D%27162.1%27%20width%3D%2714%27%20height%3D%274.5%27%20rx%3D%272.25%27%20fill%3D%27%23a78bfa%27%20transform%3D%27rotate%2844%20564.2%20164.4%29%27%2F%3E%3C%2Fsvg%3E"); }
+.tarjeta-frontal::after, .tarjeta-trasera::after {
+    content: ''; position: absolute; left: 0; right: 0; height: 18.3333mm;
+    background-size: 100% 100%; z-index: 0; pointer-events: none;
+}
+.tarjeta-frontal::after { top: 36.6667mm; background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20850%20183%27%3E%3Cg%20transform%3D%27translate%28208.6%2098.5%29%20rotate%2867%29%27%3E%3Cellipse%20rx%3D%2714%27%20ry%3D%278.5%27%20fill%3D%27%231d1233%27%2F%3E%3Cpath%20d%3D%27M-11.200000000000001%200%20Q0%20-4.25%2011.200000000000001%200%27%20stroke%3D%27%230a0610%27%20fill%3D%27none%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%28510.8%20111.5%29%20rotate%2812%29%27%3E%3Cellipse%20rx%3D%2714%27%20ry%3D%278.5%27%20fill%3D%27%231d1233%27%2F%3E%3Cpath%20d%3D%27M-11.200000000000001%200%20Q0%20-4.25%2011.200000000000001%200%27%20stroke%3D%27%230a0610%27%20fill%3D%27none%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%2822.9%20145.2%29%20rotate%2847%29%27%3E%3Cellipse%20rx%3D%2714%27%20ry%3D%278.5%27%20fill%3D%27%231d1233%27%2F%3E%3Cpath%20d%3D%27M-11.200000000000001%200%20Q0%20-4.25%2011.200000000000001%200%27%20stroke%3D%27%230a0610%27%20fill%3D%27none%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%28205.6%20170.3%29%20rotate%2885%29%27%3E%3Cellipse%20rx%3D%2714%27%20ry%3D%278.5%27%20fill%3D%27%231d1233%27%2F%3E%3Cpath%20d%3D%27M-11.200000000000001%200%20Q0%20-4.25%2011.200000000000001%200%27%20stroke%3D%27%230a0610%27%20fill%3D%27none%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%28702.9%2087.7%29%20rotate%28115%29%27%3E%3Cellipse%20rx%3D%2714%27%20ry%3D%278.5%27%20fill%3D%27%231d1233%27%2F%3E%3Cpath%20d%3D%27M-11.200000000000001%200%20Q0%20-4.25%2011.200000000000001%200%27%20stroke%3D%27%230a0610%27%20fill%3D%27none%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%28136.4%20112.9%29%20rotate%28156%29%27%3E%3Cellipse%20rx%3D%2714%27%20ry%3D%278.5%27%20fill%3D%27%231d1233%27%2F%3E%3Cpath%20d%3D%27M-11.200000000000001%200%20Q0%20-4.25%2011.200000000000001%200%27%20stroke%3D%27%230a0610%27%20fill%3D%27none%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%28444.1%20129.9%29%20rotate%28121%29%27%3E%3Cellipse%20rx%3D%2714%27%20ry%3D%278.5%27%20fill%3D%27%231d1233%27%2F%3E%3Cpath%20d%3D%27M-11.200000000000001%200%20Q0%20-4.25%2011.200000000000001%200%27%20stroke%3D%27%230a0610%27%20fill%3D%27none%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%2864.9%20132.6%29%20rotate%28106%29%27%3E%3Cellipse%20rx%3D%2714%27%20ry%3D%278.5%27%20fill%3D%27%231d1233%27%2F%3E%3Cpath%20d%3D%27M-11.200000000000001%200%20Q0%20-4.25%2011.200000000000001%200%27%20stroke%3D%27%230a0610%27%20fill%3D%27none%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%28260.8%2016.9%29%20rotate%28156%29%27%3E%3Cellipse%20rx%3D%2714%27%20ry%3D%278.5%27%20fill%3D%27%231d1233%27%2F%3E%3Cpath%20d%3D%27M-11.200000000000001%200%20Q0%20-4.25%2011.200000000000001%200%27%20stroke%3D%27%230a0610%27%20fill%3D%27none%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%28402.5%20126.3%29%20rotate%28158%29%27%3E%3Cellipse%20rx%3D%2714%27%20ry%3D%278.5%27%20fill%3D%27%231d1233%27%2F%3E%3Cpath%20d%3D%27M-11.200000000000001%200%20Q0%20-4.25%2011.200000000000001%200%27%20stroke%3D%27%230a0610%27%20fill%3D%27none%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%28601.9%20158.5%29%20rotate%2871%29%27%3E%3Cellipse%20rx%3D%2714%27%20ry%3D%278.5%27%20fill%3D%27%231d1233%27%2F%3E%3Cpath%20d%3D%27M-11.200000000000001%200%20Q0%20-4.25%2011.200000000000001%200%27%20stroke%3D%27%230a0610%27%20fill%3D%27none%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%28673.6%2082.7%29%20rotate%28168%29%27%3E%3Cellipse%20rx%3D%2714%27%20ry%3D%278.5%27%20fill%3D%27%231d1233%27%2F%3E%3Cpath%20d%3D%27M-11.200000000000001%200%20Q0%20-4.25%2011.200000000000001%200%27%20stroke%3D%27%230a0610%27%20fill%3D%27none%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%28737.9%2027.5%29%20rotate%2824%29%27%3E%3Cellipse%20rx%3D%2714%27%20ry%3D%278.5%27%20fill%3D%27%231d1233%27%2F%3E%3Cpath%20d%3D%27M-11.200000000000001%200%20Q0%20-4.25%2011.200000000000001%200%27%20stroke%3D%27%230a0610%27%20fill%3D%27none%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%28191.2%20165.5%29%20rotate%2879%29%27%3E%3Cellipse%20rx%3D%2714%27%20ry%3D%278.5%27%20fill%3D%27%231d1233%27%2F%3E%3Cpath%20d%3D%27M-11.200000000000001%200%20Q0%20-4.25%2011.200000000000001%200%27%20stroke%3D%27%230a0610%27%20fill%3D%27none%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%28529.6%2059.9%29%20rotate%2891%29%27%3E%3Cellipse%20rx%3D%2714%27%20ry%3D%278.5%27%20fill%3D%27%231d1233%27%2F%3E%3Cpath%20d%3D%27M-11.200000000000001%200%20Q0%20-4.25%2011.200000000000001%200%27%20stroke%3D%27%230a0610%27%20fill%3D%27none%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%28330.7%2067.8%29%20rotate%28105%29%27%3E%3Cellipse%20rx%3D%2714%27%20ry%3D%278.5%27%20fill%3D%27%231d1233%27%2F%3E%3Cpath%20d%3D%27M-11.200000000000001%200%20Q0%20-4.25%2011.200000000000001%200%27%20stroke%3D%27%230a0610%27%20fill%3D%27none%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E"); }
+.tarjeta-trasera::after { top: 0; background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20850%20183%27%3E%3Cg%20transform%3D%27translate%28208.6%2098.5%29%20rotate%2867%29%27%3E%3Cellipse%20rx%3D%2714%27%20ry%3D%278.5%27%20fill%3D%27%231d1233%27%2F%3E%3Cpath%20d%3D%27M-11.200000000000001%200%20Q0%20-4.25%2011.200000000000001%200%27%20stroke%3D%27%230a0610%27%20fill%3D%27none%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%28510.8%20111.5%29%20rotate%2812%29%27%3E%3Cellipse%20rx%3D%2714%27%20ry%3D%278.5%27%20fill%3D%27%231d1233%27%2F%3E%3Cpath%20d%3D%27M-11.200000000000001%200%20Q0%20-4.25%2011.200000000000001%200%27%20stroke%3D%27%230a0610%27%20fill%3D%27none%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%2822.9%20145.2%29%20rotate%2847%29%27%3E%3Cellipse%20rx%3D%2714%27%20ry%3D%278.5%27%20fill%3D%27%231d1233%27%2F%3E%3Cpath%20d%3D%27M-11.200000000000001%200%20Q0%20-4.25%2011.200000000000001%200%27%20stroke%3D%27%230a0610%27%20fill%3D%27none%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%28205.6%20170.3%29%20rotate%2885%29%27%3E%3Cellipse%20rx%3D%2714%27%20ry%3D%278.5%27%20fill%3D%27%231d1233%27%2F%3E%3Cpath%20d%3D%27M-11.200000000000001%200%20Q0%20-4.25%2011.200000000000001%200%27%20stroke%3D%27%230a0610%27%20fill%3D%27none%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%28702.9%2087.7%29%20rotate%28115%29%27%3E%3Cellipse%20rx%3D%2714%27%20ry%3D%278.5%27%20fill%3D%27%231d1233%27%2F%3E%3Cpath%20d%3D%27M-11.200000000000001%200%20Q0%20-4.25%2011.200000000000001%200%27%20stroke%3D%27%230a0610%27%20fill%3D%27none%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%28136.4%20112.9%29%20rotate%28156%29%27%3E%3Cellipse%20rx%3D%2714%27%20ry%3D%278.5%27%20fill%3D%27%231d1233%27%2F%3E%3Cpath%20d%3D%27M-11.200000000000001%200%20Q0%20-4.25%2011.200000000000001%200%27%20stroke%3D%27%230a0610%27%20fill%3D%27none%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%28444.1%20129.9%29%20rotate%28121%29%27%3E%3Cellipse%20rx%3D%2714%27%20ry%3D%278.5%27%20fill%3D%27%231d1233%27%2F%3E%3Cpath%20d%3D%27M-11.200000000000001%200%20Q0%20-4.25%2011.200000000000001%200%27%20stroke%3D%27%230a0610%27%20fill%3D%27none%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%2864.9%20132.6%29%20rotate%28106%29%27%3E%3Cellipse%20rx%3D%2714%27%20ry%3D%278.5%27%20fill%3D%27%231d1233%27%2F%3E%3Cpath%20d%3D%27M-11.200000000000001%200%20Q0%20-4.25%2011.200000000000001%200%27%20stroke%3D%27%230a0610%27%20fill%3D%27none%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%28260.8%2016.9%29%20rotate%28156%29%27%3E%3Cellipse%20rx%3D%2714%27%20ry%3D%278.5%27%20fill%3D%27%231d1233%27%2F%3E%3Cpath%20d%3D%27M-11.200000000000001%200%20Q0%20-4.25%2011.200000000000001%200%27%20stroke%3D%27%230a0610%27%20fill%3D%27none%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%28402.5%20126.3%29%20rotate%28158%29%27%3E%3Cellipse%20rx%3D%2714%27%20ry%3D%278.5%27%20fill%3D%27%231d1233%27%2F%3E%3Cpath%20d%3D%27M-11.200000000000001%200%20Q0%20-4.25%2011.200000000000001%200%27%20stroke%3D%27%230a0610%27%20fill%3D%27none%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%28601.9%20158.5%29%20rotate%2871%29%27%3E%3Cellipse%20rx%3D%2714%27%20ry%3D%278.5%27%20fill%3D%27%231d1233%27%2F%3E%3Cpath%20d%3D%27M-11.200000000000001%200%20Q0%20-4.25%2011.200000000000001%200%27%20stroke%3D%27%230a0610%27%20fill%3D%27none%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%28673.6%2082.7%29%20rotate%28168%29%27%3E%3Cellipse%20rx%3D%2714%27%20ry%3D%278.5%27%20fill%3D%27%231d1233%27%2F%3E%3Cpath%20d%3D%27M-11.200000000000001%200%20Q0%20-4.25%2011.200000000000001%200%27%20stroke%3D%27%230a0610%27%20fill%3D%27none%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%28737.9%2027.5%29%20rotate%2824%29%27%3E%3Cellipse%20rx%3D%2714%27%20ry%3D%278.5%27%20fill%3D%27%231d1233%27%2F%3E%3Cpath%20d%3D%27M-11.200000000000001%200%20Q0%20-4.25%2011.200000000000001%200%27%20stroke%3D%27%230a0610%27%20fill%3D%27none%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%28191.2%20165.5%29%20rotate%2879%29%27%3E%3Cellipse%20rx%3D%2714%27%20ry%3D%278.5%27%20fill%3D%27%231d1233%27%2F%3E%3Cpath%20d%3D%27M-11.200000000000001%200%20Q0%20-4.25%2011.200000000000001%200%27%20stroke%3D%27%230a0610%27%20fill%3D%27none%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%28529.6%2059.9%29%20rotate%2891%29%27%3E%3Cellipse%20rx%3D%2714%27%20ry%3D%278.5%27%20fill%3D%27%231d1233%27%2F%3E%3Cpath%20d%3D%27M-11.200000000000001%200%20Q0%20-4.25%2011.200000000000001%200%27%20stroke%3D%27%230a0610%27%20fill%3D%27none%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%27translate%28330.7%2067.8%29%20rotate%28105%29%27%3E%3Cellipse%20rx%3D%2714%27%20ry%3D%278.5%27%20fill%3D%27%231d1233%27%2F%3E%3Cpath%20d%3D%27M-11.200000000000001%200%20Q0%20-4.25%2011.200000000000001%200%27%20stroke%3D%27%230a0610%27%20fill%3D%27none%27%20stroke-width%3D%271.6%27%20stroke-linecap%3D%27round%27%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E"); }
 
-/* FOTO / LOGO — esquina superior derecha */
-.tarjeta-foto {
-    width: 26mm;
-    height: 26mm;
-    border-radius: 50%;
-    object-fit: cover;
-    object-position: center top;
-    transform: scale(1);
-    transform-origin: center;
-    border: 2px solid var(--gold);
-    padding: 0.1mm;
-    background: rgba(26,10,46,0.85);
-    overflow: hidden;
-    position: absolute;
-    top: 14mm;
-    right: 5mm;
-    z-index: 2;
-    box-shadow: 0 0 12px rgba(251,191,36,0.5),
-                0 0 6px rgba(124,58,237,0.6);
-}
+.banda { position: relative; z-index: 1; display: flex; padding: 0 5mm; min-height: 0; }
+.banda-1 { align-items: center; }
+.banda-2 { flex-direction: column; justify-content: center; padding-top: 3mm; }
+.banda-3 { align-items: center; justify-content: space-between; }
 
-.tarjeta-marca {
-    display: flex;
-    align-items: center;
-    gap: 1.8mm;
-    position: relative;
-    z-index: 1;
-}
-.tarjeta-marca svg {
-    width: 4.5mm;
-    height: 4.5mm;
-    color: var(--gold-bright);
-    filter: drop-shadow(0 0 4px rgba(251,191,36,0.6));
-}
-.tarjeta-marca-texto {
-    font-family: 'Playfair Display', serif;
-    font-size: 6.5pt;
-    color: var(--gold);
-    letter-spacing: 2.5px;
-    text-transform: uppercase;
-    font-weight: 600;
-}
-
+.tarjeta-marca { display: flex; align-items: center; gap: 1.8mm; }
+.tarjeta-marca svg { width: 4.6mm; height: 4.6mm; color: #fbbf24; filter: none; }
+.tarjeta-marca-texto { font-family: 'Playfair Display', serif; font-size: 6.5pt; color: #fff; letter-spacing: 2.5px; text-transform: uppercase; font-weight: 700; }
 .tarjeta-nombre {
-    font-size: 20pt;
-    color: var(--gold-bright);
-    line-height: 0.9;
-    text-shadow: 0 0 12px rgba(251,191,36,0.55),
-                 0 1.5px 6px rgba(214,163,74,0.4);
-    position: relative;
-    z-index: 1;
+    font-size: 17.5pt; line-height: .95; margin: 0; padding: 3mm 0mm 4mm 1.5mm; 
+    background: linear-gradient(180deg, #6d28d9 0%, #3b0a8a 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; text-shadow: none;
 }
-.tarjeta-nombre-linea {
-    width: 18mm;
-    height: 0.5px;
-    background: linear-gradient(90deg, var(--gold), transparent);
-    margin: 1.5mm 0;
-    position: relative;
-    z-index: 1;
+.tarjeta-foto {
+    position: absolute; border-radius: 50%; object-fit: cover; object-position: center top;
+    width: 26mm; height: 26mm; top: 14.2mm; right: 5mm; left: auto; z-index: 3;
+    border: .6mm solid #fbbf24; padding: 0; background: #fff;
+    box-shadow: 0 0 0 0mm #fff, 0 0 0 0.3mm #6d28d9, 0 1.5mm 4mm rgba(0,0,0,.45);
 }
-.tarjeta-rol {
-    font-family: 'Playfair Display', serif;
-    font-size: 6pt;
-    color: var(--text);
-    letter-spacing: 1.6px;
-    text-transform: uppercase;
-    font-weight: 650;
-    position: relative;
-    z-index: 1;
-}
+.tarjeta-rol-web { display: flex; flex-direction: column; gap: 1.2mm; }
+.tarjeta-rol { font-family: 'Playfair Display', serif; font-size: 6pt; color: #fff; letter-spacing: 1.6px; text-transform: uppercase; font-weight: 700; }
+.tarjeta-web { font-size: 5.8pt; color: #fbbf24; font-weight: 600; letter-spacing: .5px; text-shadow: none; margin-top: 10mm; }
+.tarjeta-logros-mini { display: flex; gap: 1.6mm; align-self: flex-end; margin-bottom: 3.5mm; margin-right: 0; }
+.tarjeta-logros-mini svg { width: 3.6mm; height: 3.6mm; color: #fbbf24; filter: none; }
+.banda-3 .tarjeta-logros-mini { position: relative; left: auto; }
 
-.tarjeta-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: relative;
-    z-index: 1;
-}
-.tarjeta-logros-mini { display: flex; gap: 1mm; }
-.tarjeta-logros-mini svg {
-    width: 2.8mm;
-    height: 2.8mm;
-    color: var(--gold);
-    filter: drop-shadow(0 0 3px rgba(251,191,36,0.6));
-}
-.tarjeta-web {
-    font-size: 5.6pt;
-    color: var(--gold-bright);
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    text-shadow: 0 0 8px rgba(124,58,237,0.8);
-}
+.tarjeta-trasera-titulo { font-family: 'Playfair Display', serif; font-size: 9pt; color: #fbbf24; font-weight: 700; letter-spacing: .4px; text-shadow: none; margin: 0; }
+.tarjeta-trasera-titulo::after { display: none; }
+.tarjeta-slogan { font-family: 'Playfair Display', serif; font-style: italic; font-size: 5.6pt; color: #ddd0ff; margin-top: .6mm; letter-spacing: .3px; }
+.banda-2.datos { gap: 1.7mm;  padding: 4mm}
+.tarjeta-dato { display: flex; align-items: center; gap: 2.5mm; font-size: 5.9pt; color: #0a0610; font-weight: 600; line-height: 1.2; margin: 0; }
+.tarjeta-dato svg { width: 2.8mm; height: 2.8mm; flex-shrink: 0; color: #6d28d9; }
+.tarjeta-dato span { font-weight: 600; }
+.tarjeta-web-dorso { font-size: 6.4pt; font-weight: 700; color: #fde68a; letter-spacing: .5px; }
 
 /* ============================================================
-   CARA TRASERA
+   "ESCANEA PARA VISITAR" — AHORA DEBAJO DEL QR (via ::after)
+   Se oculta el span antiguo para no duplicar el texto.
    ============================================================ */
-.tarjeta-trasera {
-    background:
-        radial-gradient(ellipse at top left, rgba(124,58,237,0.3) 0%, transparent 55%),
-        linear-gradient(135deg, #0d0d1a 0%, #1a0a2e 100%);
-    padding: 5mm;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 3.5mm;
-    align-items: center;
-    position: relative;
-}
-.tarjeta-trasera::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 1mm;
-    height: auto;
-    background: linear-gradient(180deg, var(--purple-glow), var(--gold-bright), var(--purple-glow));
-}
+.tarjeta-escanea { display: none !important; }
 
-.tarjeta-trasera-info {
-    display: flex;
-    flex-direction: column;
-    gap: 1.8mm;
-    position: relative;
-    z-index: 1;
-}
-.tarjeta-trasera-titulo {
-    font-family: 'Playfair Display', serif;
-    font-size: 8pt;
-    color: var(--gold-bright);
-    font-weight: 700;
-    letter-spacing: 0.3px;
-    margin-bottom: 0.8mm;
-    text-shadow: 0 0 8px rgba(124,58,237,0.7);
-}
-.tarjeta-trasera-titulo::after {
-    content: '';
-    display: block;
-    width: 7mm;
-    height: 0.7px;
-    background: var(--gold);
-    margin-top: 0.8mm;
-}
-
-.tarjeta-dato {
-    display: flex;
-    align-items: center;
-    gap: 1.6mm;
-    font-size: 5.8pt;
-    color: var(--text);
-    line-height: 1.3;
-    margin-top: 2px;
-    margin-bottom: 2px;
-}
-.tarjeta-dato svg {
-    width: 2.6mm;
-    height: 2.6mm;
-    flex-shrink: 0;
-    color: var(--gold-bright);
-}
-
-/* QR trasero */
 .tarjeta-qr {
-    width: 24mm;
-    height: 24mm;
-    background: #fff;
-    padding: 0.6mm;
-    border-radius: 1mm;
-    border: 2px solid var(--gold);
-    transform: scale(1);
-    box-shadow: 0 0 10px rgba(124,58,237,0.6);
-    position: relative;
-    z-index: 1;
+    position: absolute; right: 5mm; top: 15.4mm; z-index: 3;
+    width: 24mm; height: 24mm; background: #fff; padding: .6mm; border-radius: 1mm; border: 0.5mm solid #fbbf24;
+    box-shadow: 0 0 0 0mm #fff, 0 0 0 0.3mm #6d28d9, 0 1.5mm 4mm rgba(0,0,0,.45); transform: none;
 }
 .tarjeta-qr img { width: 100%; height: 100%; display: block; }
 
-.tarjeta-qr-label {
+/* Texto "Escanea para visitar" debajo del QR */
+.tarjeta-qr::after {
+    content: 'Escanea para visitar';
     position: absolute;
-    bottom: -4.5mm;
+    top: calc(100% + 2.4mm);
     left: 50%;
     transform: translateX(-50%);
-    font-size: 5.8pt;
-    color: var(--muted);
-    text-align: center;
+    text-transform: uppercase;
+    font-size: 4pt;
+    letter-spacing: 1.1px;
+    font-weight: 700;
+    color: #ffffffb9;
     white-space: nowrap;
-    letter-spacing: 0.3px;
+    text-align: center;
+    text-shadow: 0 0.5px 1px rgba(0,0,0,0.5);
+    pointer-events: none;
 }
 
-/* ============================================================
-   PRINT
-   ============================================================ */
 @media print {
-    html, body {
-        background: #fff;
-        padding: 0;
-        gap: 0;
-        min-height: auto;
-        display: block;
-    }
-    .sheet {
-        box-shadow: none;
-        background: #fff;
-        margin: 0;
-        page-break-after: always;
-    }
-    .sheet:last-child {
-        page-break-after: auto;
-    }
-    .tarjeta {
-        box-shadow: none;
-        border-radius: 0;
-    }
+    html, body { background: #fff; padding: 0; gap: 0; min-height: auto; display: block; }
+    .pagina { width: 205.9mm; height: 345.6mm; margin: 0; page-break-after: always; box-shadow: none; background: #fff; }
+    .pagina:last-child { page-break-after: auto; }
+    .tarjeta { box-shadow: none; border-radius: 0; }
 }
 </style>
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════════════════════
-     HOJA 1 — 6 CARAS FRONTALES
-     ═══════════════════════════════════════════════════════════ -->
-<div class="sheet">
-
-    <!-- TARJETA 1 -->
+<!-- HOJA 1 — 10 CARAS FRONTALES (2 × 5) -->
+<div class="pagina">
     <div class="tarjeta tarjeta-frontal">
         <img src="../img/chef.jpg" alt="Chef Jonathan Buitrago" class="tarjeta-foto">
-        <div class="tarjeta-marca">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <span class="tarjeta-marca-texto">Chef Colombiano</span>
+        <div class="banda banda-1">
+            <div class="tarjeta-marca"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5c-4.2 2.8-6 7.5-4.5 12.5 1 3.3 2.8 5.3 4.5 6.5 1.7-1.2 3.5-3.2 4.5-6.5 1.5-5-.3-9.7-4.5-12.5z"/><path d="M12 3.5v17M9.3 7c-1.3 3.5-1.3 7.5.7 12M14.7 7c1.3 3.5 1.3 7.5-.7 12"/></svg><span class="tarjeta-marca-texto">Chef Colombiano</span></div>
         </div>
-        <div>
+        <div class="banda banda-2">
             <h1 class="parisienne-font tarjeta-nombre">Jonathan<br>Buitrago</h1>
-            <div class="tarjeta-nombre-linea"></div>
-            <p class="tarjeta-rol">Pastelero &amp; Chocolatero</p>
         </div>
-        <div class="tarjeta-footer">
-            <div class="tarjeta-logros-mini">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            </div>
+        <div class="banda banda-3">
+            <div class="tarjeta-rol-web"><p class="tarjeta-rol">Pastelero &amp; Chocolatero</p></div>
             <span class="tarjeta-web">chef-jb.freedev.app</span>
         </div>
     </div>
 
-    <!-- TARJETA 2 -->
     <div class="tarjeta tarjeta-frontal">
         <img src="../img/chef.jpg" alt="Chef Jonathan Buitrago" class="tarjeta-foto">
-        <div class="tarjeta-marca">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <span class="tarjeta-marca-texto">Chef Colombiano</span>
-        </div>
-        <div>
-            <h1 class="parisienne-font tarjeta-nombre">Jonathan<br>Buitrago</h1>
-            <div class="tarjeta-nombre-linea"></div>
-            <p class="tarjeta-rol">Pastelero &amp; Chocolatero</p>
-        </div>
-        <div class="tarjeta-footer">
-            <div class="tarjeta-logros-mini">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            </div>
-            <span class="tarjeta-web">chef-jb.freedev.app</span>
-        </div>
+        <div class="banda banda-1"><div class="tarjeta-marca"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5c-4.2 2.8-6 7.5-4.5 12.5 1 3.3 2.8 5.3 4.5 6.5 1.7-1.2 3.5-3.2 4.5-6.5 1.5-5-.3-9.7-4.5-12.5z"/><path d="M12 3.5v17M9.3 7c-1.3 3.5-1.3 7.5.7 12M14.7 7c1.3 3.5 1.3 7.5-.7 12"/></svg><span class="tarjeta-marca-texto">Chef Colombiano</span></div></div>
+        <div class="banda banda-2"><h1 class="parisienne-font tarjeta-nombre">Jonathan<br>Buitrago</h1></div>
+        <div class="banda banda-3"><div class="tarjeta-rol-web"><p class="tarjeta-rol">Pastelero &amp; Chocolatero</p></div><span class="tarjeta-web">chef-jb.freedev.app</span></div>
     </div>
 
-    <!-- TARJETA 3 -->
     <div class="tarjeta tarjeta-frontal">
         <img src="../img/chef.jpg" alt="Chef Jonathan Buitrago" class="tarjeta-foto">
-        <div class="tarjeta-marca">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <span class="tarjeta-marca-texto">Chef Colombiano</span>
-        </div>
-        <div>
-            <h1 class="parisienne-font tarjeta-nombre">Jonathan<br>Buitrago</h1>
-            <div class="tarjeta-nombre-linea"></div>
-            <p class="tarjeta-rol">Pastelero &amp; Chocolatero</p>
-        </div>
-        <div class="tarjeta-footer">
-            <div class="tarjeta-logros-mini">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            </div>
-            <span class="tarjeta-web">chef-jb.freedev.app</span>
-        </div>
+        <div class="banda banda-1"><div class="tarjeta-marca"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5c-4.2 2.8-6 7.5-4.5 12.5 1 3.3 2.8 5.3 4.5 6.5 1.7-1.2 3.5-3.2 4.5-6.5 1.5-5-.3-9.7-4.5-12.5z"/><path d="M12 3.5v17M9.3 7c-1.3 3.5-1.3 7.5.7 12M14.7 7c1.3 3.5 1.3 7.5-.7 12"/></svg><span class="tarjeta-marca-texto">Chef Colombiano</span></div></div>
+        <div class="banda banda-2"><h1 class="parisienne-font tarjeta-nombre">Jonathan<br>Buitrago</h1></div>
+        <div class="banda banda-3"><div class="tarjeta-rol-web"><p class="tarjeta-rol">Pastelero &amp; Chocolatero</p></div><span class="tarjeta-web">chef-jb.freedev.app</span></div>
     </div>
 
-    <!-- TARJETA 4 -->
     <div class="tarjeta tarjeta-frontal">
         <img src="../img/chef.jpg" alt="Chef Jonathan Buitrago" class="tarjeta-foto">
-        <div class="tarjeta-marca">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <span class="tarjeta-marca-texto">Chef Colombiano</span>
-        </div>
-        <div>
-            <h1 class="parisienne-font tarjeta-nombre">Jonathan<br>Buitrago</h1>
-            <div class="tarjeta-nombre-linea"></div>
-            <p class="tarjeta-rol">Pastelero &amp; Chocolatero</p>
-        </div>
-        <div class="tarjeta-footer">
-            <div class="tarjeta-logros-mini">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            </div>
-            <span class="tarjeta-web">chef-jb.freedev.app</span>
-        </div>
+        <div class="banda banda-1"><div class="tarjeta-marca"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5c-4.2 2.8-6 7.5-4.5 12.5 1 3.3 2.8 5.3 4.5 6.5 1.7-1.2 3.5-3.2 4.5-6.5 1.5-5-.3-9.7-4.5-12.5z"/><path d="M12 3.5v17M9.3 7c-1.3 3.5-1.3 7.5.7 12M14.7 7c1.3 3.5 1.3 7.5-.7 12"/></svg><span class="tarjeta-marca-texto">Chef Colombiano</span></div></div>
+        <div class="banda banda-2"><h1 class="parisienne-font tarjeta-nombre">Jonathan<br>Buitrago</h1></div>
+        <div class="banda banda-3"><div class="tarjeta-rol-web"><p class="tarjeta-rol">Pastelero &amp; Chocolatero</p></div><span class="tarjeta-web">chef-jb.freedev.app</span></div>
     </div>
 
-    <!-- TARJETA 5 -->
     <div class="tarjeta tarjeta-frontal">
         <img src="../img/chef.jpg" alt="Chef Jonathan Buitrago" class="tarjeta-foto">
-        <div class="tarjeta-marca">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <span class="tarjeta-marca-texto">Chef Colombiano</span>
-        </div>
-        <div>
-            <h1 class="parisienne-font tarjeta-nombre">Jonathan<br>Buitrago</h1>
-            <div class="tarjeta-nombre-linea"></div>
-            <p class="tarjeta-rol">Pastelero &amp; Chocolatero</p>
-        </div>
-        <div class="tarjeta-footer">
-            <div class="tarjeta-logros-mini">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            </div>
-            <span class="tarjeta-web">chef-jb.freedev.app</span>
-        </div>
+        <div class="banda banda-1"><div class="tarjeta-marca"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5c-4.2 2.8-6 7.5-4.5 12.5 1 3.3 2.8 5.3 4.5 6.5 1.7-1.2 3.5-3.2 4.5-6.5 1.5-5-.3-9.7-4.5-12.5z"/><path d="M12 3.5v17M9.3 7c-1.3 3.5-1.3 7.5.7 12M14.7 7c1.3 3.5 1.3 7.5-.7 12"/></svg><span class="tarjeta-marca-texto">Chef Colombiano</span></div></div>
+        <div class="banda banda-2"><h1 class="parisienne-font tarjeta-nombre">Jonathan<br>Buitrago</h1></div>
+        <div class="banda banda-3"><div class="tarjeta-rol-web"><p class="tarjeta-rol">Pastelero &amp; Chocolatero</p></div><span class="tarjeta-web">chef-jb.freedev.app</span></div>
     </div>
 
-    <!-- TARJETA 6 -->
     <div class="tarjeta tarjeta-frontal">
         <img src="../img/chef.jpg" alt="Chef Jonathan Buitrago" class="tarjeta-foto">
-        <div class="tarjeta-marca">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            <span class="tarjeta-marca-texto">Chef Colombiano</span>
-        </div>
-        <div>
-            <h1 class="parisienne-font tarjeta-nombre">Jonathan<br>Buitrago</h1>
-            <div class="tarjeta-nombre-linea"></div>
-            <p class="tarjeta-rol">Pastelero &amp; Chocolatero</p>
-        </div>
-        <div class="tarjeta-footer">
-            <div class="tarjeta-logros-mini">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-            </div>
-            <span class="tarjeta-web">chef-jb.freedev.app</span>
-        </div>
+        <div class="banda banda-1"><div class="tarjeta-marca"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5c-4.2 2.8-6 7.5-4.5 12.5 1 3.3 2.8 5.3 4.5 6.5 1.7-1.2 3.5-3.2 4.5-6.5 1.5-5-.3-9.7-4.5-12.5z"/><path d="M12 3.5v17M9.3 7c-1.3 3.5-1.3 7.5.7 12M14.7 7c1.3 3.5 1.3 7.5-.7 12"/></svg><span class="tarjeta-marca-texto">Chef Colombiano</span></div></div>
+        <div class="banda banda-2"><h1 class="parisienne-font tarjeta-nombre">Jonathan<br>Buitrago</h1></div>
+        <div class="banda banda-3"><div class="tarjeta-rol-web"><p class="tarjeta-rol">Pastelero &amp; Chocolatero</p></div><span class="tarjeta-web">chef-jb.freedev.app</span></div>
     </div>
 
+    <div class="tarjeta tarjeta-frontal">
+        <img src="../img/chef.jpg" alt="Chef Jonathan Buitrago" class="tarjeta-foto">
+        <div class="banda banda-1"><div class="tarjeta-marca"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5c-4.2 2.8-6 7.5-4.5 12.5 1 3.3 2.8 5.3 4.5 6.5 1.7-1.2 3.5-3.2 4.5-6.5 1.5-5-.3-9.7-4.5-12.5z"/><path d="M12 3.5v17M9.3 7c-1.3 3.5-1.3 7.5.7 12M14.7 7c1.3 3.5 1.3 7.5-.7 12"/></svg><span class="tarjeta-marca-texto">Chef Colombiano</span></div></div>
+        <div class="banda banda-2"><h1 class="parisienne-font tarjeta-nombre">Jonathan<br>Buitrago</h1></div>
+        <div class="banda banda-3"><div class="tarjeta-rol-web"><p class="tarjeta-rol">Pastelero &amp; Chocolatero</p></div><span class="tarjeta-web">chef-jb.freedev.app</span></div>
+    </div>
+
+    <div class="tarjeta tarjeta-frontal">
+        <img src="../img/chef.jpg" alt="Chef Jonathan Buitrago" class="tarjeta-foto">
+        <div class="banda banda-1"><div class="tarjeta-marca"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5c-4.2 2.8-6 7.5-4.5 12.5 1 3.3 2.8 5.3 4.5 6.5 1.7-1.2 3.5-3.2 4.5-6.5 1.5-5-.3-9.7-4.5-12.5z"/><path d="M12 3.5v17M9.3 7c-1.3 3.5-1.3 7.5.7 12M14.7 7c1.3 3.5 1.3 7.5-.7 12"/></svg><span class="tarjeta-marca-texto">Chef Colombiano</span></div></div>
+        <div class="banda banda-2"><h1 class="parisienne-font tarjeta-nombre">Jonathan<br>Buitrago</h1></div>
+        <div class="banda banda-3"><div class="tarjeta-rol-web"><p class="tarjeta-rol">Pastelero &amp; Chocolatero</p></div><span class="tarjeta-web">chef-jb.freedev.app</span></div>
+    </div>
+
+    <div class="tarjeta tarjeta-frontal">
+        <img src="../img/chef.jpg" alt="Chef Jonathan Buitrago" class="tarjeta-foto">
+        <div class="banda banda-1"><div class="tarjeta-marca"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5c-4.2 2.8-6 7.5-4.5 12.5 1 3.3 2.8 5.3 4.5 6.5 1.7-1.2 3.5-3.2 4.5-6.5 1.5-5-.3-9.7-4.5-12.5z"/><path d="M12 3.5v17M9.3 7c-1.3 3.5-1.3 7.5.7 12M14.7 7c1.3 3.5 1.3 7.5-.7 12"/></svg><span class="tarjeta-marca-texto">Chef Colombiano</span></div></div>
+        <div class="banda banda-2"><h1 class="parisienne-font tarjeta-nombre">Jonathan<br>Buitrago</h1></div>
+        <div class="banda banda-3"><div class="tarjeta-rol-web"><p class="tarjeta-rol">Pastelero &amp; Chocolatero</p></div><span class="tarjeta-web">chef-jb.freedev.app</span></div>
+    </div>
+
+    <div class="tarjeta tarjeta-frontal">
+        <img src="../img/chef.jpg" alt="Chef Jonathan Buitrago" class="tarjeta-foto">
+        <div class="banda banda-1"><div class="tarjeta-marca"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5c-4.2 2.8-6 7.5-4.5 12.5 1 3.3 2.8 5.3 4.5 6.5 1.7-1.2 3.5-3.2 4.5-6.5 1.5-5-.3-9.7-4.5-12.5z"/><path d="M12 3.5v17M9.3 7c-1.3 3.5-1.3 7.5.7 12M14.7 7c1.3 3.5 1.3 7.5-.7 12"/></svg><span class="tarjeta-marca-texto">Chef Colombiano</span></div></div>
+        <div class="banda banda-2"><h1 class="parisienne-font tarjeta-nombre">Jonathan<br>Buitrago</h1></div>
+        <div class="banda banda-3"><div class="tarjeta-rol-web"><p class="tarjeta-rol">Pastelero &amp; Chocolatero</p></div><span class="tarjeta-web">chef-jb.freedev.app</span></div>
+    </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════
-     HOJA 2 — 6 CARAS TRASERAS
-     ═══════════════════════════════════════════════════════════ -->
-<div class="sheet">
+<!-- HOJA 2 — 10 CARAS TRASERAS (2 × 5) -->
+<div class="pagina">
 
-    <!-- TARJETA 1 -->
+    <!-- #1 -->
     <div class="tarjeta tarjeta-trasera">
-        <div class="tarjeta-trasera-info">
+        <div class="tarjeta-qr"><img src="img/qr_pagina.svg" alt="QR"></div>
+        <div class="banda banda-1" style="flex-direction:column;align-items:flex-start;justify-content:center;">
             <h2 class="tarjeta-trasera-titulo">Contacto</h2>
-            <div class="tarjeta-dato">
-                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                <span>+57 322 945 2346</span>
-            </div>
+            <p class="tarjeta-slogan">"Arte dulce, tradición viva"</p>
+        </div>
+        <div class="banda banda-2 datos">
             <div class="tarjeta-dato">
                 <svg fill="none" stroke="currentColor" viewBox="4 0 17 21" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                <span>info@chefjonathanbuitrago.com</span>
+                <span>j.buitrago@outlook.es</span>
+            </div>
+            <div class="tarjeta-dato">
+                <svg fill="currentColor" viewBox="0 0 24 26"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                <span>+57 322 945 2346</span>
             </div>
             <div class="tarjeta-dato">
                 <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.644-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4z"/></svg>
                 <span>@chef_jonathan_buitrago</span>
             </div>
-            <div class="tarjeta-dato" style="margin-top: 2mm; padding-top: 1mm; border-top: 0.5px solid rgba(214,163,74,0.3);">
-                <span style="color: var(--gold-bright); font-weight: 600; font-size: 5.5pt; letter-spacing: 0.4px;">chef-jb.freedev.app</span>
-            </div>
         </div>
-        <div style="position: relative;">
-            <div class="tarjeta-qr"><img src="img/qr_pagina.svg" alt="QR"></div>
-            <span class="tarjeta-qr-label">Escanea</span>
+        <div class="banda banda-3" style="justify-content:flex-start;">
+            <div class="tarjeta-rol-web"><span class="tarjeta-web-dorso">chef-jb.freedev.app</span></div>
         </div>
     </div>
 
-    <!-- TARJETA 2 -->
+    <!-- #2 -->
     <div class="tarjeta tarjeta-trasera">
-        <div class="tarjeta-trasera-info">
+        <div class="tarjeta-qr"><img src="img/qr_pagina.svg" alt="QR"></div>
+        <div class="banda banda-1" style="flex-direction:column;align-items:flex-start;justify-content:center;">
             <h2 class="tarjeta-trasera-titulo">Contacto</h2>
+            <p class="tarjeta-slogan">"Arte dulce, tradición viva"</p>
+        </div>
+        <div class="banda banda-2 datos">
             <div class="tarjeta-dato">
                 <svg fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                 <span>+57 322 945 2346</span>
             </div>
             <div class="tarjeta-dato">
                 <svg fill="none" stroke="currentColor" viewBox="4 0 17 21" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                <span>info@chefjonathanbuitrago.com</span>
+                <span>j.buitrago@outlook.es</span>
             </div>
             <div class="tarjeta-dato">
                 <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.644-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4z"/></svg>
                 <span>@chef_jonathan_buitrago</span>
             </div>
-            <div class="tarjeta-dato" style="margin-top: 2mm; padding-top: 1mm; border-top: 0.5px solid rgba(214,163,74,0.3);">
-                <span style="color: var(--gold-bright); font-weight: 600; font-size: 5.5pt; letter-spacing: 0.4px;">chef-jb.freedev.app</span>
-            </div>
         </div>
-        <div style="position: relative;">
-            <div class="tarjeta-qr"><img src="img/qr_pagina.svg" alt="QR"></div>
-            <span class="tarjeta-qr-label">Escanea</span>
+        <div class="banda banda-3" style="justify-content:flex-start;">
+            <div class="tarjeta-rol-web"><span class="tarjeta-web-dorso">chef-jb.freedev.app</span></div>
         </div>
     </div>
 
-    <!-- TARJETA 3 -->
+    <!-- #3 -->
     <div class="tarjeta tarjeta-trasera">
-        <div class="tarjeta-trasera-info">
+        <div class="tarjeta-qr"><img src="img/qr_pagina.svg" alt="QR"></div>
+        <div class="banda banda-1" style="flex-direction:column;align-items:flex-start;justify-content:center;">
             <h2 class="tarjeta-trasera-titulo">Contacto</h2>
+            <p class="tarjeta-slogan">"Arte dulce, tradición viva"</p>
+        </div>
+        <div class="banda banda-2 datos">
             <div class="tarjeta-dato">
                 <svg fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                 <span>+57 322 945 2346</span>
             </div>
             <div class="tarjeta-dato">
                 <svg fill="none" stroke="currentColor" viewBox="4 0 17 21" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                <span>info@chefjonathanbuitrago.com</span>
+                <span>j.buitrago@outlook.es</span>
             </div>
             <div class="tarjeta-dato">
                 <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.644-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4z"/></svg>
                 <span>@chef_jonathan_buitrago</span>
             </div>
-            <div class="tarjeta-dato" style="margin-top: 2mm; padding-top: 1mm; border-top: 0.5px solid rgba(214,163,74,0.3);">
-                <span style="color: var(--gold-bright); font-weight: 600; font-size: 5.5pt; letter-spacing: 0.4px;">chef-jb.freedev.app</span>
-            </div>
         </div>
-        <div style="position: relative;">
-            <div class="tarjeta-qr"><img src="img/qr_pagina.svg" alt="QR"></div>
-            <span class="tarjeta-qr-label">Escanea</span>
+        <div class="banda banda-3" style="justify-content:flex-start;">
+            <div class="tarjeta-rol-web"><span class="tarjeta-web-dorso">chef-jb.freedev.app</span></div>
         </div>
     </div>
 
-    <!-- TARJETA 4 -->
+    <!-- #4 -->
     <div class="tarjeta tarjeta-trasera">
-        <div class="tarjeta-trasera-info">
+        <div class="tarjeta-qr"><img src="img/qr_pagina.svg" alt="QR"></div>
+        <div class="banda banda-1" style="flex-direction:column;align-items:flex-start;justify-content:center;">
             <h2 class="tarjeta-trasera-titulo">Contacto</h2>
+            <p class="tarjeta-slogan">"Arte dulce, tradición viva"</p>
+        </div>
+        <div class="banda banda-2 datos">
             <div class="tarjeta-dato">
                 <svg fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                 <span>+57 322 945 2346</span>
             </div>
             <div class="tarjeta-dato">
                 <svg fill="none" stroke="currentColor" viewBox="4 0 17 21" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                <span>info@chefjonathanbuitrago.com</span>
+                <span>j.buitrago@outlook.es</span>
             </div>
             <div class="tarjeta-dato">
                 <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.644-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4z"/></svg>
                 <span>@chef_jonathan_buitrago</span>
             </div>
-            <div class="tarjeta-dato" style="margin-top: 2mm; padding-top: 1mm; border-top: 0.5px solid rgba(214,163,74,0.3);">
-                <span style="color: var(--gold-bright); font-weight: 600; font-size: 5.5pt; letter-spacing: 0.4px;">chef-jb.freedev.app</span>
-            </div>
         </div>
-        <div style="position: relative;">
-            <div class="tarjeta-qr"><img src="img/qr_pagina.svg" alt="QR"></div>
-            <span class="tarjeta-qr-label">Escanea</span>
+        <div class="banda banda-3" style="justify-content:flex-start;">
+            <div class="tarjeta-rol-web"><span class="tarjeta-web-dorso">chef-jb.freedev.app</span></div>
         </div>
     </div>
 
-    <!-- TARJETA 5 -->
+    <!-- #5 -->
     <div class="tarjeta tarjeta-trasera">
-        <div class="tarjeta-trasera-info">
+        <div class="tarjeta-qr"><img src="img/qr_pagina.svg" alt="QR"></div>
+        <div class="banda banda-1" style="flex-direction:column;align-items:flex-start;justify-content:center;">
             <h2 class="tarjeta-trasera-titulo">Contacto</h2>
+            <p class="tarjeta-slogan">"Arte dulce, tradición viva"</p>
+        </div>
+        <div class="banda banda-2 datos">
             <div class="tarjeta-dato">
                 <svg fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                 <span>+57 322 945 2346</span>
             </div>
             <div class="tarjeta-dato">
                 <svg fill="none" stroke="currentColor" viewBox="4 0 17 21" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                <span>info@chefjonathanbuitrago.com</span>
+                <span>j.buitrago@outlook.es</span>
             </div>
             <div class="tarjeta-dato">
                 <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.644-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4z"/></svg>
                 <span>@chef_jonathan_buitrago</span>
             </div>
-            <div class="tarjeta-dato" style="margin-top: 2mm; padding-top: 1mm; border-top: 0.5px solid rgba(214,163,74,0.3);">
-                <span style="color: var(--gold-bright); font-weight: 600; font-size: 5.5pt; letter-spacing: 0.4px;">chef-jb.freedev.app</span>
-            </div>
         </div>
-        <div style="position: relative;">
-            <div class="tarjeta-qr"><img src="img/qr_pagina.svg" alt="QR"></div>
-            <span class="tarjeta-qr-label">Escanea</span>
+        <div class="banda banda-3" style="justify-content:flex-start;">
+            <div class="tarjeta-rol-web"><span class="tarjeta-web-dorso">chef-jb.freedev.app</span></div>
         </div>
     </div>
 
-    <!-- TARJETA 6 -->
+    <!-- #6 -->
     <div class="tarjeta tarjeta-trasera">
-        <div class="tarjeta-trasera-info">
+        <div class="tarjeta-qr"><img src="img/qr_pagina.svg" alt="QR"></div>
+        <div class="banda banda-1" style="flex-direction:column;align-items:flex-start;justify-content:center;">
             <h2 class="tarjeta-trasera-titulo">Contacto</h2>
+            <p class="tarjeta-slogan">"Arte dulce, tradición viva"</p>
+        </div>
+        <div class="banda banda-2 datos">
             <div class="tarjeta-dato">
                 <svg fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
                 <span>+57 322 945 2346</span>
             </div>
             <div class="tarjeta-dato">
                 <svg fill="none" stroke="currentColor" viewBox="4 0 17 21" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                <span>info@chefjonathanbuitrago.com</span>
+                <span>j.buitrago@outlook.es</span>
             </div>
             <div class="tarjeta-dato">
                 <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.644-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4z"/></svg>
                 <span>@chef_jonathan_buitrago</span>
             </div>
-            <div class="tarjeta-dato" style="margin-top: 2mm; padding-top: 1mm; border-top: 0.5px solid rgba(214,163,74,0.3);">
-                <span style="color: var(--gold-bright); font-weight: 600; font-size: 5.5pt; letter-spacing: 0.4px;">chef-jb.freedev.app</span>
+        </div>
+        <div class="banda banda-3" style="justify-content:flex-start;">
+            <div class="tarjeta-rol-web"><span class="tarjeta-web-dorso">chef-jb.freedev.app</span></div>
+        </div>
+    </div>
+
+    <!-- #7 -->
+    <div class="tarjeta tarjeta-trasera">
+        <div class="tarjeta-qr"><img src="img/qr_pagina.svg" alt="QR"></div>
+        <div class="banda banda-1" style="flex-direction:column;align-items:flex-start;justify-content:center;">
+            <h2 class="tarjeta-trasera-titulo">Contacto</h2>
+            <p class="tarjeta-slogan">"Arte dulce, tradición viva"</p>
+        </div>
+        <div class="banda banda-2 datos">
+            <div class="tarjeta-dato">
+                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                <span>+57 322 945 2346</span>
+            </div>
+            <div class="tarjeta-dato">
+                <svg fill="none" stroke="currentColor" viewBox="4 0 17 21" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                <span>j.buitrago@outlook.es</span>
+            </div>
+            <div class="tarjeta-dato">
+                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.644-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4z"/></svg>
+                <span>@chef_jonathan_buitrago</span>
             </div>
         </div>
-        <div style="position: relative;">
-            <div class="tarjeta-qr"><img src="img/qr_pagina.svg" alt="QR"></div>
-            <span class="tarjeta-qr-label">Escanea</span>
+        <div class="banda banda-3" style="justify-content:flex-start;">
+            <div class="tarjeta-rol-web"><span class="tarjeta-web-dorso">chef-jb.freedev.app</span></div>
+        </div>
+    </div>
+
+    <!-- #8 -->
+    <div class="tarjeta tarjeta-trasera">
+        <div class="tarjeta-qr"><img src="img/qr_pagina.svg" alt="QR"></div>
+        <div class="banda banda-1" style="flex-direction:column;align-items:flex-start;justify-content:center;">
+            <h2 class="tarjeta-trasera-titulo">Contacto</h2>
+            <p class="tarjeta-slogan">"Arte dulce, tradición viva"</p>
+        </div>
+        <div class="banda banda-2 datos">
+            <div class="tarjeta-dato">
+                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                <span>+57 322 945 2346</span>
+            </div>
+            <div class="tarjeta-dato">
+                <svg fill="none" stroke="currentColor" viewBox="4 0 17 21" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                <span>j.buitrago@outlook.es</span>
+            </div>
+            <div class="tarjeta-dato">
+                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.644-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4z"/></svg>
+                <span>@chef_jonathan_buitrago</span>
+            </div>
+        </div>
+        <div class="banda banda-3" style="justify-content:flex-start;">
+            <div class="tarjeta-rol-web"><span class="tarjeta-web-dorso">chef-jb.freedev.app</span></div>
+        </div>
+    </div>
+
+    <!-- #9 -->
+    <div class="tarjeta tarjeta-trasera">
+        <div class="tarjeta-qr"><img src="img/qr_pagina.svg" alt="QR"></div>
+        <div class="banda banda-1" style="flex-direction:column;align-items:flex-start;justify-content:center;">
+            <h2 class="tarjeta-trasera-titulo">Contacto</h2>
+            <p class="tarjeta-slogan">"Arte dulce, tradición viva"</p>
+        </div>
+        <div class="banda banda-2 datos">
+            <div class="tarjeta-dato">
+                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                <span>+57 322 945 2346</span>
+            </div>
+            <div class="tarjeta-dato">
+                <svg fill="none" stroke="currentColor" viewBox="4 0 17 21" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                <span>j.buitrago@outlook.es</span>
+            </div>
+            <div class="tarjeta-dato">
+                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.644-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4z"/></svg>
+                <span>@chef_jonathan_buitrago</span>
+            </div>
+        </div>
+        <div class="banda banda-3" style="justify-content:flex-start;">
+            <div class="tarjeta-rol-web"><span class="tarjeta-web-dorso">chef-jb.freedev.app</span></div>
+        </div>
+    </div>
+
+    <!-- #10 -->
+    <div class="tarjeta tarjeta-trasera">
+        <div class="tarjeta-qr"><img src="img/qr_pagina.svg" alt="QR"></div>
+        <div class="banda banda-1" style="flex-direction:column;align-items:flex-start;justify-content:center;">
+            <h2 class="tarjeta-trasera-titulo">Contacto</h2>
+            <p class="tarjeta-slogan">"Arte dulce, tradición viva"</p>
+        </div>
+        <div class="banda banda-2 datos">
+            <div class="tarjeta-dato">
+                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                <span>+57 322 945 2346</span>
+            </div>
+            <div class="tarjeta-dato">
+                <svg fill="none" stroke="currentColor" viewBox="4 0 17 21" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                <span>j.buitrago@outlook.es</span>
+            </div>
+            <div class="tarjeta-dato">
+                <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.644-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4z"/></svg>
+                <span>@chef_jonathan_buitrago</span>
+            </div>
+        </div>
+        <div class="banda banda-3" style="justify-content:flex-start;">
+            <div class="tarjeta-rol-web"><span class="tarjeta-web-dorso">chef-jb.freedev.app</span></div>
         </div>
     </div>
 

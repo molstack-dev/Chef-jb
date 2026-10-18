@@ -165,14 +165,14 @@
                                         </div>
                                         <div class="flex items-start justify-between">
                                             <div class="flex items-start">
-                                                <a href="mailto:info@chefjonathanbuitrago.com" target="_blank">
+                                                <a href="mailto:j.buitrago@outlook.es" target="_blank">
                                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-orange-400 mr-4 mt-1 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                                     </svg>
                                                 </a>
                                                 <div>
                                                     <p class="text-gray-400 text-sm md:text-base">Correo Electrónico</p>
-                                                    <p class="text-white text-sm md:text-base">info@chefjonathanbuitrago.com</p>
+                                                    <p class="text-white text-sm md:text-base">j.buitrago@outlook.es</p>
                                                 </div>
                                             </div>
                                         </div>
