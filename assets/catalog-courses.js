@@ -16,16 +16,31 @@
         return user && user.role === 'admin';
     }
 
-    function filterPastEvents(courses) {
-        if (isUserAdmin()) return courses;
-        const now = new Date();
-        return courses.filter(function(course) {
-            if (course.category !== 'eventos' && course.category !== 'evento') return true;
-            if (course.event_date) {
-                const eventDate = new Date(course.event_date + ' ' + (course.event_time || '00:00'));
-                return eventDate >= now;
-            }
+    // Un servicio está vencido si el backend lo marca así
+    // o si es un evento cuya fecha/hora ya pasó.
+    function isExpired(course) {
+        if (course.is_expired === true || course.is_expired === 1 || course.is_expired === '1') {
             return true;
+        }
+
+        if ((course.category === 'eventos' || course.category === 'evento') && course.event_date) {
+            // Formato ISO con "T" (compatible con Safari/iOS).
+            // Sin hora definida, se considera vigente hasta el final del día.
+            var eventDate = new Date(course.event_date + 'T' + (course.event_time || '23:59'));
+            if (!isNaN(eventDate.getTime())) {
+                return eventDate < new Date();
+            }
+        }
+
+        return false;
+    }
+
+    // Nadie ve tarjetas vencidas.
+    // Si quieres que el admin sí las vea, agrega al inicio:
+    // if (isUserAdmin()) return courses;
+    function filterPastEvents(courses) {
+        return courses.filter(function(course) {
+            return !isExpired(course);
         });
     }
 
@@ -47,17 +62,18 @@
         var grid = document.getElementById('courses-grid');
         if (!grid) return;
 
-        var filtered = filter === 'all' ? allCourses : allCourses.filter(function(c) {
+        // Primero se descartan los vencidos, luego se filtra por categoría
+        var available = filterPastEvents(allCourses);
+
+        var filtered = filter === 'all' ? available : available.filter(function(c) {
             return c.category === filter;
         });
 
         if (filtered.length === 0 && filter !== 'all') {
             var map = { cursos: 'cursos', asesorias: 'asesorias', eventos: 'evento' };
             var dbCat = map[filter] || filter;
-            filtered = allCourses.filter(function(c) { return c.category === dbCat; });
+            filtered = available.filter(function(c) { return c.category === dbCat; });
         }
-
-        filtered = filterPastEvents(filtered);
 
         if (filtered.length === 0) {
             grid.innerHTML = '<div class="col-span-full text-center text-gray-400 py-8">No hay cursos en esta categoría.</div>';
@@ -77,11 +93,6 @@
             var imgHtml = c.image
                 ? '<div class="rounded-lg mb-2 md:mb-4 overflow-hidden bg-gray-700 aspect-square"><img src="' + c.image + '" class="w-full h-full object-cover rounded-lg" alt="' + c.title + '"></div>'
                 : '';
-
-            var expiredNotice = '';
-            if (isUserAdmin() && c.is_expired) {
-                expiredNotice = '<div class="bg-red-700 text-white text-[10px] md:text-xs text-center py-0.5 md:py-1 rounded mb-1 md:mb-2">FECHA VENCIDA</div>';
-            }
 
             var eventInfo = '';
             if ((c.category === 'eventos' || c.category === 'evento') && c.event_date) {
@@ -108,7 +119,6 @@
             var inscriptionBtn = '<a href="registro.html" class="flex-1 text-center py-1.5 md:py-2 px-2 bg-green-600 text-white rounded-lg text-[10px] md:text-sm font-semibold hover:bg-green-700 transition-colors">Inscribirse</a>';
 
             card.innerHTML =
-                expiredNotice +
                 imgHtml +
                 '<div class="mb-1.5 md:mb-4">' +
                 '<span class="inline-block px-2 py-0.5 md:px-3 md:py-1 ' + getBadgeClass(c.category) + ' text-white rounded-full text-[10px] md:text-sm">' + getCategoryLabel(c.category) + '</span>' +
@@ -129,18 +139,6 @@
 
             grid.appendChild(card);
         });
-
-        grid.addEventListener('click', function(e) {
-            if (e.target.classList.contains('ver-detalles-btn')) {
-                var card = e.target.closest('.product-card');
-                if (card && typeof showCourseDetails === 'function') {
-                    showCourseDetails(
-                        card.getAttribute('data-title'),
-                        card.getAttribute('data-detail')
-                    );
-                }
-            }
-        });
     }
 
     function setupFilters() {
@@ -151,6 +149,21 @@
                 btn.classList.add('active');
                 renderCourses(btn.getAttribute('data-filter'));
             });
+        });
+    }
+
+    // Se registra una sola vez (antes se acumulaba en cada render)
+    function setupDetailsClick(grid) {
+        grid.addEventListener('click', function(e) {
+            if (e.target.classList.contains('ver-detalles-btn')) {
+                var card = e.target.closest('.product-card');
+                if (card && typeof showCourseDetails === 'function') {
+                    showCourseDetails(
+                        card.getAttribute('data-title'),
+                        card.getAttribute('data-detail')
+                    );
+                }
+            }
         });
     }
 
@@ -169,6 +182,7 @@
 
             allCourses = result.data;
             setupFilters();
+            setupDetailsClick(grid);
             renderCourses('all');
         } catch (e) {
             console.error('Error loading courses:', e);
