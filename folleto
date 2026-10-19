@@ -25,40 +25,56 @@ html, body {
 a { color: inherit; text-decoration: none; font-style: normal; }
 a:hover { font-style: normal; }
 
-span {
-    font-weight: 500;
-}
+span { font-weight: 500; }
 
 :root {
     --gold: #d6a34a;
     --gold-bright: #fbbf24;
     --gold-deep: #b45309;
-    --purple-deep: #2d1b4e;       /* ← era #1a0a2e · ciruela más claro */
-    --purple-mid: #7c3aed;        /* ← era #581c87 · violeta más vivo */
-    --purple-glow: #a78bfa;       /* ← era #7c3aed · lavanda vibrante */
-    --purple-soft: #c4b5fd;       /* ← nuevo · lavanda pastel para acentos */
+    --purple-deep: #2d1b4e;
+    --purple-mid: #7c3aed;
+    --purple-glow: #a78bfa;
+    --purple-soft: #c4b5fd;
     --bg: #0a0512;
     --text: #f3e8ff;
     --muted: #c4b5fd;
     --line: rgba(214,163,74,0.3);
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
-@page { size: 297mm 210mm; margin: 0; }
 
 /* ============================================================
-   PÁGINA
+   HOJA VERTICAL 210 × 350 mm — el folleto va rotado 90° dentro
    ============================================================ */
+@page { size: 210mm 350mm; margin: 0; }
+
+/* Wrapper: hoja física vertical que centra y recorta el folleto rotado */
+.page-wrap {
+    width: 210mm;
+    height: 350mm;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    page-break-after: always;
+    box-shadow: 0 20px 60px rgba(124,58,237,0.55);
+    flex-shrink: 0;
+    background: #0a0512;
+}
+.page-wrap:last-child { page-break-after: auto; }
+
+/* El folleto se rota 90° y se escala 0.94 para dejar márgenes */
 .page {
     width: 339mm;
-    height: 200mm;
+    height: 203mm;
+    flex-shrink: 0;
+    transform: rotate(90deg) scale(0.94);
+    transform-origin: center center;
     display: grid;
     grid-template-columns: 113mm 113mm 113mm;
     color: var(--text);
     overflow: hidden;
-    box-shadow: 0 20px 60px rgba(124,58,237,0.55);   /* ← más vivo */
     position: relative;
 }
-.page + .page { page-break-before: always; }
 
 .panel {
     padding: 6mm 8mm;
@@ -69,13 +85,13 @@ span {
 }
 
 /* ============================================================
-   FONDOS — morados más claros y vibrantes
+   FONDOS
    ============================================================ */
 .bg-portada {
     background:
-        radial-gradient(ellipse at top left, rgba(167,139,250,0.40) 0%, transparent 55%),   /* ← más claro */
-        radial-gradient(ellipse at bottom right, rgba(124,58,237,0.55) 0%, transparent 60%), /* ← más vivo */
-        linear-gradient(160deg, #14101f 0%, #2d1b4e 50%, #0a0512 100%);                       /* ← fondo más claro */
+        radial-gradient(ellipse at top left, rgba(167,139,250,0.40) 0%, transparent 55%),
+        radial-gradient(ellipse at bottom right, rgba(124,58,237,0.55) 0%, transparent 60%),
+        linear-gradient(160deg, #14101f 0%, #2d1b4e 50%, #0a0512 100%);
 }
 .bg-interior {
     background:
@@ -148,11 +164,11 @@ span {
     display: block;
     overflow: hidden;
     box-shadow: 0 0 45px rgba(167,139,250,0.65);
-   }
+}
 
-   .foto-1 {
+.foto-1 {
     width: auto;
-    height: 58mm;
+    height: 48mm;
     border-radius: 30%;
     object-fit: contain;
     object-position: center;
@@ -209,7 +225,7 @@ span {
     color: var(--text);
     letter-spacing: 4px;
     text-transform: uppercase;
-    font-weight: 500;
+    font-weight: 600;
     line-height: 1.6;
 }
 .portada-eslogan {
@@ -296,12 +312,13 @@ span {
     height: 180px;
     margin-bottom: 4mm;
     margin-top: 0mm;
-    box-shadow: 0 0 35px rgba(167,139,250,0.65);              /* ← más claro */
+    box-shadow: 0 0 35px rgba(167,139,250,0.65);
 }
 .contra-qr img { width: 100%; height: 100%; display: block; }
 
 .contra-qr-label {
     font-size: 6.5pt;
+    font-weight: 600;
     color: var(--muted);
     letter-spacing: 2.5px;
     text-transform: uppercase;
@@ -314,7 +331,7 @@ span {
     color: var(--gold-bright);
     letter-spacing: 0.5px;
     margin-bottom: 6mm;
-    text-shadow: 0 0 14px rgba(167,139,250,0.75);             /* ← más claro */
+    text-shadow: 0 0 14px rgba(167,139,250,0.75);
 }
 .contra-socials {
     display: flex;
@@ -325,7 +342,7 @@ span {
     width: 7mm;
     height: 7mm;
     border-radius: 50%;
-    background: linear-gradient(135deg, rgba(167,139,250,0.5), rgba(124,58,237,0.35));   /* ← más claro y vivo */
+    background: linear-gradient(135deg, rgba(167,139,250,0.5), rgba(124,58,237,0.35));
     border: 1px solid rgba(214,163,74,0.4);
     display: flex;
     align-items: center;
@@ -358,7 +375,7 @@ span {
     font-weight: 700;
     letter-spacing: 0.5px;
     margin-bottom: 1.5mm;
-    text-shadow: 0 0 18px rgba(167,139,250,0.6);              /* ← más claro */
+    text-shadow: 0 0 18px rgba(167,139,250,0.6);
 }
 .como-titulo-sub {
     font-size: 7pt;
@@ -394,7 +411,7 @@ span {
     width: 8mm;
     height: 8mm;
     border-radius: 50%;
-    background: linear-gradient(135deg, rgba(167,139,250,0.75), rgba(124,58,237,0.45));   /* ← más claro */
+    background: linear-gradient(135deg, rgba(167,139,250,0.75), rgba(124,58,237,0.45));
     border: 1.5px solid var(--gold);
     display: flex;
     align-items: center;
@@ -416,10 +433,10 @@ span {
     font-size: 7.5pt;
     color: var(--text);
     line-height: 1.4;
-    font-weight: 500;
+    font-weight: 600;
 }
 .cita-bloque {
-    background: linear-gradient(135deg, rgba(167,139,250,0.28) 0%, rgba(45,27,78,0.6) 100%);   /* ← más claro */
+    background: linear-gradient(135deg, rgba(167,139,250,0.28) 0%, rgba(45,27,78,0.6) 100%);
     border-left: 2.5px solid var(--gold);
     border-radius: 1.5mm;
     padding: 3.2mm 3.5mm;
@@ -437,15 +454,15 @@ span {
 }
 .cita-texto {
     font-family: 'Playfair Display', serif;
-    font-size: 9pt;
+    font-size: 9.2pt;
     font-style: italic;
     color: var(--text);
     line-height: 1.5;
     margin-bottom: 2mm;
-    font-weight: 600;
+    font-weight: 800;
 }
 .cita-autor {
-    font-size: 8pt;
+    font-size: 8.5pt;
     color: var(--gold-bright);
     font-weight: 600;
     letter-spacing: 0.3px;
@@ -515,7 +532,7 @@ span {
     line-height: 1.5;
     color: var(--text);
     margin-bottom: 3.5mm;
-    font-weight: 500;
+    font-weight: 600;
 }
 .bio-texto strong { color: var(--gold-bright); font-weight: 600; }
 .bio-texto em { color: var(--gold); font-style: italic; }
@@ -549,7 +566,7 @@ span {
     width: 9mm;
     height: 9mm;
     border-radius: 50%;
-    background: linear-gradient(135deg, rgb(167, 139, 250), rgba(124, 58, 237, 0.932));   /* ← más claro */
+    background: linear-gradient(135deg, rgb(167, 139, 250), rgba(124, 58, 237, 0.932));
     border: 1.5px solid var(--gold);
     display: flex;
     align-items: center;
@@ -589,7 +606,7 @@ span {
     width: 6mm;
     height: 6mm;
     border-radius: 1mm;
-    background: linear-gradient(135deg, rgba(167,139,250,0.7), rgba(124,58,237,0.4));   /* ← más claro */
+    background: linear-gradient(135deg, rgba(167,139,250,0.7), rgba(124,58,237,0.4));
     border: 1px solid rgba(214,163,74,0.35);
     display: flex;
     align-items: center;
@@ -624,7 +641,7 @@ span {
     font-size: 6.8pt;
     padding: 1mm 2mm;
     border-radius: 999px;
-    background: rgba(167,139,250,0.28);                       /* ← más claro */
+    background: rgba(167,139,250,0.28);
     border: 1px solid rgba(214,163,74,0.3);
     color: var(--gold-bright);
     font-weight: 500;
@@ -639,8 +656,8 @@ span {
     margin-top: 0mm;
 }
 .servicio-item {
-    background: linear-gradient(135deg, rgba(124,58,237,0.3) 0%, rgba(45,27,78,0.5) 100%);   /* ← más claro */
-    border: 1px solid rgba(167,139,250,0.4);                                                  /* ← borde más claro */
+    background: linear-gradient(135deg, rgba(124,58,237,0.3) 0%, rgba(45,27,78,0.5) 100%);
+    border: 1px solid rgba(167,139,250,0.4);
     border-radius: 1.5mm;
     padding: 2mm 2.5mm;
     display: flex;
@@ -655,7 +672,7 @@ span {
     width: 7mm;
     height: 7mm;
     border-radius: 1.2mm;
-    background: linear-gradient(135deg, rgba(167,139,250,0.8), rgba(124,58,237,0.5));   /* ← más claro */
+    background: linear-gradient(135deg, rgba(167,139,250,0.8), rgba(124,58,237,0.5));
     border: 1px solid rgba(214,163,74,0.3);
     display: flex;
     align-items: center;
@@ -675,7 +692,7 @@ span {
     color: var(--muted);
     margin-top: 0.3mm;
     line-height: 1.3;
-    font-weight: 500;
+    font-weight: 700;
 }
 
 .horarios-bloque {
@@ -708,18 +725,18 @@ span {
     align-items: center;
     font-size: 6.5pt;
     padding: 4mm 0;
-    border-bottom: 1px dashed rgba(167,139,250,0.35);         /* ← más claro */
+    border-bottom: 1px dashed rgba(167,139,250,0.35);
 }
 .horario-linea:last-child { border-bottom: none; }
 .horario-dia { 
     color: var(--muted); 
-    font-size: 8pt;
-    font-weight: 600;
+    font-size: 9pt;
+    font-weight: 800;
 }
 .horario-hora { color: var(--text); font-weight: 600; }
 
 .testimonio-compacto {
-    background: linear-gradient(135deg, rgba(167,139,250,0.22) 0%, rgba(45,27,78,0.55) 100%);   /* ← más claro */
+    background: linear-gradient(135deg, rgba(167,139,250,0.22) 0%, rgba(45,27,78,0.55) 100%);
     border-left: 2px solid var(--gold);
     border-radius: 1.2mm;
     padding: 2.5mm 3mm;
@@ -744,7 +761,7 @@ span {
     font-weight: 700;
     margin-bottom: 2mm;
     letter-spacing: 0.5px;
-    text-shadow: 0 0 12px rgba(167,139,250,0.65);             /* ← más claro */
+    text-shadow: 0 0 12px rgba(167,139,250,0.65);
 }
 .contacto-titulo::after {
     content: '';
@@ -769,7 +786,7 @@ span {
     width: 30mm;
     height: 30mm;
     border: 3px solid var(--gold);
-    box-shadow: 0 0 24px rgba(167,139,250,0.5);               /* ← más claro */
+    box-shadow: 0 0 24px rgba(167,139,250,0.5);
 }
 .qr-contenedor img { width: 100%; height: 100%; display: block; }
 
@@ -777,13 +794,13 @@ span {
     display: flex;
     flex-direction: column;
     gap: 3.5mm;
-    font-weight: 700;
+    font-weight: 900;
 }
 .contacto-linea {
     display: flex;
     align-items: center;
     gap: 1.8mm;
-    font-size: 8pt;
+    font-size: 9.5pt;
     color: var(--text);
     line-height: 1.3;
 }
@@ -801,10 +818,10 @@ span {
     margin-top: 1mm;
     padding-top: 1.2mm;
     border-top: 1px solid rgba(214,163,74,0.3);
-    text-shadow: 0 0 12px rgba(167,139,250,0.6);              /* ← más claro */
+    text-shadow: 0 0 12px rgba(167,139,250,0.6);
 }
 
-/* Marcas de pliegue */
+/* Marcas de pliegue — dentro del .page (rotan con él) */
 @media screen {
     .page::before,
     .page::after {
@@ -823,8 +840,8 @@ span {
 
 @media print {
     html, body { background: #fff; padding: 0; gap: 0; min-height: auto; display: block; }
-    .page { box-shadow: none; page-break-after: always; }
-    .page:last-child { page-break-after: auto; }
+    .page-wrap { box-shadow: none; page-break-after: always; background: #fff; }
+    .page-wrap:last-child { page-break-after: auto; }
     .page::before, .page::after { display: none; }
 }
 
@@ -840,7 +857,6 @@ span {
 
 /* ============================================================
    REDISEÑO · MORADO / NEGRO / BLANCO en tercios iguales
-   Cada hoja = 1 panel morado + 1 panel negro + 1 panel blanco
    ============================================================ */
 .panel { padding: 11mm 8mm 5mm; }
 .panel::before {
@@ -852,7 +868,7 @@ span {
 .drip-negro::before  { background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20940%20100%27%20preserveAspectRatio%3D%27none%27%3E%3Cpath%20d%3D%27M0%2C0%20L0%2C22%20L74.0%2C22%20Q81.0%2C22%2081.0%2C29%20L81.0%2C42.0%20A14.0%2C14.0%200%200%200%20109.0%2C42.0%20L109.0%2C29%20Q109.0%2C22%20116.0%2C22%20L171.0%2C22%20Q178.0%2C22%20178.0%2C29%20L178.0%2C68.0%20A12.0%2C12.0%200%200%200%20202.0%2C68.0%20L202.0%2C29%20Q202.0%2C22%20209.0%2C22%20L268.0%2C22%20Q275.0%2C22%20275.0%2C29%20L275.0%2C35.0%20A15.0%2C15.0%200%200%200%20305.0%2C35.0%20L305.0%2C29%20Q305.0%2C22%20312.0%2C22%20L365.0%2C22%20Q372.0%2C22%20372.0%2C29%20L372.0%2C75.0%20A13.0%2C13.0%200%200%200%20398.0%2C75.0%20L398.0%2C29%20Q398.0%2C22%20405.0%2C22%20L463.0%2C22%20Q470.0%2C22%20470.0%2C29%20L470.0%2C47.0%20A15.0%2C15.0%200%200%200%20500.0%2C47.0%20L500.0%2C29%20Q500.0%2C22%20507.0%2C22%20L566.0%2C22%20Q573.0%2C22%20573.0%2C29%20L573.0%2C64.0%20A12.0%2C12.0%200%200%200%20597.0%2C64.0%20L597.0%2C29%20Q597.0%2C22%20604.0%2C22%20L662.0%2C22%20Q669.0%2C22%20669.0%2C29%20L669.0%2C38.0%20A16.0%2C16.0%200%200%200%20701.0%2C38.0%20L701.0%2C29%20Q701.0%2C22%20708.0%2C22%20L760.0%2C22%20Q767.0%2C22%20767.0%2C29%20L767.0%2C71.0%20A13.0%2C13.0%200%200%200%20793.0%2C71.0%20L793.0%2C29%20Q793.0%2C22%20800.0%2C22%20L849.0%2C22%20Q856.0%2C22%20856.0%2C29%20L856.0%2C44.0%20A14.0%2C14.0%200%200%200%20884.0%2C44.0%20L884.0%2C29%20Q884.0%2C22%20891.0%2C22%20L940%2C22%20L940%2C0%20Z%27%20fill%3D%27%230a0610%27%2F%3E%3C%2Fsvg%3E"); }
 .drip-blanco::before { background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20940%20100%27%20preserveAspectRatio%3D%27none%27%3E%3Cpath%20d%3D%27M0%2C0%20L0%2C22%20L35.0%2C22%20Q42.0%2C22%2042.0%2C29%20L42.0%2C57.0%20A13.0%2C13.0%200%200%200%2068.0%2C57.0%20L68.0%2C29%20Q68.0%2C22%2075.0%2C22%20L128.0%2C22%20Q135.0%2C22%20135.0%2C29%20L135.0%2C33.0%20A15.0%2C15.0%200%200%200%20165.0%2C33.0%20L165.0%2C29%20Q165.0%2C22%20172.0%2C22%20L226.0%2C22%20Q233.0%2C22%20233.0%2C29%20L233.0%2C72.0%20A12.0%2C12.0%200%200%200%20257.0%2C72.0%20L257.0%2C29%20Q257.0%2C22%20264.0%2C22%20L319.0%2C22%20Q326.0%2C22%20326.0%2C29%20L326.0%2C44.0%20A14.0%2C14.0%200%200%200%20354.0%2C44.0%20L354.0%2C29%20Q354.0%2C22%20361.0%2C22%20L417.0%2C22%20Q424.0%2C22%20424.0%2C29%20L424.0%2C62.0%20A16.0%2C16.0%200%200%200%20456.0%2C62.0%20L456.0%2C29%20Q456.0%2C22%20463.0%2C22%20L521.0%2C22%20Q528.0%2C22%20528.0%2C29%20L528.0%2C40.0%20A12.0%2C12.0%200%200%200%20552.0%2C40.0%20L552.0%2C29%20Q552.0%2C22%20559.0%2C22%20L618.0%2C22%20Q625.0%2C22%20625.0%2C29%20L625.0%2C71.0%20A15.0%2C15.0%200%200%200%20655.0%2C71.0%20L655.0%2C29%20Q655.0%2C22%20662.0%2C22%20L715.0%2C22%20Q722.0%2C22%20722.0%2C29%20L722.0%2C47.0%20A13.0%2C13.0%200%200%200%20748.0%2C47.0%20L748.0%2C29%20Q748.0%2C22%20755.0%2C22%20L807.0%2C22%20Q814.0%2C22%20814.0%2C29%20L814.0%2C58.0%20A16.0%2C16.0%200%200%200%20846.0%2C58.0%20L846.0%2C29%20Q846.0%2C22%20853.0%2C22%20L887.0%2C22%20Q894.0%2C22%20894.0%2C29%20L894.0%2C39.0%20A11.0%2C11.0%200%200%200%20916.0%2C39.0%20L916.0%2C29%20Q916.0%2C22%20923.0%2C22%20L940%2C22%20L940%2C0%20Z%27%20fill%3D%27%23ffffff%27%2F%3E%3C%2Fsvg%3E"); }
 
-/* ---- NEGRO (granos de cacao + brillo violeta) ---- */
+/* ---- NEGRO ---- */
 .tema-negro {
     --text:#f5f0ff; --muted:#cdbffa; --gold-bright:#fbbf24; --gold:#e6ac35; --line:rgba(251,191,36,.38);
     background:
@@ -864,7 +880,7 @@ span {
 .tema-negro .servicio-item, .tema-negro .mv-icon, .tema-negro .servicio-icono { border-color: rgba(167,139,250,.55); }
 .tema-negro .servicio-item { background: linear-gradient(135deg, #5b21b6 0%, #2a0f55 100%); }
 
-/* ---- BLANCO (chispas de colores) ---- */
+/* ---- BLANCO ---- */
 .tema-blanco {
     --text:#150c26; --muted:#5a4a80; --gold-bright:#5b21b6; --gold:#7c3aed; --line:rgba(91,33,182,.30);
     background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20300%20300%27%3E%3Crect%20x%3D%27129.5%27%20y%3D%27165.0%27%20width%3D%2714%27%20height%3D%274%27%20rx%3D%272.0%27%20fill%3D%27%23fde68a%27%20transform%3D%27rotate%28166%20136.5%20167.0%29%27%2F%3E%3Crect%20x%3D%27129.3%27%20y%3D%27248.8%27%20width%3D%2714%27%20height%3D%274%27%20rx%3D%272.0%27%20fill%3D%27%23d8c8ff%27%20transform%3D%27rotate%2834%20136.3%20250.8%29%27%2F%3E%3Crect%20x%3D%27136.1%27%20y%3D%27180.4%27%20width%3D%2714%27%20height%3D%274%27%20rx%3D%272.0%27%20fill%3D%27%23fde68a%27%20transform%3D%27rotate%2834%20143.1%20182.4%29%27%2F%3E%3Crect%20x%3D%2787.2%27%20y%3D%2731.8%27%20width%3D%2714%27%20height%3D%274%27%20rx%3D%272.0%27%20fill%3D%27%23fcd34d%27%20transform%3D%27rotate%28146%2094.2%2033.8%29%27%2F%3E%3Crect%20x%3D%27181.2%27%20y%3D%27175.1%27%20width%3D%2714%27%20height%3D%274%27%20rx%3D%272.0%27%20fill%3D%27%23fde68a%27%20transform%3D%27rotate%2871%20188.2%20177.1%29%27%2F%3E%3Crect%20x%3D%27186.7%27%20y%3D%27180.8%27%20width%3D%2714%27%20height%3D%274%27%20rx%3D%272.0%27%20fill%3D%27%23e9d5ff%27%20transform%3D%27rotate%2828%20193.7%20182.8%29%27%2F%3E%3Crect%20x%3D%27237.2%27%20y%3D%2723.9%27%20width%3D%2714%27%20height%3D%274%27%20rx%3D%272.0%27%20fill%3D%27%23c4b5fd%27%20transform%3D%27rotate%286%20244.2%2025.9%29%27%2F%3E%3Crect%20x%3D%27171.3%27%20y%3D%27227.0%27%20width%3D%2714%27%20height%3D%274%27%20rx%3D%272.0%27%20fill%3D%27%23d8c8ff%27%20transform%3D%27rotate%2859%20178.3%20229.0%29%27%2F%3E%3Crect%20x%3D%27240.2%27%20y%3D%27153.4%27%20width%3D%2714%27%20height%3D%274%27%20rx%3D%272.0%27%20fill%3D%27%23fde68a%27%20transform%3D%27rotate%28115%20247.2%20155.4%29%27%2F%3E%3Crect%20x%3D%272.3%27%20y%3D%2730.1%27%20width%3D%2714%27%20height%3D%274%27%20rx%3D%272.0%27%20fill%3D%27%23fde68a%27%20transform%3D%27rotate%28118%209.3%2032.1%29%27%2F%3E%3Crect%20x%3D%27284.3%27%20y%3D%27288.8%27%20width%3D%2714%27%20height%3D%274%27%20rx%3D%272.0%27%20fill%3D%27%23fcd34d%27%20transform%3D%27rotate%28151%20291.3%20290.8%29%27%2F%3E%3Crect%20x%3D%2773.1%27%20y%3D%27221.3%27%20width%3D%2714%27%20height%3D%274%27%20rx%3D%272.0%27%20fill%3D%27%23e9d5ff%27%20transform%3D%27rotate%2892%2080.1%20223.3%29%27%2F%3E%3Crect%20x%3D%2720.9%27%20y%3D%27223.6%27%20width%3D%2714%27%20height%3D%274%27%20rx%3D%272.0%27%20fill%3D%27%23ddd6fe%27%20transform%3D%27rotate%2872%2027.9%20225.6%29%27%2F%3E%3Crect%20x%3D%27110.8%27%20y%3D%27278.1%27%20width%3D%2714%27%20height%3D%274%27%20rx%3D%272.0%27%20fill%3D%27%23e9d5ff%27%20transform%3D%27rotate%28153%20117.8%20280.1%29%27%2F%3E%3C%2Fsvg%3E") 0 0 / 50mm 50mm repeat, #ffffff;
@@ -885,7 +901,7 @@ span {
 .tema-blanco .bio-texto strong { color: #6d28d9; }
 .tema-blanco .tl-titulo { color: #0a0610; }
 
-/* ---- MORADO (portadas) ---- */
+/* ---- MORADO ---- */
 .tema-morado {
     --text:#ffffff; --muted:#e6dcff; --gold-bright:#fde68a; --gold:#fbbf24; --line:rgba(255,255,255,.50);
     background:
@@ -906,7 +922,6 @@ span {
 .tema-morado .contra-web { text-shadow: none; }
 .tema-morado .portada-creditos, .tema-morado .contra-creditos { opacity: .9; }
 
-/* fotos en panel negro */
 .tema-negro .foto-2 { border-color:#fbbf24; box-shadow: 0 0 0 1.4mm #6d28d9, 0 0 28px rgba(167,139,250,.55); }
 
 </style>
@@ -914,350 +929,350 @@ span {
 <body>
 
 <!-- ═══════════════════════════════════════════════════════════
-PÁGINA 1 — EXTERIOR
+PÁGINA 1 — EXTERIOR (rotada 90° dentro de la hoja vertical)
      ═══════════════════════════════════════════════════════════ -->
-<div class="page">
-    
-    <!-- PANEL DERECHO: HORARIOS + IMAGEN + CONTACTO -->
-    <section class="panel tema-negro drip-morado">
-        <h2 class="panel-titulo">Visítame</h2>
-        <p class="panel-titulo-sub">Horarios · Contacto</p>
-        
-        <div class="horarios-bloque" style="border-top:none;padding-top:0;">
-            <h3 class="horarios-titulo">Horario de Atención</h3>
-            <div class="horarios-lista">
-                <div class="horario-linea">
-                    <span class="horario-dia">Lunes – Viernes</span>
-                    <span class="horario-hora">9:00 AM – 6:00 PM</span>
-                </div>
-                <div class="horario-linea">
-                    <span class="horario-dia">Sábados</span>
-                    <span class="horario-hora">10:00 AM – 2:00 PM</span>
-                </div>
-                <div class="horario-linea">
-                    <span class="horario-dia">Domingos y Festivos</span>
-                    <span class="horario-hora">Sin atención</span>
-                </div>
-            </div>
-        </div>
+<div class="page-wrap">
+    <div class="page">
 
-        <!-- ⬇️ IMAGEN 2A — FOTO VISÍTAME (misma clase .foto-2) -->
-        <img src="img/img_0314.webp" alt="Chef Jonathan Buitrago" class="foto-2">
+        <!-- PANEL 1: HORARIOS + IMAGEN + CONTACTO -->
+        <section class="panel tema-negro drip-morado">
+            <h2 class="panel-titulo">Visítame</h2>
+            <p class="panel-titulo-sub">Horarios · Contacto</p>
 
-        <div class="contacto-bloque">
-            <h3 class="contacto-titulo">Contacto</h3>
-
-            <div class="contacto-grid">
-                <!-- ⬇️ IMAGEN 4 — QR CONTACTO (ajustar en .qr-contenedor) -->
-                <div class="qr-contenedor">
-                    <img src="img/qr_contacto.svg" alt="QR Chef Jonathan Buitrago">
-                </div>
-                <div class="contacto-info">
-                    <div class="contacto-linea">
-                        <svg fill="currentColor" viewBox="1 0 23 25">
-                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                        </svg>
-                        <span>+57 322 945 2346</span>
+            <div class="horarios-bloque" style="border-top:none;padding-top:0;">
+                <h3 class="horarios-titulo">Horario de Atención</h3>
+                <div class="horarios-lista">
+                    <div class="horario-linea">
+                        <span class="horario-dia">Lunes – Viernes</span>
+                        <span class="horario-hora">9:00 AM – 6:00 PM</span>
                     </div>
-                    <div class="contacto-linea">
-                        <svg fill="none" stroke="currentColor" viewBox="2 0 20 22" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                        <span>j.buitrago@outlook.es</span>
+                    <div class="horario-linea">
+                        <span class="horario-dia">Sábados</span>
+                        <span class="horario-hora">10:00 AM – 2:00 PM</span>
                     </div>
-                    <div class="contacto-linea">
-                        <svg fill="currentColor" viewBox="0 0 24 25"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.644-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4z"/></svg>
-                        <span>@chef_jonathan_buitrago</span>
+                    <div class="horario-linea">
+                        <span class="horario-dia">Domingos y Festivos</span>
+                        <span class="horario-hora">Sin atención</span>
                     </div>
-                    <p class="web-url">chef-jb.freedev.app</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- PANEL IZQUIERDO: CÓMO EMPEZAR -->
-    <section class="panel tema-blanco drip-negro">
-        <h2 class="como-titulo">Cómo Empezar</h2>
-        <p class="como-titulo-sub">En 3 Pasos</p>
-
-        <div class="pasos-lista">
-            <div class="paso">
-                <div class="paso-num">1</div>
-                <div>
-                    <p class="paso-titulo">Explora el Catálogo</p>
-                    <p class="paso-desc">Visita el sitio web y descubre los cursos, asesorías, eventos y certificados disponibles.</p>
                 </div>
             </div>
 
-            <div class="paso">
-                <div class="paso-num">2</div>
-                <div>
-                    <p class="paso-titulo">Elige tu Servicio</p>
-                    <p class="paso-desc">Regístrate en el Área de Miembros y selecciona el programa que mejor se adapte a tus metas.</p>
+            <img src="img/img_0314.webp" alt="Chef Jonathan Buitrago" class="foto-2">
+
+            <div class="contacto-bloque">
+                <h3 class="contacto-titulo">Contacto</h3>
+
+                <div class="contacto-grid">
+                    <div class="qr-contenedor">
+                        <img src="img/qr_contacto.svg" alt="QR Chef Jonathan Buitrago">
+                    </div>
+                    <div class="contacto-info">
+                        <div class="contacto-linea">
+                            <svg fill="currentColor" viewBox="1 0 23 25">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                            </svg>
+                            <span>+57 322 945 2346</span>
+                        </div>
+                        <div class="contacto-linea">
+                            <svg fill="none" stroke="currentColor" viewBox="2 0 20 22" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                            <span>j.buitrago@outlook.es</span>
+                        </div>
+                        <div class="contacto-linea">
+                            <svg fill="currentColor" viewBox="0 0 24 25"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.644-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4z"/></svg>
+                            <span>@chef_jonathan_buitrago</span>
+                        </div>
+                        <p class="web-url">chef-jb.freedev.app</p>
+                    </div>
                 </div>
             </div>
-            
-            <div class="paso">
-                <div class="paso-num">3</div>
-                <div>
-                    <p class="paso-titulo">Confirma por WhatsApp</p>
-                    <p class="paso-desc">Adjunta tu comprobante de pago y recibe la confirmación inmediata con los detalles de tu inscripción.</p>
+        </section>
+
+        <!-- PANEL 2: CÓMO EMPEZAR -->
+        <section class="panel tema-blanco drip-negro">
+            <h2 class="como-titulo">Cómo Empezar</h2>
+            <p class="como-titulo-sub">En 3 Pasos</p>
+
+            <div class="pasos-lista">
+                <div class="paso">
+                    <div class="paso-num">1</div>
+                    <div>
+                        <p class="paso-titulo">Explora el Catálogo</p>
+                        <p class="paso-desc">Visita el sitio web y descubre los cursos, asesorías, eventos y certificados disponibles.</p>
+                    </div>
+                </div>
+
+                <div class="paso">
+                    <div class="paso-num">2</div>
+                    <div>
+                        <p class="paso-titulo">Elige tu Servicio</p>
+                        <p class="paso-desc">Regístrate en el Área de Miembros y selecciona el programa que mejor se adapte a tus metas.</p>
+                    </div>
+                </div>
+
+                <div class="paso">
+                    <div class="paso-num">3</div>
+                    <div>
+                        <p class="paso-titulo">Confirma por WhatsApp</p>
+                        <p class="paso-desc">Adjunta tu comprobante de pago y recibe la confirmación inmediata con los detalles de tu inscripción.</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="testimonio-compacto">
-            <span class="cita-icono">"</span>
-            <p class="cita-texto">Los cursos de Chef Jonathan han transformado mi forma de cocinar. Las técnicas aprendidas son excepcionales.</p>
-            <p class="cita-autor">Ana Gómez</p>
-            <p class="cita-rol">Estudiante de Cocina Básica</p>
-        </div>
-        
-        <div class="testimonio-compacto">
-            <span class="cita-icono">"</span>
-            <p class="cita-texto">Los mejores cursos que he tomado. El chef es un verdadero maestro y sus explicaciones son muy claras.</p>
-            <p class="cita-autor">Laura Martínez</p>
-            <p class="cita-rol">Estudiante de Pastelería</p>
-        </div>
-
-        <div class="testimonio-compacto">
-            <span class="cita-icono">"</span>
-            <p class="cita-texto">La asesoría personalizada me ayudó a abrir mi propio restaurante. ¡Increíble experiencia!</p>
-            <p class="cita-autor">Carlos Pérez</p>
-            <p class="cita-rol">Emprendedor Gastronómico</p>
-        </div>
-
-        <div class="datos-rapidos">
-            <div class="dato-rapido">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                <span>Certificado al completar cada curso</span>
+            <div class="testimonio-compacto">
+                <span class="cita-icono">"</span>
+                <p class="cita-texto">Los cursos de Chef Jonathan han transformado mi forma de cocinar. Las técnicas aprendidas son excepcionales.</p>
+                <p class="cita-autor">Ana Gómez</p>
+                <p class="cita-rol">Estudiante de Cocina Básica</p>
             </div>
-            <div class="dato-rapido">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                <span>Acceso de por vida a las lecciones</span>
+
+            <div class="testimonio-compacto">
+                <span class="cita-icono">"</span>
+                <p class="cita-texto">Los mejores cursos que he tomado. El chef es un verdadero maestro y sus explicaciones son muy claras.</p>
+                <p class="cita-autor">Laura Martínez</p>
+                <p class="cita-rol">Estudiante de Pastelería</p>
             </div>
-            <div class="dato-rapido">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                <span>Soporte técnico durante el curso</span>
+
+            <div class="testimonio-compacto">
+                <span class="cita-icono">"</span>
+                <p class="cita-texto">La asesoría personalizada me ayudó a abrir mi propio restaurante. ¡Increíble experiencia!</p>
+                <p class="cita-autor">Carlos Pérez</p>
+                <p class="cita-rol">Emprendedor Gastronómico</p>
             </div>
-        </div>
-    </section>
 
-    <!-- PANEL DERECHO: PORTADA -->
-    <section class="panel tema-morado drip-blanco">
-        <div class="portada-inner">
-            <div class="portada-marco"></div>
+            <div class="datos-rapidos">
+                <div class="dato-rapido">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span>Certificado al completar cada curso</span>
+                </div>
+                <div class="dato-rapido">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span>Acceso de por vida a las lecciones</span>
+                </div>
+                <div class="dato-rapido">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    <span>Soporte técnico durante el curso</span>
+                </div>
+            </div>
+        </section>
 
-            <div class="portada-eyebrow">Chef Colombiano</div>
+        <!-- PANEL 3: PORTADA -->
+        <section class="panel tema-morado drip-blanco">
+            <div class="portada-inner">
+                <div class="portada-marco"></div>
 
-            <!-- ⬇️ IMAGEN 1 — FOTO PORTADA (ajustar en .portada-foto) -->
-            <img src="img/chef.jpg" alt="Chef Jonathan Buitrago" class="portada-foto">
+                <div class="portada-eyebrow">Chef Colombiano</div>
 
-            <h1 class="parisienne-font portada-nombre">Jonathan<br>Buitrago</h1>
+                <img src="img/chef.jpg" alt="Chef Jonathan Buitrago" class="portada-foto">
 
-            <div class="portada-linea"></div>
+                <h1 class="parisienne-font portada-nombre">Jonathan<br>Buitrago</h1>
 
-            <p class="portada-subtitulo">Pastelero &amp; <br>Chocolatero</p>
+                <div class="portada-linea"></div>
 
-            <p class="portada-eslogan">"Arte dulce, tradición viva"</p>
+                <p class="portada-subtitulo">Pastelero &amp; <br>Chocolatero</p>
 
-            <p class="portada-creditos">Bogotá · Colombia</p>
-        </div>
-    </section>
-    
+                <p class="portada-eslogan">"Arte dulce, tradición viva"</p>
+
+                <p class="portada-creditos">Bogotá · Colombia</p>
+            </div>
+        </section>
+
+    </div>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════════
-PÁGINA 2 — INTERIOR
+PÁGINA 2 — INTERIOR (rotada 90° dentro de la hoja vertical)
 ═══════════════════════════════════════════════════════════ -->
-<div class="page">
-    
-    <!-- PANEL IZQUIERDO: BIOGRAFÍA + LOGROS -->
-    <section class="panel tema-blanco drip-morado">
-        <h2 class="panel-titulo">Sobre Mí</h2>
-        <p class="panel-titulo-sub">Pasión · Trayectoria</p>
-    
-        <p class="bio-texto">
-            Chef pastelero y chocolatero colombiano con más de <strong>10 años</strong> de experiencia. Su pasión por la repostería lo ha llevado a convertirse en una figura destacada de la pastelería nacional e internacional.
-        </p>
-    
-        <p class="bio-texto">
-            Combina tradición e innovación creando obras que deleitan los sentidos. En <strong>2026</strong> representó a Colombia en el Premio Internacional Paco Torreblanca con <em>"Macondo"</em>, una tarta inspirada en <em>Cien Años de Soledad</em> y en la riqueza del Caribe colombiano.
-        </p>
-    
-        <h3 class="panel-titulo" style="font-size:13pt;margin-top:2mm;">Logros Destacados</h3>
-    
-        <div class="timeline">
-            <div class="tl-item">
-                <div class="tl-año">2015</div>
-                <div class="tl-body">
-                    <p class="tl-titulo">Campeón Nacional de Pastelería Juvenil</p>
-                    <p class="tl-desc">Primer reconocimiento a su excelencia técnica.</p>
-                </div>
-            </div>
-            <div class="tl-item">
-                <div class="tl-año">2018</div>
-                <div class="tl-body">
-                    <p class="tl-titulo">Mejor Chocolatero de Colombia</p>
-                    <p class="tl-desc">Campeón Nacional de Chocolatería · "El Cacao Hecho Arte".</p>
-                </div>
-            </div>
-            <div class="tl-item">
-                <div class="tl-año">2019</div>
-                <div class="tl-body">
-                    <p class="tl-titulo">Nominado Premios La Barra</p>
-                    <p class="tl-desc">Mejor Pastelero de Bogotá.</p>
-                </div>
-            </div>
-            <div class="tl-item">
-                <div class="tl-año">2026</div>
-                <div class="tl-body">
-                    <p class="tl-titulo">Premio Paco Torreblanca</p>
-                    <p class="tl-desc">Ganador ronda Colombia · Finalista internacional en Alicante, España.</p>
-                </div>
-            </div>
-        </div>
-        <!-- ⬇️ IMAGEN 1A — FOTO BIO (ajustar en .foto-1) -->
-        <img src="img/IMG_1117.PNG" alt="Chef Jonathan Buitrago" class="foto-1">
-    </section>
-    
-    <!-- PANEL CENTRAL: MISIÓN / VISIÓN / VALORES + SERVICIOS -->
-    <section class="panel tema-negro drip-blanco">
-        <h2 class="panel-titulo">Mi Filosofía</h2>
-        <p class="panel-titulo-sub">Misión · Visión · Valores</p>
+<div class="page-wrap">
+    <div class="page">
 
-        <div class="mv-grid">
-            <div class="mv-item">
-                <div class="mv-icon">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-                    </svg>
-                </div>
-                <div>
-                    <p class="mv-titulo">Misión</p>
-                    <p class="mv-texto">Innovar y crear experiencias gastronómicas únicas, apoyando a emprendedores del sector con formación de excelencia.</p>
-                </div>
-            </div>
+        <!-- PANEL 4: BIOGRAFÍA + LOGROS -->
+        <section class="panel tema-blanco drip-morado">
+            <h2 class="panel-titulo">Sobre Mí</h2>
+            <p class="panel-titulo-sub">Pasión · Trayectoria</p>
 
-            <div class="mv-item">
-                <div class="mv-icon">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                    </svg>
-                </div>
-                <div>
-                    <p class="mv-titulo">Visión</p>
-                    <p class="mv-texto">Ser referente nacional en formación y asesoría en repostería y chocolatería, reconocido por la calidad e impacto en la comunidad gastronómica.</p>
-                </div>
-            </div>
+            <p class="bio-texto">
+                Chef pastelero y chocolatero colombiano con más de <strong>10 años</strong> de experiencia. Su pasión por la repostería lo ha llevado a convertirse en una figura destacada de la pastelería nacional e internacional.
+            </p>
 
-            <div class="mv-item">
-                <div class="mv-icon">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                    </svg>
-                </div>
-                <div style="flex: 1;">
-                    <p class="mv-titulo">Valores</p>
-                    <div class="valores-chips">
-                        <span class="valor-chip">Excelencia</span>
-                        <span class="valor-chip">Innovación</span>
-                        <span class="valor-chip">Compromiso</span>
+            <p class="bio-texto">
+                Combina tradición e innovación creando obras que deleitan los sentidos. En <strong>2026</strong> representó a Colombia en el Premio Internacional Paco Torreblanca con <em>"Macondo"</em>, una tarta inspirada en <em>Cien Años de Soledad</em> y en la riqueza del Caribe colombiano.
+            </p>
+
+            <h3 class="panel-titulo" style="font-size:13pt;margin-top:2mm;">Logros Destacados</h3>
+
+            <div class="timeline">
+                <div class="tl-item">
+                    <div class="tl-año">2015</div>
+                    <div class="tl-body">
+                        <p class="tl-titulo">Campeón Nacional de Pastelería Juvenil</p>
+                        <p class="tl-desc">Primer reconocimiento a su excelencia técnica.</p>
                     </div>
-                    <div class="valores-chips">
-                        <span class="valor-chip">Pasión</span>
-                        <span class="valor-chip">Tradición</span>
+                </div>
+                <div class="tl-item">
+                    <div class="tl-año">2018</div>
+                    <div class="tl-body">
+                        <p class="tl-titulo">Mejor Chocolatero de Colombia</p>
+                        <p class="tl-desc">Campeón Nacional de Chocolatería · "El Cacao Hecho Arte".</p>
+                    </div>
+                </div>
+                <div class="tl-item">
+                    <div class="tl-año">2019</div>
+                    <div class="tl-body">
+                        <p class="tl-titulo">Nominado Premios La Barra</p>
+                        <p class="tl-desc">Mejor Pastelero de Bogotá.</p>
+                    </div>
+                </div>
+                <div class="tl-item">
+                    <div class="tl-año">2026</div>
+                    <div class="tl-body">
+                        <p class="tl-titulo">Premio Paco Torreblanca</p>
+                        <p class="tl-desc">Ganador ronda Colombia · Finalista internacional en Alicante, España.</p>
                     </div>
                 </div>
             </div>
-        </div>
+            <img src="img/IMG_1117.PNG" alt="Chef Jonathan Buitrago" class="foto-1">
+        </section>
 
-        <h3 class="panel-titulo" style="font-size:13pt;margin-top:2mm;">Servicios</h3>
+        <!-- PANEL 5: FILOSOFÍA + SERVICIOS -->
+        <section class="panel tema-negro drip-blanco">
+            <h2 class="panel-titulo">Mi Filosofía</h2>
+            <p class="panel-titulo-sub">Misión · Visión · Valores</p>
 
-        <div class="servicios-grid">
-            <div class="servicio-item">
-                <div class="servicio-icono">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                    </svg>
+            <div class="mv-grid">
+                <div class="mv-item">
+                    <div class="mv-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="mv-titulo">Misión</p>
+                        <p class="mv-texto">Innovar y crear experiencias gastronómicas únicas, apoyando a emprendedores del sector con formación de excelencia.</p>
+                    </div>
                 </div>
-                <div>
-                    <p class="servicio-titulo">Cursos Especializados</p>
-                    <p class="servicio-desc">Chocolatería, pastelería y repostería de vanguardia</p>
+
+                <div class="mv-item">
+                    <div class="mv-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="mv-titulo">Visión</p>
+                        <p class="mv-texto">Ser referente nacional en formación y asesoría en repostería y chocolatería, reconocido por la calidad e impacto en la comunidad gastronómica.</p>
+                    </div>
+                </div>
+
+                <div class="mv-item">
+                    <div class="mv-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+                        </svg>
+                    </div>
+                    <div style="flex: 1;">
+                        <p class="mv-titulo">Valores</p>
+                        <div class="valores-chips">
+                            <span class="valor-chip">Excelencia</span>
+                            <span class="valor-chip">Innovación</span>
+                            <span class="valor-chip">Compromiso</span>
+                        </div>
+                        <div class="valores-chips">
+                            <span class="valor-chip">Pasión</span>
+                            <span class="valor-chip">Tradición</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="servicio-item">
-                <div class="servicio-icono">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
-                    </svg>
-                </div>
-                <div>
-                    <p class="servicio-titulo">Asesorías Personalizadas</p>
-                    <p class="servicio-desc">Para emprendedores y negocios gastronómicos</p>
-                </div>
-            </div>
+            <h3 class="panel-titulo" style="font-size:13pt;margin-top:2mm;">Servicios</h3>
 
-            <div class="servicio-item">
-                <div class="servicio-icono">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18z"/>
-                    </svg>
+            <div class="servicios-grid">
+                <div class="servicio-item">
+                    <div class="servicio-icono">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="servicio-titulo">Cursos Especializados</p>
+                        <p class="servicio-desc">Chocolatería, pastelería y repostería de vanguardia</p>
+                    </div>
                 </div>
-                <div>
-                    <p class="servicio-titulo">Eventos &amp; Catas</p>
-                    <p class="servicio-desc">Experiencias gastronómicas a medida</p>
-                </div>
-            </div>
 
-            <div class="servicio-item">
-                <div class="servicio-icono">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
-                    </svg>
+                <div class="servicio-item">
+                    <div class="servicio-icono">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="servicio-titulo">Asesorías Personalizadas</p>
+                        <p class="servicio-desc">Para emprendedores y negocios gastronómicos</p>
+                    </div>
                 </div>
-                <div>
-                    <p class="servicio-titulo">Certificados</p>
-                    <p class="servicio-desc">Constancia de formación al completar cursos</p>
+
+                <div class="servicio-item">
+                    <div class="servicio-icono">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="servicio-titulo">Eventos &amp; Catas</p>
+                        <p class="servicio-desc">Experiencias gastronómicas a medida</p>
+                    </div>
+                </div>
+
+                <div class="servicio-item">
+                    <div class="servicio-icono">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="servicio-titulo">Certificados</p>
+                        <p class="servicio-desc">Constancia de formación al completar cursos</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
-    
-    <!-- PANEL CENTRAL: CONTRAPORTADA -->
-    <section class="panel tema-morado drip-negro">
-        <div class="contra-inner">
-            <div class="contra-marco"></div>
-    
-            <p class="contra-eyebrow">Chef · Pastelero · Chocolatero</p>
-            <h1 class="parisienne-font contra-nombre">Jonathan<br>Buitrago</h1>
-            <p class="contra-eslogan">"Arte dulce, tradición viva"</p>
-    
-            <!-- ⬇️ IMAGEN 3 — QR CONTRAPORTADA (ajustar en .contra-qr) -->
-            <div class="contra-qr">
-                <img src="img/qr_pagina.svg" alt="QR Chef Jonathan Buitrago">
+        </section>
+
+        <!-- PANEL 6: CONTRAPORTADA -->
+        <section class="panel tema-morado drip-negro">
+            <div class="contra-inner">
+                <div class="contra-marco"></div>
+
+                <p class="contra-eyebrow">Chef · Pastelero · Chocolatero</p>
+                <h1 class="parisienne-font contra-nombre">Jonathan<br>Buitrago</h1>
+                <p class="contra-eslogan">"Arte dulce, tradición viva"</p>
+
+                <div class="contra-qr">
+                    <img src="img/qr_pagina.svg" alt="QR Chef Jonathan Buitrago">
+                </div>
+                <p class="contra-qr-label">Escanea para visitar</p>
+
+                <p class="contra-web">chef-jb.freedev.app</p>
+
+                <div class="contra-socials">
+                    <div class="contra-social">
+                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.644-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4z"/></svg>
+                    </div>
+                    <div class="contra-social">
+                        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884"/></svg>
+                    </div>
+                    <div class="contra-social">
+                        <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="2 0 20 22" width="20" height="20">
+                            <rect x="2" y="4" width="20" height="16" rx="2" ry="2"></rect>
+                            <path d="M22 6l-10 7L2 6"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <p class="contra-creditos">Bogotá · Colombia</p>
             </div>
-            <p class="contra-qr-label">Escanea para visitar</p>
-    
-            <p class="contra-web">chef-jb.freedev.app</p>
-    
-            <div class="contra-socials">
-                <div class="contra-social">
-                    <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.644-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4z"/></svg>
-                </div>
-                <div class="contra-social">
-                    <svg fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884"/></svg>
-                </div>
-                <div class="contra-social">
-                    <svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="2 0 20 22" width="20" height="20">
-                        <rect x="2" y="4" width="20" height="16" rx="2" ry="2"></rect>
-                        <path d="M22 6l-10 7L2 6"></path>
-                    </svg>
-                </div>
-    
-            <p class="contra-creditos">Bogotá · Colombia</p>
-        </div>
-    </section>
-    
+        </section>
+
+    </div>
 </div>
 
 </body>
