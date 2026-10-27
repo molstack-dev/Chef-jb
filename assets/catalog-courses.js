@@ -116,7 +116,7 @@
                 eventInfo += '</div>';
             }
 
-            var inscriptionBtn = '<a href="registro.html" class="flex-1 text-center py-1.5 md:py-2 px-2 bg-green-600 text-white rounded-lg text-[10px] md:text-sm font-semibold hover:bg-green-700 transition-colors">Inscribirse</a>';
+            var inscriptionBtn = '<a href="registro" class="flex-1 text-center py-1.5 md:py-2 px-2 bg-green-600 text-white rounded-lg text-[10px] md:text-sm font-semibold hover:bg-green-700 transition-colors">Inscribirse</a>';
 
             card.innerHTML =
                 imgHtml +
