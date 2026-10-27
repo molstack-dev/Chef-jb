@@ -1,269 +1,211 @@
-# Chef Jonathan Buitrago — Plataforma web de pastelería
+# Chef Jonathan Buitrago
 
-Aplicación web para presentar y gestionar cursos, servicios y asesorías de pastelería de **Chef Jonathan Buitrago**. El proyecto integra un catálogo público con espacios de administración y de usuario.
+Plataforma web para presentar y administrar cursos de pastelería, inscripciones, asesorías, eventos y servicios de **Chef Jonathan Buitrago**. Incluye un sitio público, un área de usuario y herramientas administrativas.
 
-<p align="center">
-  <strong>Catálogo · Cursos · Inscripciones · Asesorías · Perfil · Administración</strong>
-</p>
-
-## Contenido
-
-- [Descripción](#descripción)
-- [Funcionalidades](#funcionalidades)
-- [Tecnologías](#tecnologías)
-- [Requisitos](#requisitos)
-- [Instalación local](#instalación-local)
-- [Configuración de la base de datos](#configuración-de-la-base-de-datos)
-- [Cuentas de demostración](#cuentas-de-demostración)
-- [Estructura del proyecto](#estructura-del-proyecto)
-- [API del backend](#api-del-backend)
-- [Solución de problemas](#solución-de-problemas)
-- [Seguridad antes de publicar](#seguridad-antes-de-publicar)
-
-## Descripción
-
-Chef Jonathan Buitrago es una aplicación web construida para presentar la oferta formativa de pastelería y facilitar la gestión de usuarios, cursos, inscripciones y asesorías. La interfaz utiliza HTML, CSS y JavaScript; la lógica del servidor utiliza PHP y una base de datos MySQL o MariaDB.
-
-La interfaz de esta versión incorpora un tema visual ámbar. La aplicación contempla dos roles principales:
-
-- **Administrador:** gestión de usuarios, cursos/servicios e inscripciones desde las vistas administrativas.
-- **Usuario:** consulta del catálogo, gestión del perfil, revisión de sus servicios e inscripciones, historial, certificados y opciones para solicitar asesorías o reservas.
+> Esta guía se basa en el código presente en el repositorio. No sustituye las pruebas funcionales en un servidor configurado.
 
 ## Funcionalidades
 
-### Sitio público
-- Página informativa y catálogo de cursos.
-- Registro e inicio de sesión.
-- Interfaz adaptable a diferentes tamaños de pantalla.
-
-### Área de usuario
-- Panel personal y perfil.
-- Consulta de servicios e inscripciones.
-- Historial y certificados.
-- Cambio de contraseña.
-- Opciones para agendar asesorías y realizar reservas.
-
-### Área administrativa
-- Panel de administración.
-- Consulta y gestión de usuarios.
-- Gestión de cursos y servicios.
-- Administración de inscripciones y clientes.
-
-### Inscripciones
-- Presentación de cursos desde los recursos del frontend.
-- Gestión de inscripciones mediante endpoints PHP.
-- Flujo de confirmación de pago que puede continuar por WhatsApp.
-
-La disponibilidad de cada función depende de la configuración del servidor y de la base de datos.
+- **Sitio público:** página informativa, catálogo, registro e inicio de sesión.
+- **Área de usuario:** perfil, servicios e inscripciones, historial, certificados, contenido de cursos, asesorías, reservas y solicitudes de reembolso.
+- **Administración:** gestión de usuarios, cursos y su contenido, inscripciones, certificados, servicios, pagos y reembolsos.
+- **Backend:** endpoints PHP que responden con JSON, sesiones de autenticación y persistencia MySQL/MariaDB.
 
 ## Tecnologías
 
-| Capa | Tecnologías |
+| Componente | Tecnología |
 | --- | --- |
-| Frontend | HTML5, CSS3, JavaScript |
-| Estilos | Tailwind CSS y hojas de estilo propias |
-| Backend | PHP 8.x |
+| Interfaz | HTML, CSS y JavaScript |
+| Estilos | CSS propio y Tailwind CSS por CDN en algunas vistas |
+| Servidor | PHP con Apache |
 | Base de datos | MySQL o MariaDB |
-| Conectividad | PDO y extensiones PHP para MySQL |
-| Servidor local recomendado | Apache y PHP incluidos en XAMPP |
-| Navegadores | Chrome, Firefox, Edge y navegadores modernos |
+| Acceso a datos | PDO y MySQLi |
+| Desarrollo local | XAMPP |
+| Control de versiones | Git |
+
+## Estructura
+
+~~~text
+Chef-jb/
+├── assets/                  # Hojas de estilo y JavaScript
+├── backend/
+│   ├── api/                 # Endpoints PHP
+│   ├── config.php           # Configuración de conexión
+│   ├── init_db.php          # Creación/migración del esquema
+│   ├── seed.php             # Ejecuta el inicializador
+│   └── *.sql                # Copia SQL incluida en el repositorio
+├── img/                     # Imágenes e iconos
+├── views/
+│   ├── admin/               # Vistas administrativas
+│   ├── user/                # Vistas del usuario
+│   ├── catalogo              # Catálogo público
+│   ├── informacion           # Página informativa
+│   ├── registro              # Registro e inicio de sesión
+│   └── forgot-password       # Recuperación de acceso
+├── index                    # Documento de entrada principal
+├── index.php                # Entrada PHP que incluye index
+├── .htaccess                # Reglas de Apache
+└── README.md
+~~~
+
+Algunas vistas no tienen extensión en el nombre del archivo. Comprueba los archivos y las reglas de Apache antes de añadir extensiones a una ruta.
 
 ## Requisitos
 
-Antes de comenzar, instala:
+- Git.
+- Apache y PHP compatibles con el código del proyecto.
+- MySQL/MariaDB.
+- Extensiones PHP <code>mysqli</code>, <code>pdo</code> y <code>pdo_mysql</code>.
+- Navegador moderno.
+- <code>mod_rewrite</code> si se utilizan las reglas de URL de <code>.htaccess</code>.
 
-- [Git](https://git-scm.com/)
-- [XAMPP](https://www.apachefriends.org/) con Apache, PHP y MySQL/MariaDB, o un entorno equivalente.
-- Un navegador web moderno.
+## Instalación local con XAMPP
 
-Comprueba que la versión de PHP utilizada por Apache tenga activas las extensiones:
+### 1. Clonar el proyecto
 
-- `pdo`
-- `pdo_mysql`
-- `mysqli`
-- `mysqlnd` (cuando la distribución de PHP lo requiera)
-
-En Fedora o distribuciones compatibles, los paquetes pueden instalarse con:
-
-```bash
-sudo dnf install -y httpd php php-cli php-pdo php-mysqlnd mariadb-server
-sudo systemctl enable --now httpd mariadb
-```
-
-Si utilizas XAMPP, comprueba las extensiones de la versión de PHP incluida en XAMPP; el PHP instalado por el sistema puede ser distinto.
-
-## Instalación local
-
-### 1. Clonar el repositorio
-
-```bash
+~~~bash
 git clone https://github.com/molstack-dev/Chef-jb.git
 cd Chef-jb
-```
+~~~
 
-### 2. Ubicar el proyecto en el servidor web
+### 2. Colocarlo en Apache
 
-En XAMPP, coloca la carpeta del proyecto dentro del directorio público de Apache. Por ejemplo:
+Ubica la carpeta del proyecto dentro del directorio público de Apache. Rutas habituales de XAMPP:
 
-- **Linux:** `/opt/lampp/htdocs/Chef-jb`
-- **Windows:** `C:\xampp\htdocs\Chef-jb`
+- Linux: <code>/opt/lampp/htdocs/Chef-jb</code>
+- Windows: <code>C:\xampp\htdocs\Chef-jb</code>
 
-Conserva el directorio `htdocs` de tu instalación de XAMPP: es la carpeta que Apache utiliza para servir los archivos locales. No es necesario borrar ni reemplazar esa carpeta; basta con colocar el proyecto dentro de ella.
+**No elimines ni reemplaces <code>htdocs</code>.** El proyecto debe quedar dentro como subcarpeta. Si ya está en otra ubicación, configura Apache para servirlo desde allí.
 
-### 3. Iniciar Apache y MySQL
+### 3. Iniciar servicios y configurar la base de datos
 
-Abre el panel de control de XAMPP e inicia **Apache** y **MySQL**. Si utilizas otro entorno, inicia los servicios equivalentes.
+Inicia Apache y MySQL desde XAMPP. Después revisa <code>backend/config.php</code> y confirma que la conexión use el host, puerto, usuario, contraseña y base de datos correctos para tu entorno local.
 
-### 4. Configurar la base de datos
+La configuración actual define las credenciales directamente en el código y distingue entre host local y no local; no asume automáticamente variables de entorno. No copies credenciales de producción al entorno local.
 
-El archivo `backend/config.php` utiliza variables de entorno para la conexión:
+### 4. Inicializar el esquema
 
-| Variable | Valor predeterminado local |
-| --- | --- |
-| `DB_HOST` | `127.0.0.1` |
-| `DB_USER` | `root` |
-| `DB_PASS` | Vacío |
-| `DB_NAME` | `chef_jonathan` |
-| `DB_CHARSET` | `utf8mb4` |
+Con la conexión configurada, abre:
 
-Estos valores están pensados para un entorno local de desarrollo. Si tu instalación tiene otras credenciales, configura las variables de entorno que lee `backend/config.php`. No uses una cuenta administrativa de MySQL ni contraseñas vacías en producción.
-
-### 5. Inicializar la base de datos
-
-Con Apache y MySQL activos, abre esta dirección en el navegador, ajustando el nombre de la carpeta si es diferente:
-
-```text
+~~~text
 http://localhost/Chef-jb/backend/init_db.php
-```
+~~~
 
-El inicializador crea la estructura de tablas y carga los datos de demostración del proyecto.
+El inicializador crea tablas faltantes y aplica migraciones al esquema. También contiene una rutina de datos de demostración que usa una marca en la base de datos para evitar volver a sembrarlos en cada ejecución.
 
-> **Advertencia importante:** el inicializador puede eliminar y recrear tablas, por lo que podrías perder usuarios, cursos, inscripciones y otros datos existentes. Ejecútalo solo en una instalación nueva o después de hacer una copia de seguridad. No lo vuelvas a ejecutar en una base de datos con información que quieras conservar.
+Aunque está diseñado para conservar los registros existentes, realiza una copia de seguridad antes de ejecutarlo sobre una base de datos importante y revisa las migraciones antes de usarlo en producción. No dejes este endpoint accesible públicamente.
 
-No ejecutes `backend/seed.php` como un paso adicional sin revisar su implementación: si vuelve a llamar al inicializador, también puede borrar y reconstruir datos.
+### 5. Abrir la aplicación
 
-### 6. Abrir la aplicación
-
-Visita:
-
-```text
+~~~text
 http://localhost/Chef-jb/
-```
+~~~
 
-Si el proyecto está instalado en otra carpeta, utiliza el nombre de esa carpeta en la URL.
+Algunas rutas del frontend comienzan con <code>/</code> y pueden asumir que la aplicación está en la raíz del dominio. Si se instala en una subcarpeta, comprueba enlaces y recursos estáticos.
 
-### Nota sobre el servidor integrado de PHP
+## Rutas principales
 
-La aplicación está pensada principalmente para ejecutarse con Apache y la versión de PHP configurada en XAMPP. El comando `php -S` utiliza el PHP de consola del sistema y puede tener extensiones o configuración diferentes; úsalo solo después de comprobar que dispone de los drivers requeridos y que las rutas funcionan correctamente.
+| Área | Ruta |
+| --- | --- |
+| Inicio | <code>/</code> |
+| Información | <code>/views/informacion</code> |
+| Catálogo | <code>/views/catalogo</code> |
+| Registro y acceso | <code>/views/registro</code> |
+| Recuperación de acceso | <code>/views/forgot-password</code> |
+| Panel administrativo | <code>/views/admin/admin</code> |
+| Usuarios | <code>/views/admin/admin-usuarios</code> |
+| Servicios | <code>/views/admin/admin-servicios</code> |
+| Inscripciones | <code>/views/admin/admin-inscripciones</code> |
+| Certificados | <code>/views/admin/admin-certificados</code> |
+| Reembolsos | <code>/views/admin/admin-reembolsos</code> |
+| Panel de usuario | <code>/views/user/user</code> |
+| Perfil | <code>/views/user/perfil</code> |
+| Mis servicios | <code>/views/user/mis-servicios</code> |
+| Historial | <code>/views/user/historial</code> |
+| Certificados | <code>/views/user/certificados</code> |
+| Agendar | <code>/views/user/agendar</code> |
 
-## Cuentas de demostración
+La existencia de una ruta no significa que deba ser accesible sin autenticación. Verifica los permisos en el servidor.
 
-En una base de datos inicializada con los datos de prueba se incluyen estas cuentas:
+## API
 
-| Rol | Correo | Contraseña inicial |
-| --- | --- | --- |
-| Administrador | `admin@chefjonathan.com` | `Admin@2026` |
-| Usuario | `edwinalex8712@gmail.com` | `User@2026` |
+Los endpoints se encuentran en <code>backend/api/</code> y, en general, responden con JSON. Algunos archivos principales:
 
-Estas credenciales son únicamente para desarrollo local. Cámbialas o elimina las cuentas de demostración antes de publicar la aplicación. No reutilices estas contraseñas en otros servicios.
+| Endpoints | Propósito |
+| --- | --- |
+| <code>health.php</code> | Estado del backend |
+| <code>login.php</code>, <code>logout.php</code>, <code>register.php</code> | Autenticación y registro |
+| <code>forgot-password.php</code>, <code>reset-password.php</code> | Recuperación de acceso |
+| <code>users.php</code>, <code>usuarios.php</code>, <code>usuarios-get.php</code> | Gestión de usuarios |
+| <code>courses.php</code>, <code>cursos-get.php</code> | Cursos |
+| <code>course-content.php</code>, <code>course-content-get.php</code>, <code>content-progress.php</code> | Contenido y progreso de cursos |
+| <code>inscripciones.php</code>, <code>inscripciones-get.php</code> | Inscripciones |
+| <code>advisory-registration.php</code>, <code>advisories-get.php</code> | Asesorías |
+| <code>reservation-registration.php</code> | Reservas |
+| <code>certificados.php</code> | Certificados |
+| <code>refund-request.php</code>, <code>refunds-get.php</code>, <code>refund-process.php</code> | Reembolsos |
+| <code>profile-update.php</code>, <code>password-change.php</code> | Perfil y contraseña |
+| <code>notifications.php</code> | Notificaciones |
 
-## Estructura del proyecto
+La ruta completa suele ser <code>/backend/api/&lt;archivo&gt;.php</code>. Los métodos HTTP, campos y permisos varían por endpoint; consulta su implementación antes de integrarlo.
 
-```text
-Chef-jb/
-├── assets/                 # JavaScript, estilos y recursos del frontend
-├── backend/
-│   ├── api/                # Endpoints PHP
-│   ├── config.php          # Configuración de la conexión a MySQL
-│   ├── init_db.php         # Inicialización de la base de datos
-│   └── seed.php             # Script de carga/inicialización de datos
-├── img/                    # Imágenes y recursos gráficos
-├── views/
-│   ├── admin/               # Vistas del panel administrativo
-│   ├── user/                # Vistas del área de usuario
-│   ├── catalogo              # Catálogo público
-│   ├── registro               # Registro e inicio de sesión
-│   └── informacion            # Información del proyecto
-├── index.php                # Entrada PHP de la aplicación
-├── index                    # Recurso de entrada presente en el repositorio
-├── .htaccess                # Reglas de Apache
-└── README.md                # Esta documentación
-```
+## Validación local
 
-Los nombres y extensiones de algunas vistas pueden variar según el archivo concreto del repositorio. Para identificar una pantalla, consulta los archivos disponibles en `views/`.
+Antes de dar un cambio por listo:
 
-## API del backend
+1. Comprueba que Apache y MySQL inicien correctamente.
+2. Revisa los logs de PHP y la consola del navegador.
+3. Prueba registro, inicio y cierre de sesión.
+4. Verifica permisos de usuario y administrador.
+5. Prueba las vistas y endpoints afectados con datos de prueba.
+6. Revisa enlaces y recursos desde la ruta de despliegue real.
 
-Los endpoints PHP se encuentran en `backend/api/`. Entre los principales se incluyen:
+Para revisar PHP desde terminal:
 
-| Método | Endpoint | Propósito |
-| --- | --- | --- |
-| POST | `/backend/api/register.php` | Registro de usuarios |
-| POST | `/backend/api/login.php` | Inicio de sesión |
-| GET | `/backend/api/usuarios-get.php` | Consulta de usuarios |
-| GET / POST / PUT / DELETE | `/backend/api/users.php` | Operaciones de usuarios |
-| GET | `/backend/api/cursos-get.php` | Consulta de cursos |
-| GET / POST / PUT / DELETE | `/backend/api/inscripciones.php` | Operaciones de inscripciones |
-| POST | `/backend/api/profile-update.php` | Actualización del perfil |
-| POST | `/backend/api/password-change.php` | Cambio de contraseña |
-| POST | `/backend/api/advisory-registration.php` | Registro de asesorías |
-| POST | `/backend/api/reservation-registration.php` | Registro de reservas |
-| GET / POST / PUT / DELETE | `/backend/api/clients.php` | Operaciones de clientes |
-
-Los métodos disponibles, los campos requeridos y los permisos pueden variar según la implementación de cada endpoint. Consulta el código del endpoint antes de integrarlo con otro sistema.
-
-## Solución de problemas
-
-### No conecta con MySQL
-1. Confirma que MySQL/MariaDB esté iniciado.
-2. Comprueba las variables de conexión que utiliza `backend/config.php`.
-3. Verifica que la versión de PHP de Apache tenga habilitadas `pdo` y `pdo_mysql`.
-4. Revisa los registros de error de Apache y PHP.
-
-### El catálogo aparece vacío o falla el inicio de sesión
-1. Abre las herramientas de desarrollo del navegador con **F12**.
-2. Revisa las pestañas **Console** y **Network** para detectar errores y solicitudes fallidas.
-3. Confirma que la base de datos tenga los datos esperados.
-4. Comprueba que las rutas de la API coincidan con la carpeta donde instalaste el proyecto.
-
-### Comprobar la configuración PHP
-
-Para el PHP del sistema:
-
-```bash
+~~~bash
 php -v
-php -m | grep -Ei 'pdo|mysql|mysqli'
-```
+php -m
+~~~
 
 En Linux con XAMPP:
 
-```bash
+~~~bash
 /opt/lampp/bin/php -v
-/opt/lampp/bin/php -m | grep -Ei 'pdo|mysql|mysqli'
-```
+/opt/lampp/bin/php -m
+~~~
 
-Asegúrate de comprobar el mismo PHP que utiliza Apache para servir la aplicación.
+Comprueba las extensiones del PHP que utiliza Apache; puede ser distinto del PHP del sistema.
 
-## Seguridad antes de publicar
+## Seguridad antes de desplegar
 
-Antes de desplegar la aplicación en un servidor accesible desde Internet:
+> **Importante: revisa los secretos y archivos de datos antes de publicar o mantener este repositorio público.**
 
-- Cambia las cuentas y contraseñas de demostración.
-- Restringe o deshabilita el acceso público a `backend/init_db.php` y `backend/seed.php`; pueden destruir datos si reinicializan las tablas.
-- Utiliza un usuario MySQL con privilegios mínimos y una contraseña segura.
-- Habilita HTTPS.
-- Verifica la autenticación, la autorización por rol y la validación de datos en cada endpoint.
-- No publiques secretos, tokens ni datos personales.
-- Realiza copias de seguridad antes de cambiar el esquema de la base de datos.
-- Configura los errores para que los visitantes no vean información interna del servidor.
+- <strong>Credenciales:</strong> <code>backend/config.php</code> contiene credenciales de base de datos incrustadas. Rota la contraseña afectada y elimina los secretos del código versionado. Si se publicaron en commits, editar el archivo no invalida la contraseña anterior ni la elimina del historial.
+- <strong>Configuración segura:</strong> adapta la configuración para leer secretos desde variables de entorno o un archivo externo al repositorio y fuera del directorio público.
+- <strong>Copia SQL:</strong> revisa <code>backend/if0_43089123_chef_jonathan.sql</code> antes de distribuirlo. No publiques volcados que contengan datos personales o información de producción.
+- <strong>Inicializador:</strong> restringe <code>backend/init_db.php</code> y <code>backend/seed.php</code> a tareas administrativas locales.
+- <strong>Cuentas de demostración:</strong> cambia o elimina las cuentas iniciales y sus contraseñas antes de desplegar.
+- <strong>Base de datos:</strong> usa un usuario MySQL con privilegios mínimos; no uses <code>root</code> en producción.
+- <strong>Transporte y sesiones:</strong> habilita HTTPS y configura las cookies de sesión de forma segura.
+- <strong>Autorización:</strong> comprueba permisos en cada endpoint privado.
+- <strong>Errores:</strong> registra detalles en el servidor sin mostrar información técnica o secretos al visitante.
+- <strong>Copias de seguridad:</strong> realiza backups antes de ejecutar migraciones.
+
+## Solución de problemas
+
+**Error de conexión:** verifica que MySQL esté activo, revisa la configuración y confirma que PHP tenga <code>mysqli</code>, <code>pdo</code> y <code>pdo_mysql</code>.
+
+**Vistas o imágenes no cargan:** comprueba la ubicación dentro de <code>htdocs</code>, busca errores 404 en la pestaña Network y revisa las rutas absolutas que comienzan con <code>/</code>.
+
+**Un endpoint devuelve error:** confirma el método HTTP, el formato de la solicitud, la sesión y el rol requerido; consulta los logs del servidor.
 
 ## Contribuciones
 
 1. Crea una rama para tu cambio.
-2. Mantén los cambios acotados y describe su propósito.
-3. Prueba las pantallas y los endpoints afectados.
-4. Abre un Pull Request con un resumen y los pasos de validación.
+2. Mantén el cambio acotado y describe su propósito.
+3. Prueba las vistas y endpoints afectados.
+4. Abre un Pull Request con resumen y validaciones realizadas.
 
 ## Licencia
 
-Este repositorio no declara una licencia de uso en esta documentación. Consulta al propietario antes de redistribuir o reutilizar el código.
+Esta documentación no identifica una licencia de código abierto. Consulta al propietario antes de redistribuir o reutilizar el código.
