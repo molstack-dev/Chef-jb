@@ -7,7 +7,7 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET');
 header('Access-Control-Allow-Headers: Content-Type');
 
-require_once '../config.php';
+require_once __DIR__ . '/../config.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -122,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $stmt->execute([$contentId]);
         } else {
             $stmt = $pdo->prepare('
-                SELECT id, course_id, title, video_url, preview_url, duration, order_index
+                SELECT id, course_id, title, video_url, duration, order_index
                 FROM course_content
                 WHERE course_id = ? AND is_active = 1
                 ORDER BY order_index ASC

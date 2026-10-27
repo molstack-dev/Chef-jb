@@ -1,3 +1,59 @@
+// Conecta el frontend con la API PHP tanto en la raíz del dominio como dentro
+// de una subcarpeta de XAMPP. La base se calcula desde este archivo, no desde
+// el nombre del proyecto, para que también funcione si se renombra la carpeta.
+(function() {
+    function getProjectBase() {
+        var script = document.currentScript;
+
+        if (!script || !script.src) {
+            var scripts = document.getElementsByTagName('script');
+            for (var i = scripts.length - 1; i >= 0; i--) {
+                if (/\/assets\/script\.js(?:\?.*)?$/.test(scripts[i].src || '')) {
+                    script = scripts[i];
+                    break;
+                }
+            }
+        }
+
+        if (!script || !script.src) return '';
+
+        var scriptPath = new URL(script.src, window.location.origin).pathname;
+        return scriptPath.replace(/\/assets\/script\.js$/, '');
+    }
+
+    window.resolveApiUrl = function(url) {
+        if (typeof url === 'string') {
+            var base = getProjectBase();
+            if (base && url.startsWith('/backend/api/')) {
+                return base + url;
+            }
+        }
+        return url;
+    };
+
+    window.resolveProjectUrl = function(url) {
+        var base = getProjectBase();
+        return (base || '') + url;
+    };
+
+    if (typeof window !== 'undefined' && window.fetch) {
+        var _originalFetch = window.fetch;
+        window.fetch = function(resource, init) {
+            if (typeof resource === 'string') {
+                resource = window.resolveApiUrl(resource);
+            } else if (resource && resource.url) {
+                var base = getProjectBase();
+                var apiRoot = window.location.origin + '/backend/api/';
+                if (base && resource.url.startsWith(apiRoot)) {
+                    var newUrl = window.location.origin + base + resource.url.slice(window.location.origin.length);
+                    resource = new Request(newUrl, resource);
+                }
+            }
+            return _originalFetch.call(this, resource, init);
+        };
+    }
+})();
+
 // Funciones globales - disponibles inmediatamente
 window.showToast = function(message, type = 'success') {
     var container = document.getElementById('toast-container');
@@ -18,6 +74,38 @@ window.showToast = function(message, type = 'success') {
         setTimeout(function() { toast.remove(); }, 300);
     }, 3000);
 };
+
+window.checkDatabaseConnection = async function() {
+    try {
+        var response = await fetch('/backend/api/health.php', {
+            credentials: 'same-origin',
+            cache: 'no-store'
+        });
+        var result = await response.json().catch(function() { return {}; });
+
+        if (!response.ok || !result.success) {
+            var reason = result.code === 'SCHEMA_INCOMPLETE'
+                ? 'Faltan tablas en la base de datos.'
+                : 'No se pudo conectar con la base de datos.';
+            console.error('Diagnóstico API:', result);
+            window.showToast(reason + ' Revisa la configuración del servidor.', 'error');
+            return false;
+        }
+
+        console.info('API y base de datos conectadas.', result);
+        return true;
+    } catch (error) {
+        console.error('No fue posible acceder a la API:', error);
+        window.showToast('No se pudo contactar el servidor. Verifica Apache y MySQL.', 'error');
+        return false;
+    }
+};
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', window.checkDatabaseConnection, { once: true });
+} else {
+    window.checkDatabaseConnection();
+}
 
 window.loadMyAdvisories = async function() {
     var tbody = document.getElementById('solicitudes-tbody');
@@ -44,7 +132,6 @@ window.loadMyAdvisories = async function() {
         var result = await response.json();
 
         if (result.success && result.data.length > 0) {
-            // Solo mostrar solicitudes pendientes
             var pending = result.data.filter(item => item.status === 'pending');
 
             if (pending.length === 0) {
@@ -61,7 +148,6 @@ window.loadMyAdvisories = async function() {
                     item.status === 'confirmed' ? 'Confirmado' :
                     item.status === 'completed' ? 'Completado' : 'Cancelado';
 
-                // Formatear tipo de servicio
                 var serviceTypeLabel = 'N/A';
                 if (item.service_type === 'asesoria') {
                     serviceTypeLabel = item.advisory_type === 'asesoria_personal' ? 'Asesoría Personal' : 'Asesoría Negocio';
@@ -71,11 +157,9 @@ window.loadMyAdvisories = async function() {
                     serviceTypeLabel = 'Evento';
                 }
 
-                // Formatear nombre del servicio
                 var serviceName = item.advisory_service || item.event_name || 'N/A';
                 serviceName = serviceName.replace(/_/g, ' ');
 
-                // Construir detalles completos
                 var detalles = [];
                 if (item.service_type === 'evento' && item.event_name) {
                     detalles.push('Evento: ' + item.event_name);
@@ -116,7 +200,6 @@ window.loadMyAdvisories = async function() {
                 tbody.appendChild(row);
             });
 
-            // Agregar evento a los botones "Ver más"
             tbody.querySelectorAll('.ver-detalles-btn').forEach(function(btn) {
                 btn.addEventListener('click', function() {
                     var detalles = decodeURIComponent(this.getAttribute('data-detalles'));
@@ -134,7 +217,6 @@ window.loadMyAdvisories = async function() {
                 });
             });
 
-            // Agregar evento a los botones "Ver Comprobante"
             tbody.querySelectorAll('.ver-comprobante-btn').forEach(function(btn) {
                 btn.addEventListener('click', function() {
                     var receipt = this.getAttribute('data-receipt');
@@ -146,7 +228,6 @@ window.loadMyAdvisories = async function() {
                     }
                     var modal = document.getElementById('comprobante-solicitud-modal');
                     if (modal) {
-                        // Habilitar el botón de descarga si existe
                         var downloadBtn = document.getElementById('download-inscription-receipt-btn');
                         if (downloadBtn) {
                             downloadBtn.classList.remove('hidden');
@@ -157,7 +238,6 @@ window.loadMyAdvisories = async function() {
                 });
             });
 
-            // Agregar evento a los botones "Eliminar"
             tbody.querySelectorAll('.eliminar-btn').forEach(function(btn) {
                 btn.addEventListener('click', function() {
                     var id = this.getAttribute('data-id');
@@ -166,7 +246,6 @@ window.loadMyAdvisories = async function() {
                 });
             });
 
-            // Agregar evento a los botones "Modificar"
             tbody.querySelectorAll('.modificar-btn').forEach(function(btn) {
                 btn.addEventListener('click', function() {
                     var itemData = JSON.parse(this.getAttribute('data-item').replace(/&#39;/g, "'"));
@@ -230,7 +309,6 @@ window.confirmDelete = function() {
     eliminarSolicitud(id);
 };
 
-// Función para eliminar una solicitud
 async function eliminarSolicitud(id) {
     var email = localStorage.getItem('advisory_email') || '';
     try {
@@ -252,7 +330,6 @@ async function eliminarSolicitud(id) {
     }
 }
 
-// Función para modificar una solicitud
 window.modificarSolicitud = async function(item) {
     var modal = document.getElementById('detalles-solicitud-modal');
     if (modal) modal.classList.add('hidden');
@@ -400,7 +477,6 @@ window.saveEditSolicitud = async function() {
     var serviceType = item.service_type || 'asesoria';
     var errors = [];
 
-    // Validación según tipo de servicio
     if (serviceType === 'asesoria') {
         var date = document.getElementById('edit-date').value;
         var time = document.getElementById('edit-time').value;
@@ -446,7 +522,6 @@ window.saveEditSolicitud = async function() {
         });
         var result = await response.json();
 
-        // Si hay comprobante de pago, subirlo
         var receiptInput = document.getElementById('edit-receipt');
         if (receiptInput && receiptInput.files.length > 0) {
             var file = receiptInput.files[0];
@@ -485,7 +560,6 @@ window.saveEditSolicitud = async function() {
     }
 };
 
-// Cerrar modal de detalles al hacer clic fuera
 document.addEventListener('click', function(e) {
     var modal = document.getElementById('detalles-solicitud-modal');
     if (modal && !modal.classList.contains('hidden') && e.target === modal) {
@@ -494,11 +568,9 @@ document.addEventListener('click', function(e) {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Mobile menu toggle for all pages
     const mobileMenuButton = document.getElementById('mobile-menu-button');
     const mobileMenu = document.getElementById('mobile-menu');
 
-    // Formulario de edición de perfil
     const editProfileBtn = document.getElementById('edit-profile');
     const cancelEditBtn = document.getElementById('cancel-edit');
     const actionButtons = document.getElementById('action-buttons');
@@ -529,7 +601,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Formulario de cambio de contraseña
     const passwordForm = document.getElementById('password-form');
     if (passwordForm) {
         passwordForm.addEventListener('submit', (e) => {
@@ -539,18 +610,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Formulario de asesoría
     const advisoryForm = document.getElementById('advisory-form');
     const successMessage = document.getElementById('success-message');
 
-    if (advisoryForm && successMessage) {
+    if (advisoryForm && successMessage && !window.agendarJsLoaded) {
         advisoryForm.addEventListener('submit', async function(e) {
             e.preventDefault();
-            if (window.agendarJsLoaded) {
-                return;
-            }
 
-            // Determinar el tipo de servicio según la categoría seleccionada
             let service = '';
             const serviceTypeBtns = document.querySelectorAll('.service-type-btn');
             let selectedType = 'asesoria';
@@ -563,7 +629,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
 
-            // Obtener el valor del subtype según la categoría
             let numPersons = 1;
             let advisoryType = null;
             let advisoryService = null;
@@ -577,7 +642,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 const fecha = document.getElementById('advisory-date')?.value;
                 const hora = document.getElementById('advisory-time')?.value;
 
-                // Validar número de personas si es negocio
                 if (advisoryType === 'asesoria_negocio') {
                     numPersons = parseInt(document.getElementById('advisory-asesoria-persons')?.value) || 0;
                     if (numPersons < 1) {
@@ -621,7 +685,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const time = document.getElementById('advisory-time')?.value;
             const notes = document.getElementById('advisory-details')?.value;
 
-            // Obtener teléfono según el tipo de servicio
             let phone = '';
             if (selectedType === 'asesoria') {
                 phone = document.getElementById('advisory-phone')?.value || '';
@@ -631,7 +694,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 phone = document.getElementById('advisory-event-phone')?.value || '';
             }
 
-            // Validar que el teléfono no esté vacío
             if (!phone.trim()) {
                 showToast('Ingresa tu número de teléfono', 'error');
                 return;
@@ -639,7 +701,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const user = getCurrentUser();
 
-            // Obtener precio del select correspondiente
             let servicePrice = 0;
             if (selectedType === 'asesoria') {
                 const sel = document.getElementById('advisory-service');
@@ -652,7 +713,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 servicePrice = sel?.options[sel.selectedIndex]?.dataset?.price || 0;
             }
 
-            // Validar que el checkbox de términos esté marcado
             const termsCheckbox = document.getElementById('terms-checkbox');
             if (!termsCheckbox || !termsCheckbox.checked) {
                 showToast('Debes aceptar los términos y condiciones', 'error');
@@ -660,7 +720,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             try {
-                // Guardar los datos del formulario para enviarlos después con el comprobante
                 window.pendingFormData = {
                     name: user?.name || 'Usuario',
                     email: user?.email || '',
@@ -678,7 +737,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     eventName: eventName
                 };
 
-                // Mostrar modal de pago Nequi sin enviar datos aún
                 const priceStr = '$' + Number(servicePrice).toLocaleString('es-CO');
                 if (typeof openPaymentModal === 'function') {
                     openPaymentModal({
@@ -694,7 +752,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Reservation form functionality
     const reservationType = document.getElementById('reservation-type');
     const courseSelection = document.getElementById('course-selection');
     const advisorySelection = document.getElementById('advisory-selection');
@@ -751,7 +808,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            // Simulación de envío de reserva
             console.log('Reserva enviada:', { type, date, message });
             messageDisplay.classList.remove('hidden');
             setTimeout(() => {
@@ -763,7 +819,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Scroll reveal animation
     function reveal() {
         const reveals = document.querySelectorAll('.reveal');
         for (let i = 0; i < reveals.length; i++) {
@@ -779,13 +834,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     window.addEventListener('scroll', reveal);
-    reveal(); // Initial check
+    reveal();
 
-    // Manejar envío del formulario de registro
-    document.addEventListener('DOMContentLoaded', function() {
+    (function() {
         const registerForm = document.getElementById('register-form');
         if (registerForm) {
-            // Add event listener for document type select to show/hide custom field
             const registerIdTypeSelect = document.getElementById('register-id-type');
             const registerCustomDocContainer = document.getElementById('register-custom-doc-container');
             const registerCustomDocInput = document.getElementById('register-custom-doc');
@@ -800,7 +853,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 });
                 
-                // Initialize visibility based on current value
                 if (registerIdTypeSelect.value === 'Otro') {
                     registerCustomDocContainer.style.display = 'block';
                 } else {
@@ -816,11 +868,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 const id_type_select = document.getElementById('register-id-type');
                 const custom_doc_input = document.getElementById('register-custom-doc');
                 
-                // Determine the actual document type to send
                 let id_type = id_type_select ? id_type_select.value : 'CC';
                 let custom_doc_type = null;
                 
-                // If the selected option was 'Otro' and there's a custom value, use the custom value
                 if (id_type_select && id_type_select.value === 'Otro' && custom_doc_input && custom_doc_input.value.trim() !== '') {
                     custom_doc_type = custom_doc_input.value.trim();
                 }
@@ -835,9 +885,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (register_phoneEl && register_phoneEl.value) {
                     phone = register_phoneEl.value;
                 } else {
-                    // Extraer el teléfono desde el placeholder si el input fue deshabilitado y no tiene value
                     const ph = register_phoneEl ? (register_phoneEl.getAttribute('placeholder') || '') : '';
-                    // buscar el primer grupo de 10-15 dígitos
                     const m = ph.match(/\d{7,15}/);
                     phone = m ? m[0] : '';
                 }
@@ -846,8 +894,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 const notify_email = document.getElementById('register-notify-email').checked;
                 const notify_whatsapp = document.getElementById('register-notify-whatsapp').checked;
 
-
-                // Validar términos en runtime (evita bypass si otro script dispara el submit)
                 const terminosCheck = document.getElementById('register-terminos');
                 if (terminosCheck && !terminosCheck.checked) {
                     showAlert('Debes aceptar los Términos y Condiciones', 'error');
@@ -881,7 +927,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (response.ok && result.message && !result.error) {
                         showAlert('¡Registro exitoso! Por favor inicia sesión.', 'success');
                         registerForm.reset();
-                        // Reset the custom document container visibility
                         if (registerCustomDocContainer) {
                             registerCustomDocContainer.style.display = 'none';
                         }
@@ -889,9 +934,8 @@ document.addEventListener('DOMContentLoaded', function() {
                             registerCustomDocInput.value = '';
                         }
                         
-                        // Redirigir después de un breve delay
                         setTimeout(() => {
-                            window.location.href = 'login.html';
+                            window.location.href = '/views/registro';
                         }, 2000);
                     } else {
                         showAlert(result.message || 'Error en el registro', 'error');
@@ -902,9 +946,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         }
-    });
+    })();
     
-    // Manejar envío del formulario de login
     const loginForm = document.getElementById('login-form');
     if (loginForm) {
         loginForm.addEventListener('submit', async function(e) {
@@ -928,17 +971,14 @@ const response = await fetch('/backend/api/login.php', {
                 
                 if (response.ok) {
                     showAlert(`Bienvenido ${data.user.name}`, 'success');
-                    // Guardar usuario en localStorage
                     setCurrentUser(data.user);
                     
-                    // Redirigir según rol después de 1 segundo
                     setTimeout(() => {
-                        // Si venimos a registro por intención de catálogo, volvemos al catálogo.
                         try {
                             var after = sessionStorage.getItem('redirectAfterLogin');
                             sessionStorage.removeItem('redirectAfterLogin');
                             if (after === 'catalogo') {
-                                window.location.href = 'catalogo.html';
+                                window.location.href = '/views/catalogo';
                                 return;
                             }
                         } catch (e) {}
@@ -954,46 +994,24 @@ const response = await fetch('/backend/api/login.php', {
         });
     }
     
-    // Mostrar nombre de usuario en el dashboard si está logueado
     const userNameElement = document.getElementById('user-name');
     if (userNameElement) {
         const user = getCurrentUser();
         if (user) {
             userNameElement.textContent = user.name;
         } else {
-            // Si no hay usuario, redirigir al login
-            window.location.href = '../registro.html';
+            window.location.href = '/views/registro';
         }
     }
     
-    // Manejar botón de logout
     const logoutButton = document.getElementById('logout-button');
     if (logoutButton) {
         logoutButton.addEventListener('click', logout);
     }
 
-   
-    // Funcionalidad de FAQ (acordeón)
-    // Compatible con páginas que tengan estructura button.faq-question + div.faq-answer.hidden
-    const faqQuestions = document.querySelectorAll('.faq-question');
-    faqQuestions.forEach(question => {
-        // Evita doble-binding en caso de recargas parciales
-        if (question._bbFaqBound) return;
-        question._bbFaqBound = true;
-
-        question.addEventListener('click', function() {
-            if (typeof window.toggleFAQ === 'function') {
-                window.toggleFAQ(this);
-            }
-        });
-    });
 
 
-
-
-    // Funcionalidad del modal de detalles del curso
     window.showCourseDetails = function(courseName, descriptionDetail) {
-        // Mostrar el modal
         document.getElementById('courseTitle').textContent = courseName;
         document.getElementById('courseDetailsContent').textContent = descriptionDetail || "Descripción detallada no disponible.";
         document.getElementById('courseDetailsModal').classList.remove('hidden');
@@ -1003,7 +1021,6 @@ const response = await fetch('/backend/api/login.php', {
         document.getElementById('courseDetailsModal').classList.add('hidden');
     };
 
-    // Cerrar el modal al hacer clic fuera del contenido
     const courseDetailsModal = document.getElementById('courseDetailsModal');
     if (courseDetailsModal) {
         courseDetailsModal.addEventListener('click', function(e) {
@@ -1013,7 +1030,6 @@ const response = await fetch('/backend/api/login.php', {
         });
     }
     
-    // Efecto de scroll solo para el header
     const header = document.querySelector('header');
     if (header) {
         window.addEventListener('scroll', function() {
@@ -1027,11 +1043,46 @@ const response = await fetch('/backend/api/login.php', {
 
 });
 
-// Función para alternar menú móvil
+let lastScrollTop = 0;
+const header = document.querySelector('.header-hidden');
+
+if (header) {
+    window.addEventListener('scroll', function() {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        if (scrollTop > lastScrollTop && scrollTop > 100) {
+            header.classList.add('scrolled-down');
+        } else if (scrollTop < lastScrollTop && scrollTop <= 100) {
+            header.classList.remove('scrolled-down');
+        } else if (scrollTop < lastScrollTop && scrollTop > 100) {
+            header.classList.remove('scrolled-down');
+        }
+        
+        lastScrollTop = scrollTop;
+    });
+}
+
 function toggleMobileMenu() {
-    const menu = document.getElementById('mobile-menu');
-    if (menu) {
-        menu.classList.toggle('hidden');
+    const adminDropdown = document.getElementById('adminDropdown');
+    const header = document.getElementById('mainHeader');
+    
+    if (adminDropdown) {
+        if (adminDropdown.classList.contains('open')) {
+            adminDropdown.classList.remove('open');
+            if(header) {
+                header.classList.remove('with-open-dropdown');
+            }
+        } else {
+            adminDropdown.classList.add('open');
+            if(header) {
+                header.classList.add('with-open-dropdown');
+            }
+        }
+    }
+    
+    const oldMenu = document.getElementById('mobile-menu');
+    if (oldMenu) {
+        oldMenu.classList.toggle('hidden');
     }
 }
 
@@ -1040,36 +1091,49 @@ function showAlert(message, type = 'success') {
     showToast(message, type);
 }
 
-// Función para obtener datos del usuario desde localStorage
 function getCurrentUser() {
     const user = localStorage.getItem('currentUser');
     return user ? JSON.parse(user) : null;
 }
 
-// Función para guardar datos del usuario en localStorage
 function setCurrentUser(user) {
     localStorage.setItem('currentUser', JSON.stringify(user));
 }
 
-// Función para cerrar sesión
 function logout() {
-    localStorage.removeItem('currentUser');
-    // Detectar si estamos en subdirectorio (admin/user)
-    const isSubdir = window.location.pathname.includes('/views/');
-    window.location.href = isSubdir ? '../../index.html' : './index.html';
+    try {
+        localStorage.removeItem('currentUser');
+        sessionStorage.removeItem('redirectAfterLogin');
+    } catch (error) {
+        console.error('No se pudo limpiar el almacenamiento local:', error);
+    }
+
+    try {
+        fetch('/backend/api/logout.php', {
+            method: 'POST',
+            credentials: 'same-origin',
+            cache: 'no-store',
+            keepalive: true
+        }).catch(function(error) {
+            console.error('No se pudo cerrar la sesión en el servidor:', error);
+        });
+    } catch (error) {
+        console.error('No se pudo cerrar la sesión en el servidor:', error);
+    }
+
+    var homeUrl = typeof window.resolveProjectUrl === 'function'
+        ? window.resolveProjectUrl('/?i=1')
+        : '/?i=1';
+    window.location.replace(homeUrl);
 }
 
-// Función para redirigir según rol del usuario
 function redirectToDashboard() {
 
-    // Si existe el modal de inscripción en esta página, exponer funciones globales.
-    // (Usadas por views/catalogo.html y assets/catalog-courses.js)
     window.showInscriptionModal = function(courseName, coursePrice) {
         var user = getCurrentUser();
         if (!user) {
-            // Guardar intención y redirigir al login/registro
             try { sessionStorage.setItem('redirectAfterLogin', 'catalogo'); } catch (e) {}
-            window.location.href = 'views/registro.html';
+            window.location.href = '/views/registro';
             return;
         }
         var modal = document.getElementById('inscriptionModal');
@@ -1096,58 +1160,45 @@ function redirectToDashboard() {
     if (user) {
         switch(user.role) {
             case 'admin':
-                window.location.href = 'admin/admin.html';
+                window.location.href = '/views/admin/admin';
                 break;
             case 'user':
-                window.location.href = 'user/user.html';
+                window.location.href = '/views/user/user';
                 break;
             default:
-                window.location.href = '../index.html';
+                window.location.href = '/?i=1';
         }
     }
 }
 
-// Función para toggle de FAQ
 function toggleFAQ(button) {
-    // Mantener compatibilidad con páginas viejas que usan onclick="toggleFAQ(this)".
-    // En `views/informacion.html` la estructura es: button.faq-question + div.faq-answer
-
     const answer = button && button.nextElementSibling ? button.nextElementSibling : null;
     const icon = button ? button.querySelector('svg') : null;
     if (!answer) return;
 
     const willOpen = answer.classList.contains('hidden');
 
-    // Cerrar todas las demás respuestas
     document.querySelectorAll('.faq-answer').forEach(ans => {
         if (ans !== answer) ans.classList.add('hidden');
     });
 
-    // Abrir/cerrar la actual
     answer.classList.toggle('hidden');
 
-    // Actualizar aria-expanded
     const allQuestions = document.querySelectorAll('.faq-question');
     allQuestions.forEach(btn => {
         btn.setAttribute('aria-expanded', (btn === button && willOpen) ? 'true' : 'false');
     });
 
-    // Rotar el icono
     document.querySelectorAll('.faq-question svg').forEach(ic => {
         if (ic !== icon) ic.classList.remove('rotate-180');
     });
     if (icon) icon.classList.toggle('rotate-180');
 }
 
-
-// Funciones de paginación globales para tablas
-
-// Variables para la paginación global
 let globalCurrentPage = {};
 const recordsPerPage = 10;
 let globalTableData = {};
 
-// Función global de paginación para tablas
 window.initializeTablePagination = function(tableName, data, renderFunction) {
   if (!globalCurrentPage[tableName]) {
     globalCurrentPage[tableName] = 1;
@@ -1156,7 +1207,6 @@ window.initializeTablePagination = function(tableName, data, renderFunction) {
   globalTableData[tableName] = data;
   const totalPages = Math.ceil(data.length / recordsPerPage);
   
-  // Asegurarse de que la página actual esté dentro de los límites
   if (globalCurrentPage[tableName] > totalPages && totalPages > 0) {
     globalCurrentPage[tableName] = totalPages;
   }
@@ -1164,19 +1214,15 @@ window.initializeTablePagination = function(tableName, data, renderFunction) {
     globalCurrentPage[tableName] = 1;
   }
   
-  // Calcular índices para la página actual
   const startIndex = (globalCurrentPage[tableName] - 1) * recordsPerPage;
   const endIndex = Math.min(startIndex + recordsPerPage, data.length);
   const pageData = data.slice(startIndex, endIndex);
 
-  // Renderizar los datos de la página actual
   renderFunction(pageData);
 
-  // Actualizar controles de paginación
   updatePaginationControls(tableName, totalPages, globalCurrentPage[tableName]);
 };
 
-// Función para actualizar los controles de paginación
 function updatePaginationControls(tableName, totalPages, currentPage) {
   const tableId = `${tableName}-tbody`;
   const containerId = `${tableName}-pagination-controls`;
@@ -1192,18 +1238,15 @@ function updatePaginationControls(tableName, totalPages, currentPage) {
   
   if (!pageInfo || !pageNumbers || !prevButton || !nextButton) return;
   
-  // Actualizar información de paginación
   if (totalPages > 0) {
     pageInfo.textContent = `Mostrando ${((currentPage - 1) * recordsPerPage) + 1}-${Math.min(currentPage * recordsPerPage, globalTableData[tableName].length)} de ${globalTableData[tableName].length} registros`;
   } else {
     pageInfo.textContent = 'No hay registros para mostrar';
   }
   
-  // Actualizar botones de navegación
   prevButton.disabled = currentPage <= 1;
   nextButton.disabled = currentPage >= totalPages || totalPages === 0;
   
-  // Generar números de página
   let pageLinks = '';
   const startPage = Math.max(1, currentPage - 2);
   const endPage = Math.min(totalPages, currentPage + 2);
@@ -1219,7 +1262,6 @@ function updatePaginationControls(tableName, totalPages, currentPage) {
   pageNumbers.innerHTML = pageLinks;
 }
 
-// Función para cambiar de página
 window.changePage = function(tableName, page) {
   globalCurrentPage[tableName] = page;
   const renderFunctionName = `render${tableName.charAt(0).toUpperCase() + tableName.slice(1)}Table`;
@@ -1230,7 +1272,6 @@ window.changePage = function(tableName, page) {
   }
 };
 
-// Función para ir a la página siguiente
 window.nextPage = function(tableName) {
   const totalPages = Math.ceil(globalTableData[tableName].length / recordsPerPage);
   if (globalCurrentPage[tableName] < totalPages) {
@@ -1238,14 +1279,12 @@ window.nextPage = function(tableName) {
   }
 };
 
-// Función para ir a la página anterior
 window.prevPage = function(tableName) {
   if (globalCurrentPage[tableName] > 1) {
     changePage(tableName, globalCurrentPage[tableName] - 1);
   }
 };
 
-// Función para inicializar controles de paginación en una tabla específica
 window.setupPaginationControls = function(tableName) {
   const prevButtonId = `${tableName}-prev-page`;
   const nextButtonId = `${tableName}-next-page`;
@@ -1266,9 +1305,6 @@ window.setupPaginationControls = function(tableName) {
   }
 };
 
-// --- Header icons tooltip (unificado) ---
-// Usa los mismos labels que aparecen en el header de `views/user/perfil.html`.
-// Se activa en hover para links del header y del mobile-menu.
 (function(){
     try{
         const tooltipStyleId = 'bb-header-tooltip-style';
@@ -1288,22 +1324,22 @@ window.setupPaginationControls = function(tableName) {
             document.head.appendChild(st);
         }
 
-        // Mapa por href (se compara terminación para que funcione con rutas relativas)
         const map = [
-            { href: 'user.html', label: 'Panel' },
-            { href: 'mis-servicios.html', label: 'Servicios' },
-            { href: 'historial.html', label: 'Historial' },
-            { href: 'certificados.html', label: 'Certificados' },
-            { href: 'agendar.html', label: 'Compras' },
-            { href: 'perfil.html', label: 'Perfil' },
+            { href: 'user', label: 'Panel' },
+            { href: 'mis-servicios', label: 'Servicios' },
+            { href: 'historial', label: 'Historial' },
+            { href: 'certificados', label: 'Certificados' },
+            { href: 'agendar', label: 'Compras' },
+            { href: 'perfil', label: 'Perfil' },
             { href: 'javascript:void(0)', label: 'Cerrar sesión' },
-            { href: 'informacion.html', label: 'Información' },
-            { href: 'registro.html', label: 'Inicio de Sesión' },
-            { href: 'catalogo.html', label: 'Catálogo' },
-            { href: 'admin-usuarios.html', label: 'Usuarios' },
-            { href: 'admin-inscripciones.html', label: 'Inscripciones' },
-            { href: 'admin-servicios.html', label: 'Servicios' },
-            { href: 'admin-reembolsos.html', label: 'Reembolsos' },
+            { href: 'informacion', label: 'Información' },
+            { href: 'registro', label: 'Inicio de Sesión' },
+            { href: 'catalogo', label: 'Catálogo' },
+            { href: 'admin-usuarios', label: 'Usuarios' },
+            { href: 'admin-inscripciones', label: 'Inscripciones' },
+            { href: 'admin-servicios', label: 'Servicios' },
+            { href: 'admin-reembolsos', label: 'Reembolsos' },
+            { href: 'admin-certificados', label: 'Certificados' },
         ];
 
         function applyTooltips(container){
@@ -1323,17 +1359,14 @@ window.setupPaginationControls = function(tableName) {
             applyTooltips(document.getElementById('mobile-menu'));
         });
 
-        // también intentar aplicar inmediatamente (por si el script corre tarde)
         applyTooltips(document.querySelector('header nav'));
         applyTooltips(document.getElementById('mobile-menu'));
     }catch(e){
-        // no romper la app
         console.error(e);
     }
 })();
 
 
-// --- Dynamic table renderers for clients, sales and users ---
 (function(){
     const STORAGE_KEY = 'chef_localDB_v1';
 
@@ -1432,10 +1465,8 @@ window.setupPaginationControls = function(tableName) {
             .replace(/'/g, '&#039;');
     }
 
-    // Polling localStorage for changes and re-render tables when needed
     let lastSnapshot = '';
     function pollAndRender(){
-        // Skip polling on admin pages to avoid conflicts with admin-tables.js
         if (window.location.pathname.includes('/admin/')) return;
         
         const raw = localStorage.getItem(STORAGE_KEY) || '';
@@ -1447,13 +1478,11 @@ window.setupPaginationControls = function(tableName) {
         }
     }
 
-    // Start polling every 1s
     setInterval(pollAndRender, 1000);
-    // Initial render
     pollAndRender();
 
 })();
-// --- Immediate save helpers and form handlers (attach safely) ---
+
 (function(){
     const STORAGE_KEY = 'chef_localDB_v1';
 
@@ -1482,7 +1511,6 @@ window.setupPaginationControls = function(tableName) {
     }
 
     function attachFormHandlers(){
-        // Create user
         const userForm = document.getElementById('create-user-form');
         if(userForm && !userForm._bound && !window.location.pathname.includes('/admin-usuarios')){
             userForm.addEventListener('submit', function(e){
@@ -1502,7 +1530,6 @@ window.setupPaginationControls = function(tableName) {
             userForm._bound = true;
         }
 
-        // New client
         const clientForm = document.getElementById('new-client-form');
         if(clientForm && !clientForm._bound){
             clientForm.addEventListener('submit', function(e){
@@ -1512,7 +1539,6 @@ window.setupPaginationControls = function(tableName) {
                 const phone = document.getElementById('client-phone') ? document.getElementById('client-phone').value.trim() : '';
                 const city = document.getElementById('client-city') ? document.getElementById('client-city').value.trim() : '';
                 const notes = document.getElementById('client-notes') ? document.getElementById('client-notes').value.trim() : '';
-                // interests checkboxes
                 const interestEls = document.querySelectorAll('input[name="interests"]');
                 const interests = [];
                 interestEls.forEach(i => { if(i.checked) interests.push(i.value); });
@@ -1529,7 +1555,6 @@ window.setupPaginationControls = function(tableName) {
             clientForm._bound = true;
         }
 
-        // New sale
         const saleForm = document.getElementById('new-sale-form');
         if(saleForm && !saleForm._bound){
             saleForm.addEventListener('submit', function(e){
@@ -1553,16 +1578,13 @@ window.setupPaginationControls = function(tableName) {
         }
     }
 
-    // --- Validation helpers ---
     function isEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(v||'')); }
     function isPhone(v){ return /^[0-9+\s-]{7,20}$/.test(String(v||'')); }
     function isNumeric(v){ return !isNaN(Number(v)) && v !== ''; }
 
-    // --- Edit/Delete event delegation ---
     document.addEventListener('click', function(e){
         const t = e.target;
 
-        // Users
         if(t.matches('.btn-edit-user')){
             const id = t.getAttribute('data-id');
             const db = loadLocalDB(); if(!db) return;
@@ -1586,7 +1608,6 @@ window.setupPaginationControls = function(tableName) {
             return;
         }
 
-        // Clients
         if(t.matches('.btn-edit-client')){
             const id = t.getAttribute('data-id');
             const db = loadLocalDB();
@@ -1625,7 +1646,6 @@ window.setupPaginationControls = function(tableName) {
             return;
         }
 
-        // Sales
         if(t.matches('.btn-edit-sale')){
             const id = t.getAttribute('data-id');
             const db = loadLocalDB();
@@ -1663,11 +1683,9 @@ window.setupPaginationControls = function(tableName) {
         }
     });
 
-    // Attach now and also on DOMContentLoaded to be safe
     try{ attachFormHandlers(); }catch(e){}
 document.addEventListener && document.addEventListener('DOMContentLoaded', attachFormHandlers);
 
-    // Set greeting name placeholders (admin/user pages)
     (function setGreetingNames(){
         try {
             var user = getCurrentUser();
@@ -1683,12 +1701,7 @@ document.addEventListener && document.addEventListener('DOMContentLoaded', attac
                 if (el) el.textContent = name;
             });
         } catch (e) {
-            // no-op
         }
     })();
-
-    // Enhance render functions to use formatting helpers if available
-
-    // (They live in the other IIFE scope; we rely on those names existing)
 
 })();

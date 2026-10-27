@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="content-language" content="es">
+    <title>Gestión de Usuarios</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="/assets/style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&family=Inter:wght@300;400;500;600;700&family=Parisienne&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" type="image/png" href="/img/icono.png">
+</head>
+<body class="bg-gray-900 text-white">
+    <!-- Contenedor de notificaciones -->
+    <div id="toast-container" class="fixed top-28 right-4 z-50 flex flex-col gap-2"></div>
+
+    <!-- Header -->
+    <header class="py-5 backdrop-blur header-hidden" id="mainHeader">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <h1 class="text-2xl parisienne-font bg-gradient-to-r from-purple-900 to-purple-600 bg-clip-text">
+                <a href="../../?i=1">Chef Jonathan Buitrago</a>
+            </h1>
+            <nav class="hidden md:flex items-center space-x-10">
+                <a href="admin" class="hover:text-purple-500 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16"><path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/></svg></a>
+                <a href="admin-usuarios" class="active-page-main hover:text-purple-500 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" fill="currentColor" class="bi bi-people" viewBox="0 0 16 16"><path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1L7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002-.014.002zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a6 6 0 0 0-1.23-.247A7 7 0 0 0 5 9c-4 0-5 3-5 4q0 1 1 1h4.216A2.24 2.24 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.5 5.5 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4"/></svg></a>
+                <a href="admin-inscripciones" class="hover:text-purple-500 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-clipboard-data" viewBox="0 0 16 16"><path d="M4 11a1 1 0 1 1 2 0v1a1 1 0 1 1-2 0zm6-4a1 1 0 1 1 2 0v5a1 1 0 1 1-2 0zM7 9a1 1 0 0 1 2 0v3a1 1 0 1 1-2 0z"/><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"/></svg></a>
+                <a href="admin-servicios" class="hover:text-purple-500 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor" class="bi bi-book" viewBox="0 0 16 16"><path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783"/></svg></a>
+                <a href="admin-reembolsos" class="hover:text-purple-500 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor" class="bi bi-currency-dollar" viewBox="0 0 16 16"><path d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73z"/></svg></a>
+                <a href="admin-certificados" class="hover:text-purple-500 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="currentColor" class="bi bi-mortarboard" viewBox="0 0 16 16"><path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917zM8 8.46 1.758 5.965 8 3.052l6.242 2.913z"/><path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466zm-.068 1.873.22-.748 3.496 1.311a.5.5 0 0 0 .352 0l3.496-1.311.22.748L8 12.46z"/></svg></a>
+                <a href="javascript:void(0)" onclick="logout()" class="hover:text-purple-500 transition-colors"><svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" fill="red" fill="currentColor" class="bi bi-box-arrow-left" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M6 12.5a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-9a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v2a.5.5 0 0 1-1 0v-2A1.5 1.5 0 0 1 6.5 2h8A1.5 1.5 0 0 1 16 3.5v9a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 5 12.5v-2a.5.5 0 0 1 1 0z"/><path fill-rule="evenodd" d="M.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L1.707 7.5H10.5a.5.5 0 0 1 0 1H1.707l2.147 2.146a.5.5 0 0 1-.708.708z"/></svg></a>
+            </nav>
+            <div class="flex md:hidden items-center space-x-3">
+                <button class="admin-mobile-menu-btn md:hidden" id="mobileMenuBtn" aria-label="Abrir menú" onclick="toggleMobileMenu()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/></svg>
+                </button>
+            </div>
+        </div>
+        <div class="admin-mobile-dropdown backdrop-blur" id="adminDropdown">
+            <div class="container mx-auto px-6"> <!-- Agregar container y padding horizontal como en el header -->
+                <nav class="admin-dropdown-nav">
+                    <a href="admin">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" viewBox="0 0 16 16"><path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/></svg>
+                        Inicio
+                    </a>
+                    <a href="admin-usuarios" class="active-page">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-people" viewBox="0 0 16 16"><path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1L7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002-.014.002zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a6 6 0 0 0-1.23-.247A7 7 0 0 0 5 9c-4 0-5 3-5 4q0 1 1 1h4.216A2.24 2.24 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.5 5.5 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4"/></svg>
+                        Usuarios
+                    </a>
+                    <a href="admin-inscripciones">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="currentColor" class="bi bi-clipboard-data" viewBox="0 0 16 16"><path d="M4 11a1 1 0 1 1 2 0v1a1 1 0 1 1-2 0zm6-4a1 1 0 1 1 2 0v5a1 1 0 1 1-2 0zM7 9a1 1 0 0 1 2 0v3a1 1 0 1 1-2 0z"/><path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"/><path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"/></svg>
+                        Inscripciones
+                    </a>
+                    <a href="admin-servicios">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-book" viewBox="0 0 16 16"><path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783"/></svg>
+                        Servicios
+                    </a>
+                    <a href="admin-reembolsos">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-currency-dollar" viewBox="0 0 16 16"><path d="M4 10.781c.148 1.667 1.513 2.85 3.591 3.003V15h1.043v-1.216c2.27-.179 3.678-1.438 3.678-3.3 0-1.59-.947-2.51-2.956-3.028l-.722-.187V3.467c1.122.11 1.879.714 2.07 1.616h1.47c-.166-1.6-1.54-2.748-3.54-2.875V1H7.591v1.233c-1.939.23-3.27 1.472-3.27 3.156 0 1.454.966 2.483 2.661 2.917l.61.162v4.031c-1.149-.17-1.94-.8-2.131-1.718zm3.391-3.836c-1.043-.263-1.6-.825-1.6-1.616 0-.944.704-1.641 1.8-1.828v3.495l-.2-.05zm1.591 1.872c1.287.323 1.852.859 1.852 1.769 0 1.097-.826 1.828-2.2 1.939V8.73z"/></svg>
+                        Reembolsos
+                    </a>
+                    <a href="admin-certificados">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-mortarboard" viewBox="0 0 16 16"><path d="M8.211 2.047a.5.5 0 0 0-.422 0l-7.5 3.5a.5.5 0 0 0 .025.917l7.5 3a.5.5 0 0 0 .372 0L14 7.14V13a1 1 0 0 0-1 1v2h3v-2a1 1 0 0 0-1-1V6.739l.686-.275a.5.5 0 0 0 .025-.917zM8 8.46 1.758 5.965 8 3.052l6.242 2.913z"/><path d="M4.176 9.032a.5.5 0 0 0-.656.327l-.5 1.7a.5.5 0 0 0 .294.605l4.5 1.8a.5.5 0 0 0 .372 0l4.5-1.8a.5.5 0 0 0 .294-.605l-.5-1.7a.5.5 0 0 0-.656-.327L8 10.466zm-.068 1.873.22-.748 3.496 1.311a.5.5 0 0 0 .352 0l3.496-1.311.22.748L8 12.46z"/></svg>
+                        Certificados
+                    </a>
+                    <hr class="border-red-500 my-2">
+                    <a href="javascript:void(0)" onclick="logout()"  class="cerrar-sesion-link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="red" viewBox="0 0 16 16">
+                            <path d="M10 3.5a.5.5 0 0 0-.5-.5h-8a.5.5 0 0 0-.5.5v9a.5.5 0 0 0 .5.5h8a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2A1.5 1.5 0 0 1 9.5 14h-8A1.5 1.5 0 0 1 0 12.5v-9A1.5 1.5 0 0 1 1.5 2h8A1.5 1.5 0 0 1 11 3.5v2a.5.5 0 0 1-1 0z"/>
+                            <path d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708z"/>
+                        </svg>
+                        Cerrar Sesión
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <script>
+        function toggleMobileMenu() {
+            var dropdown = document.getElementById('adminDropdown');
+            var header = document.getElementById('mainHeader');
+
+            if (dropdown.classList.contains('open')) {
+                dropdown.classList.remove('open');
+                // Remover clase del header si es necesario
+                if(header) {
+                    header.classList.remove('with-open-dropdown');
+                }
+            } else {
+                dropdown.classList.add('open');
+                // Añadir clase al header para cambiar las esquinas
+                if(header) {
+                    header.classList.add('with-open-dropdown');
+                }
+            }
+        }
+        // Cerrar el menú si se hace clic en un enlace
+        document.querySelectorAll('#adminDropdown a').forEach(link => {
+            link.addEventListener('click', function() {
+                document.getElementById('adminDropdown').classList.remove('open');
+                var header = document.getElementById('mainHeader');
+                if(header) {
+                    header.classList.remove('with-open-dropdown');
+                }
+            });
+        });
+    </script>
+
+    <!-- Dashboard -->
+    <section class="admin-page-shell min-h-screen pt-24 pb-16">
+        <div class="container mx-auto px-6">
+            <h3 class="admin-page-heading">Gestión de Usuarios</h3>
+
+            <!-- Historial de Usuarios y Formularios de Gestión -->
+            <div class="mb-12">
+                <h4 class="text-2xl font-semibold mb-6 text-purple-400">Gestión de Usuarios</h4>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+                    <!-- Formulario Crear Usuario -->
+                    <div class="product-card p-6 rounded-lg">
+                        <h5 class="text-lg font-semibold mb-4">Crear Usuario</h5>
+                        <form id="create-user-form">
+                            <input id="user-name" name="name" type="text" placeholder="Alias / Username" class="w-full mb-2 p-2 bg-gray-700 rounded" required>
+
+                            <input id="user-fullname" name="full_name" type="text" placeholder="Nombre Completo" class="w-full mb-2 p-2 bg-gray-700 rounded" required>
+
+                            <div class="grid grid-cols-2 gap-2 mb-2">
+                                <select id="user-id-type" class="w-full py-4 bg-gray-700 text-gray-300 border border-gray-600" required>
+                                    <option value="Tarjeta de Identidad">Tarjeta de Identidad</option>
+                                    <option value="Cédula de Ciudadanía">Cédula de Ciudadanía</option>
+                                    <option value="Cédula de Extranjería">Cédula de Extranjería</option>
+                                    <option value="Permiso por Protección Temporal (PPT)">Permiso por Protección Temporal (PPT)</option>
+                                    <option value="Pasaporte">Pasaporte</option>
+                                    <option value="Otro">Otro</option>
+                                </select>
+                                <input id="user-id-number" name="id_number" type="number" placeholder="Número de Documento" class="w-full mb-2 p-2 bg-gray-700 rounded" required>
+                                <div id="custom-doc-container" class="mb-2" style="display: none;">
+                                    <input id="user-custom-doc" name="custom_doc_type" type="text" placeholder="Especifique el tipo de documento" class="w-full p-2 bg-gray-700 rounded">
+                                </div>
+                            </div>
+
+                            <input id="user-email" name="email" type="email" placeholder="Email" class="w-full mb-2 p-2 bg-gray-700 rounded" required>
+                            <select id="user-role" name="role" class="w-full mb-2 p-2 bg-gray-700 rounded">
+                                <option value="user">Usuario</option>
+                                <option value="admin">Administrador</option>
+                            </select>
+                            <input id="user-phone" name="phone" type="number" placeholder="Teléfono" class="w-full mb-2 p-2 bg-gray-700 rounded" required>
+                            <div class="relative mb-2">
+                                <input id="user-password" name="password" type="password" placeholder="Contraseña" class="w-full p-2 bg-gray-700 rounded pr-8" required>
+                                <span class="password-toggle absolute inset-y-0 right-0 flex items-center pr-2" onclick="togglePassword('user-password')">
+                                    <i class="fas fa-eye text-gray-500"></i>
+                                </span>
+                            </div>
+                            <div class="relative mb-2">
+                                <input id="user-confirm-password" type="password" placeholder="Confirmar Contraseña" class="w-full p-2 bg-gray-700 rounded pr-8" required>
+                                <span class="password-toggle absolute inset-y-0 right-0 flex items-center pr-2" onclick="togglePassword('user-confirm-password')">
+                                    <i class="fas fa-eye text-gray-500"></i>
+                                </span>
+                            </div>
+                            
+                            <!-- Campos adicionales para la creación de usuarios -->
+                            <select id="user-security-question" name="security_question" class="w-full mb-2 p-2 bg-gray-800 rounded border border-gray-600" required>
+                                <option value="">Selecciona una pregunta</option>
+                                <option value="¿Cuál es el nombre de tu primera mascota?">¿Cuál es el nombre de tu primera mascota?</option>
+                                <option value="¿Cuál es tu postre favorito?">¿Cuál es tu postre favorito?</option>
+                                <option value="¿En qué ciudad naciste?">¿En qué ciudad naciste?</option>
+                                <option value="¿Cuál es el nombre de tu mejor amigo/a?">¿Cuál es el nombre de tu mejor amigo/a?</option>
+                                <option value="¿Cuál fue tu primera canción favorita?">¿Cuál fue tu primera canción favorita?</option>
+                            </select>                            
+                            <input id="user-security-answer" name="security_answer" type="text" placeholder="Respuesta de Seguridad" class="w-full mb-2 p-2 bg-gray-700 rounded" required>
+                            
+                            <div class="flex items-center mb-2">
+                                <input type="checkbox" id="user-notify-email" name="notify_email" class="mr-2" checked>
+                                <label for="user-notify-email" class="text-gray-300">Notif. por Email</label>
+                            </div>
+                            
+                            <div class="flex items-center mb-4">
+                                <input type="checkbox" id="user-notify-whatsapp" name="notify_whatsapp" class="mr-2">
+                                <label for="user-notify-whatsapp" class="text-gray-300">Notif. por WhatsApp</label>
+                            </div>
+                            
+
+                            <button type="submit" class="w-full bg-purple-600 py-2 rounded hover:bg-purple-700">Crear</button>
+
+                            <script>
+                              (function(){
+                                var form = document.getElementById('create-user-form');
+                                if(!form) return;
+
+                                // Validación UI: confirmar contraseña (el submit real lo maneja assets/admin-tables.js)
+                                form.addEventListener('submit', function(e){
+                                  var p1 = (document.getElementById('user-password') || {}).value;
+                                  var p2 = (document.getElementById('user-confirm-password') || {}).value;
+
+                                  if(p2 && p1 !== p2){
+                                    e.preventDefault();
+                                    if(typeof showToast === 'function') showToast('Las contraseñas no coinciden', 'error');
+                                    else alert('Las contraseñas no coinciden');
+                                    return;
+                                  }
+                                  
+                                  // The actual handling will be done in admin-tables.js
+                                  // Just make sure the custom doc type is properly captured
+                                });
+                              })();
+                            </script>
+
+
+                            <script>
+                              // Show/hide custom document type field when 'Otro' is selected in create user form
+                              document.addEventListener('DOMContentLoaded', function() {
+                                  var docTypeSelect = document.getElementById('user-id-type');
+                                  var customDocContainer = document.getElementById('custom-doc-container');
+                                  
+                                  if(docTypeSelect && customDocContainer) {
+                                      docTypeSelect.addEventListener('change', function() {
+                                          if(this.value === 'Otro') {
+                                              customDocContainer.style.display = 'block';
+                                          } else {
+                                              customDocContainer.style.display = 'none';
+                                              var customInput = document.getElementById('user-custom-doc');
+                                              if(customInput) customInput.value = '';
+                                          }
+                                      });
+                                      
+                                      // Initialize visibility based on current value
+                                      if(docTypeSelect.value === 'Otro') {
+                                          customDocContainer.style.display = 'block';
+                                      }
+                                  }
+                              });
+                            </script>
+                        </form>
+                    </div>
+
+                    
+                    <!-- Historial de Usuarios con botones de modificar e inactivar -->
+                    <div class="product-card p-6 lg:col-span-2">
+                        <div class="rounded-xl h-full">
+                            <h5 class="text-lg font-semibold mb-4 text-white">Usuarios</h5>
+                            
+                    <div class="mb-4">
+                                <label for="user-email-search" class="block text-sm font-medium text-gray-300 mb-2">Buscar por Email</label>
+                                <div class="flex gap-3 items-center">
+                                    <input id="user-email-search" type="email" placeholder="correo@ejemplo.com" class="flex-1 px-3 py-2 bg-gray-800 rounded border border-gray-600 focus:outline-none focus:">
+                                    <button type="button" id="user-email-search-clear" class="px-4 py-2 bg-gray-700 text-white rounded hover:bg-gray-600 text-sm">Limpiar</button>
+                                </div>
+                            </div>
+
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left">
+                                    <thead>
+                                        <tr class="border-b border-gray-700">
+                                            <th class="pb-3 text-gray-300">ID</th>
+                                            <th class="pb-3 text-gray-300">Alias</th>
+                                            <th class="pb-3 text-gray-300">Nombre Completo</th>
+                                            <th class="pb-3 text-gray-300">Documento</th>
+                                            <th class="pb-3 text-gray-300">Email</th>
+                                            <th class="pb-3 text-gray-300">Rol</th>
+                                            <th class="pb-3 text-gray-300">Fecha</th>
+                                            <th class="pb-3 text-gray-300">Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="users-tbody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal Editar Usuario -->
+    <div id="edit-user-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+        <div class="bg-[#101115] border border-[#1e2028] rounded-xl shadow-2xl max-w-md w-full mx-4 max-h-[90vh] flex flex-col">
+            <div class="flex items-center justify-between px-6 py-4 border-b border-[#1e2028] flex-shrink-0">
+                <h3 class="text-lg font-semibold text-white">Modificar Usuario</h3>
+            </div>
+            <form id="edit-user-form" class="space-y-4 px-6 py-5 overflow-y-auto flex-1">
+                <input type="hidden" id="edit-user-id">
+                <div>
+                    <label class="block text-gray-300 text-sm mb-2">Nombre</label>
+                    <input type="text" id="edit-user-name" class="w-full px-3 py-2 bg-gray-700 rounded text-white border border-gray-600 focus:" required>
+                </div>
+                <div>
+                    <label class="block text-gray-300 text-sm mb-2">Email</label>
+                    <input type="email" id="edit-user-email" class="w-full px-3 py-2 bg-gray-700 rounded text-white border border-gray-600 focus:" required>
+                </div>
+                <div>
+                    <label class="block text-gray-300 text-sm mb-2">Tipo de Documento</label>
+                    <select id="edit-user-id-type" class="w-full px-3 py-2 bg-gray-700 rounded text-white border border-gray-600">
+                        <option value="Tarjeta de Identidad">Tarjeta de Identidad</option>
+                        <option value="Cédula de Ciudadanía">Cédula de Ciudadanía</option>
+                        <option value="Cédula de Extranjería">Cédula de Extranjería</option>
+                        <option value="Permiso por Protección Temporal (PPT)">Permiso por Protección Temporal (PPT)</option>
+                        <option value="Pasaporte">Pasaporte</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+                <div id="edit-custom-doc-container" style="display: none;">
+                    <label class="block text-gray-300 text-sm mb-2">Especifique el tipo de documento</label>
+                    <input type="text" id="edit-user-custom-doc" class="w-full px-3 py-2 bg-gray-700 rounded text-white border border-gray-600" placeholder="Escriba el tipo de documento">
+                </div>
+                <div>
+                    <label class="block text-gray-300 text-sm mb-2">Número de Documento</label>
+                    <input type="number" id="edit-user-id-number" class="w-full px-3 py-2 bg-gray-700 rounded text-white border border-gray-600">
+                </div>
+                <div>
+                    <label class="block text-gray-300 text-sm mb-2">Rol</label>
+                    <select id="edit-user-role" class="w-full px-3 py-2 bg-gray-700 rounded text-white border border-gray-600">
+                        <option value="user">Usuario</option>
+                        <option value="admin">Administrador</option>
+                    </select>
+                </div>
+                <div class="flex justify-end gap-3 pt-2">
+                    <button type="button" id="cancel-edit-user" class="px-5 py-2.5 bg-[#1e2028] hover:bg-[#292a34] text-gray-300 rounded-lg text-sm transition-colors">Cancelar</button>
+                    <button type="submit" class="px-5 py-2.5 bg-amber-700 hover:bg-amber-600 text-white rounded-lg text-sm font-semibold transition-colors">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+      // Show/hide custom document type field when 'Otro' is selected in edit user modal
+      document.addEventListener('DOMContentLoaded', function() {
+          var editDocTypeSelect = document.getElementById('edit-user-id-type');
+          var editCustomDocContainer = document.getElementById('edit-custom-doc-container');
+          var editCustomInput = document.getElementById('edit-user-custom-doc');
+          
+          if(editDocTypeSelect && editCustomDocContainer) {
+              editDocTypeSelect.addEventListener('change', function() {
+                  if(this.value === 'Otro') {
+                      editCustomDocContainer.style.display = 'block';
+                  } else {
+                      editCustomDocContainer.style.display = 'none';
+                      if(editCustomInput) editCustomInput.value = '';
+                  }
+              });
+              
+              // Initialize visibility based on current value
+              if(editDocTypeSelect.value === 'Otro') {
+                  editCustomDocContainer.style.display = 'block';
+              }
+          }
+      });
+    </script>
+
+    <!-- Modal Eliminar Usuario -->
+    <div id="delete-user-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
+        <div class="bg-[#101115] border border-[#1e2028] rounded-xl shadow-2xl max-w-md w-full mx-4">
+            <div class="flex items-center justify-between px-6 py-4 border-b border-[#1e2028]">
+                <h3 class="text-lg font-semibold text-white">Confirmar Eliminación</h3>
+            </div>
+            <div class="px-6 py-5">
+                <p class="text-gray-300 text-sm mb-3">¿Estás seguro de que deseas eliminar este usuario? Esta acción no se puede deshacer.</p>
+                <p id="delete-user-name" class="text-red-400 font-semibold text-sm"></p>
+                <input type="hidden" id="delete-user-id">
+            </div>
+            <div class="flex justify-end gap-3 px-6 py-4 border-t border-[#1e2028]">
+                <button type="button" id="cancel-delete-user" class="px-5 py-2.5 bg-[#1e2028] hover:bg-[#292a34] text-gray-300 rounded-lg text-sm transition-colors">Cancelar</button>
+                <button type="button" id="confirm-delete-user" class="px-5 py-2.5 bg-red-700 hover:bg-red-600 text-white rounded-lg text-sm font-semibold transition-colors">Eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="border-t border-white-700 py-4">
+        <div class="w-full mx-auto max-w-screen-xl p-2 flex flex-col sm:flex-row items-center justify-between">
+            <span class="text-xs text-gray-400">
+                © 2025 <a href="../../?i=1" class="text-white parisienne-font hover:text-purple-500">Chef Jonathan Buitrago</a>. Todos los derechos reservados.
+            </span>
+            <ul class="flex space-x-4 items-center mt-2 sm:mt-0 text-xs">
+                <!--Instagram-->
+                <li><a href="https://www.instagram.com/chef_jonathan_buitrago?igsh=cGp1NmY4cmh0ZnA5" target="_blank" class="btn-instagram"><svg class="w-5 h-5" viewBox="0 0 24 24"><defs><linearGradient id="instagram-gradient" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#FED373;stop-opacity:1" /><stop offset="15%" style="stop-color:#F15245;stop-opacity:1" /><stop offset="40%" style="stop-color:#D92E7F;stop-opacity:1" /><stop offset="75%" style="stop-color:#9B36B7;stop-opacity:1" /><stop offset="100%" style="stop-color:#515BD4;stop-opacity:1" /></linearGradient></defs><path class="instagram-gradient" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.644-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.441 1.441 1.441 1.441-.645 1.441-1.44-/.645-1.44-1.441-1.44z"/></svg></a></li>                
+                <!--Facebook-->
+                <li><a href="https://www.facebook.com/jonathan.buitrago.5851?locale=es_LA" target="_blank" class="btn-facebook transition-colors"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 320 512"><path d="M80 299.3V512H196V299.3h86.5l18-97.8H196V166.9c0-51.7 20.3-71.5 72.7-71.5c16.3 0 29.4 .4 37 1.2V7.9C291.4 4 256.4 0 236.2 0C129.3 0 80 50.5 80 159.4v42.1H14v97.8H80z"/></svg></a></li>
+                <!--WhatsApp-->
+                <li><a href="https://wa.me/573229452346" target="_blank" class="btn-whatsapp transition-colors"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.480-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a></li>
+                <!--Youtube-->
+                <li><a href="https://www.youtube.com/@chefjonathanbuitrago" target="_blank" class="btn-youtube transition-colors"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 576 512"><path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64s-170.781 0-213.371 11.486c-23.497 6.321-42.003 24.947-48.284 48.597C16 166.672 16 256 16 256s0 89.328 10.345 131.917c6.281 23.65 24.787 42.276 48.284 48.597C117.219 448 288 448 288 448s170.781 0 213.371-11.486c23.497-6.321 42.003-24.947 48.284-48.597C560 345.328 560 256 560 256s0-89.328-10.345-131.917zM232 334.059V177.941L345 256l-113 78.059z"/></svg></a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <script src="/assets/script.js"></script>
+    <script src="/assets/admin-tables.js"></script>

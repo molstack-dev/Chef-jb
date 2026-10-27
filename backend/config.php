@@ -1,26 +1,69 @@
 <?php
-// config.php - Configuración usando PDO (compatible con Windows/Linux/macOS)
-//
-// Soporta configuración por variables de entorno (getenv) y mantiene defaults
-// para compatibilidad con tu setup actual (XAMPP local).
+// Configuración centralizada de MySQL para local XAMPP y producción InfinityFree.
+// Nunca uses credenciales reales en el repositorio; en producción queda el placeholder.
+define('BASE_PATH', dirname(__DIR__));
 
-// Rutas (por ahora no se usa, pero queda listo si necesitas paths base)
-// $BASE_DIR = __DIR__;
+function is_local_environment(): bool {
+    $serverName = strtolower($_SERVER['SERVER_NAME'] ?? $_SERVER['HTTP_HOST'] ?? '');
+    return $serverName === '' || $serverName === 'localhost' || $serverName === '127.0.0.1' || strpos($serverName, 'localhost') !== false;
+}
 
+define('APP_ENV_LOCAL', is_local_environment());
 
-// MySQL / PDO (defaults actuales)
-$db_host = getenv('DB_HOST') !== false ? getenv('DB_HOST') : '127.0.0.1';
-$db_user = getenv('DB_USER') !== false ? getenv('DB_USER') : 'root';
-$db_pass = getenv('DB_PASS') !== false ? getenv('DB_PASS') : '';
-$db_name = getenv('DB_NAME') !== false ? getenv('DB_NAME') : 'chef_jonathan';
+function get_db_config(): array {
+    if (APP_ENV_LOCAL) {
+        return [
+            'host' => '127.0.0.1',
+            'port' => 3306,
+            'user' => 'root',
+            'pass' => '',
+            'name' => 'if0_43089123_chef_jonathan',
+            'charset' => 'utf8mb4',
+        ];
+    }
 
-// Opcional: charset (por defecto utf8mb4)
-$db_charset = getenv('DB_CHARSET') !== false ? getenv('DB_CHARSET') : 'utf8mb4';
+    return [
+        'host' => 'sql211.infinityfree.com',
+        'port' => 3306,
+        'user' => 'if0_43089123',
+        'pass' => 'molstack2026',
+        'name' => 'if0_43089123_chef_jonathan',
+        'charset' => 'utf8mb4',
+    ];
+}
 
-// Opcional: collation
-$db_collation = getenv('DB_COLLATION') !== false ? getenv('DB_COLLATION') : 'utf8mb4_unicode_ci';
+$db_config = get_db_config();
+$db_host = $db_config['host'];
+$db_user = $db_config['user'];
+$db_pass = $db_config['pass'];
+$db_name = $db_config['name'];
+$db_port = $db_config['port'];
+$db_charset = $db_config['charset'];
 
-// Opcional: driver/flags
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
+try {
+    $mysqli = new mysqli($db_host, $db_user, $db_pass, $db_name, $db_port);
+    $mysqli->set_charset($db_charset);
+} catch (Throwable $e) {
+    error_log('MySQL connection failed: ' . $e->getMessage());
+
+    if (APP_ENV_LOCAL) {
+        throw $e;
+    }
+
+    if (!headers_sent()) {
+        http_response_code(500);
+        header('Content-Type: application/json; charset=utf-8');
+    }
+
+    echo json_encode([
+        'success' => false,
+        'message' => 'No se pudo conectar a la base de datos.'
+    ]);
+    exit;
+}
+
 $db_options = [
     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -28,30 +71,24 @@ $db_options = [
 ];
 
 try {
-    // Intentar conectarse (sin seleccionar BD primero) para poder crearla si no existe
-    // Nota: el DSN no incluye dbname para permitir CREATE DATABASE.
-    $dsn = "mysql:host={$db_host};charset={$db_charset}";
-
+    $dsn = "mysql:host={$db_host};port={$db_port};dbname={$db_name};charset={$db_charset}";
     $pdo = new PDO($dsn, $db_user, $db_pass, $db_options);
-
-    // Crear BD si no existe
-    $pdo->exec(
-        "CREATE DATABASE IF NOT EXISTS `" . str_replace('`', '``', $db_name) .
-        "` CHARACTER SET {$db_charset} COLLATE {$db_collation}"
-    );
-
-    // Seleccionar BD
-    $pdo->exec("USE `" . str_replace('`', '``', $db_name) . "`");
-
-    // Asegurar charset
-    $pdo->exec("SET NAMES {$db_charset}");
-
 } catch (Throwable $e) {
-    // Si se consulta desde endpoints web, devolvemos JSON para que no reviente el frontend.
-    // Si se usa desde CLI, igual se ve el error.
-    http_response_code(500);
-    header('Content-Type: application/json; charset=utf-8');
-    die(json_encode(["error" => "Error de conexión: " . $e->getMessage()]));
+    error_log('PDO connection failed: ' . $e->getMessage());
+
+    if (APP_ENV_LOCAL) {
+        throw $e;
+    }
+
+    if (!headers_sent()) {
+        http_response_code(500);
+        header('Content-Type: application/json; charset=utf-8');
+    }
+
+    echo json_encode([
+        'success' => false,
+        'message' => 'La base de datos no está disponible en este momento.'
+    ]);
+    exit;
 }
 ?>
-

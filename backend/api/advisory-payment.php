@@ -7,7 +7,7 @@ if (ob_get_level() === 0) {
     ob_start();
 }
 
-require_once '../config.php';
+require_once __DIR__ . '/../config.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -73,7 +73,7 @@ try {
 
     // 3) IMPORTANT: Si la advisory es para un CURSO y fue pagada,
     //    debemos crear/actualizar el registro en `registrations`
-    //    para que `views/user/mis-servicios.html` se active.
+    //    para que `views/user/mis-servicios` se active.
     //    (El admin aprueba en advisories; el usuario ve cursos desde registrations.)
     if ($payment_status === 'paid') {
         try {

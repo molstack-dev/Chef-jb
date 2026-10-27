@@ -1,0 +1,223 @@
+/* ============================================================
+   INFORMACION.CSS
+   Estilos específicos de views/informacion
+   Se carga DESPUÉS de style.css
+   ============================================================ */
+
+/* ============================================================
+   CARRUSEL HORIZONTAL INSTAGRAM
+   ============================================================ */
+.insta-carousel-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    padding: 1rem 0 2.5rem;
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0, #000 6%, #000 94%, transparent 100%);
+}
+
+/* Sombritas laterales */
+.insta-carousel-wrapper::before,
+.insta-carousel-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 80px;
+    pointer-events: none;
+    z-index: 2;
+}
+.insta-carousel-wrapper::before {
+    left: 0;
+    background: linear-gradient(to right, #030712 0%, rgba(3, 7, 18, 0.85) 40%, rgba(3, 7, 18, 0) 100%);
+}
+.insta-carousel-wrapper::after {
+    right: 0;
+    background: linear-gradient(to left, #030712 0%, rgba(3, 7, 18, 0.85) 40%, rgba(3, 7, 18, 0) 100%);
+}
+
+.insta-carousel-track {
+    display: flex;
+    gap: 1.25rem;
+    width: max-content;
+    animation: insta-scroll 30s linear infinite;
+    will-change: transform;
+}
+
+.insta-carousel-track:hover,
+.insta-carousel-track:active,
+.insta-carousel-track.paused {
+    animation-play-state: paused;
+}
+
+.insta-carousel-item {
+    flex: 0 0 auto;
+    width: 326px;
+    max-width: 85vw;
+    transition: transform 0.3s ease;
+}
+
+.insta-carousel-item:hover {
+    transform: translateY(-6px);
+}
+
+@keyframes insta-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+}
+
+.insta-carousel-wrapper::-webkit-scrollbar {
+    height: 6px;
+}
+.insta-carousel-wrapper::-webkit-scrollbar-thumb {
+    background: rgba(180, 83, 9, 0.4);
+    border-radius: 9999px;
+}
+
+.insta-carousel-item .instagram-media {
+    margin: 0 !important;
+    min-width: 0 !important;
+    width: 100% !important;
+}
+
+@media (max-width: 640px) {
+    .insta-carousel-item {
+        width: 280px;
+    }
+    .insta-carousel-track {
+        gap: 0.9rem;
+        animation-duration: 30s;
+    }
+    .insta-carousel-wrapper::before,
+    .insta-carousel-wrapper::after {
+        width: 40px;
+    }
+}
+
+/* ============================================================
+   ENLACES BONITOS EN LA BIOGRAFÍA
+   ============================================================ */
+.bio-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.05rem 0.55rem;
+    margin: 0 0.1rem;
+    border-radius: 9999px;
+    font-weight: 500;
+    color: #fbbf24;
+    background: linear-gradient(135deg, rgba(180, 83, 9, 0.18) 0%, rgba(217, 119, 6, 0.10) 100%);
+    border: 1px solid rgba(217, 119, 6, 0.35);
+    text-decoration: none;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    line-height: 1.6;
+    white-space: nowrap;
+}
+
+.bio-link:hover {
+    color: #fef3c7;
+    background: linear-gradient(135deg, rgba(217, 119, 6, 0.45) 0%, rgba(180, 83, 9, 0.30) 100%);
+    border-color: #f59e0b;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(217, 119, 6, 0.35);
+    text-decoration: none;
+    font-style: normal;
+}
+
+.bio-link--external::after {
+    content: "";
+    display: inline-block;
+    width: 0.7em;
+    height: 0.7em;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fbbf24'%3e%3cpath d='M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5'/%3e%3cpath d='M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z'/%3e%3c/svg%3e");
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.75;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.bio-link--external:hover::after {
+    opacity: 1;
+    transform: translate(1px, -1px);
+}
+
+.bio-link--whatsapp {
+    color: #4ade80;
+    background: linear-gradient(135deg, rgba(21, 128, 61, 0.20) 0%, rgba(34, 197, 94, 0.10) 100%);
+    border-color: rgba(34, 197, 94, 0.40);
+}
+
+.bio-link--whatsapp:hover {
+    color: #dcfce7;
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.45) 0%, rgba(21, 128, 61, 0.30) 100%);
+    border-color: #22c55e;
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.35);
+}
+
+.bio-link--internal {
+    color: #d6a34a;
+    background: rgba(180, 83, 9, 0.10);
+    border-color: rgba(180, 83, 9, 0.25);
+}
+
+.bio-link--internal::after {
+    content: "→";
+    display: inline-block;
+    font-size: 0.85em;
+    opacity: 0.7;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.bio-link--internal:hover::after {
+    transform: translateX(3px);
+    opacity: 1;
+}
+
+/* ============================================================
+   ESPACIADO ENTRE TESTIMONIOS Y FAQ
+   ============================================================ */
+.testimonios-section {
+    padding-bottom: 2rem !important;
+}
+.faq-section {
+    padding-top: 2rem !important;
+}
+
+@media (min-width: 768px) {
+    .testimonios-section {
+        padding-bottom: 3rem !important;
+    }
+    .faq-section {
+        padding-top: 3rem !important;
+    }
+}
+
+/* ============================================================
+   FAQ — override local (fondo del tema oscuro)
+   ============================================================ */
+.faq-answer {
+    background: #15161a !important;
+    color: #d1d5db;
+    padding: 0 1rem 1rem 1rem;
+    animation: faqFadeInLocal 0.25s ease-out;
+}
+
+@media (min-width: 768px) {
+    .faq-answer {
+        padding: 0 1.5rem 1.5rem 1.5rem;
+    }
+}
+
+@keyframes faqFadeInLocal {
+    from { opacity: 0; transform: translateY(-4px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.faq-question svg {
+    transition: transform 0.25s ease;
+}
+
+.faq-question svg.rotate-180 {
+    transform: rotate(180deg);
+}

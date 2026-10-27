@@ -12,7 +12,7 @@ if (empty($role) || !in_array($role, $validRoles)) {
 
 // Construir la ruta de forma segura
 $basePath = __DIR__;
-$pagePath = realpath($basePath . "/../views/$role/{$role}.html");
+$pagePath = realpath($basePath . "/../views/$role/{$role}");
 
 // Verificar que la ruta esté dentro del directorio permitido
 $allowedDir = realpath($basePath . '/../views');

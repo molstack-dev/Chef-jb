@@ -14,13 +14,17 @@ async function loadAdvisoriesAndEvents() {
         const result = await response.json();
         
         if (result.success) {
-            document._cached_advisories = result.advisories || [];
-            document._cached_events = result.events || [];
+            // Defensa adicional: un servicio reembolsado no debe quedar visible
+            // aunque el navegador reciba una respuesta almacenada en caché.
+            const advisories = (result.advisories || []).filter(service => !isRefunded(service));
+            const events = (result.events || []).filter(service => !isRefunded(service));
+            document._cached_advisories = advisories;
+            document._cached_events = events;
             
-            displayAdvisories(result.advisories);
-            displayEvents(result.events);
+            displayAdvisories(advisories);
+            displayEvents(events);
             
-            updateCounters(result.advisories.length, result.events.length);
+            updateCounters(advisories.length, events.length);
         } else {
             console.error('Error al cargar asesorías y eventos:', result.message);
             showToast(result.message || 'Error al cargar asesorías y eventos', 'error');
@@ -29,6 +33,12 @@ async function loadAdvisoriesAndEvents() {
         console.error('Error de conexión al cargar asesorías y eventos:', error);
         showToast('Error de conexión', 'error');
     }
+}
+
+function isRefunded(service) {
+    return service.payment_status === 'refunded' ||
+        service.refund_status === 'approved' ||
+        service.status === 'cancelled';
 }
 
 function updateCounters(advisoryCount, eventCount) {
@@ -50,7 +60,7 @@ function displayAdvisories(advisories) {
     document._cached_advisories = advisories || [];
     
     if (!advisories || advisories.length === 0) {
-        container.innerHTML = '<p class="text-gray-400 text-center py-6">No tienes asesorías programadas</p>';
+        container.innerHTML = '<p class="text-gray-400 text-center py-6">No tienes asesorías aprobadas. Una vez el administrador confirme tu solicitud aparecerán aquí.</p>';
         return;
     }
     
@@ -79,7 +89,7 @@ function displayEvents(events) {
     document._cached_events = events || [];
     
     if (!events || events.length === 0) {
-        container.innerHTML = '<p class="text-gray-400 text-center py-6">No tienes eventos programados</p>';
+        container.innerHTML = '<p class="text-gray-400 text-center py-6">No tienes eventos aprobados. Una vez el administrador confirme tu solicitud aparecerán aquí.</p>';
         return;
     }
     
@@ -304,13 +314,14 @@ async function loadMyCourses() {
     if (!container) return;
 
     try {
-        const response = await fetch('../../backend/api/inscripciones.php');
+        const response = await fetch('/backend/api/inscripciones.php');
         const result = await response.json();
 
         if (result.success && result.data && result.data.length > 0) {
             const paidCourses = result.data.filter(function(r) { 
-                return r.payment_status === 'paid' && 
-                    (!r.refund_status || r.refund_status !== 'approved');
+                return r.status === 'confirmed' &&
+                    r.payment_status === 'paid' &&
+                    !isRefunded(r);
             });
 
             if (paidCourses.length > 0) {
@@ -330,7 +341,7 @@ async function loadMyCourses() {
                 if (totalLabel) totalLabel.textContent = String(paidCourses.length);
 
             } else {
-                container.innerHTML = '<p class="text-gray-400 text-center py-6">No tienes cursos con pago aprobado.</p>';
+                container.innerHTML = '<p class="text-gray-400 text-center py-6">No tienes cursos aprobados aún. Una vez el administrador confirme tu inscripción aparecerán aquí.</p>';
             }
         } else {
             container.innerHTML = '<p class="text-gray-400 text-center py-6">No tienes cursos inscritos.</p>';
@@ -412,7 +423,7 @@ async function loadCourseLessons(courseId, contentDiv, forceReload) {
     lessonsContainer.innerHTML = '<p class="text-gray-400 text-center py-4">Cargando contenido...</p>';
 
     try {
-        var response = await fetch('../../backend/api/course-content-get.php?course_id=' + courseId, { credentials: 'include' });
+        var response = await fetch('/backend/api/course-content-get.php?course_id=' + courseId, { credentials: 'include' });
         var result = await response.json();
 
         if (result.success && result.content && result.content.length > 0) {
@@ -462,7 +473,7 @@ async function loadCourseLessons(courseId, contentDiv, forceReload) {
 }
 
 async function refreshCourseProgress(courseId) {
-    var response = await fetch('../../backend/api/course-content-get.php?course_id=' + courseId, { credentials: 'include' });
+    var response = await fetch('/backend/api/course-content-get.php?course_id=' + courseId, { credentials: 'include' });
     var result = await response.json();
 
     if (result.success) {

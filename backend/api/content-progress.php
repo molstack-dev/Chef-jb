@@ -5,7 +5,7 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 
-require_once '../config.php';
+require_once __DIR__ . '/../config.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -38,8 +38,14 @@ function ensureCertificatesTableExists() {
         'CREATE TABLE IF NOT EXISTS certificates (
             id INT AUTO_INCREMENT PRIMARY KEY,
             user_id INT NOT NULL,
-            course_id INT NOT NULL,
+            course_id INT NULL,
             registration_id INT,
+            advisory_id INT NULL,
+            service_type ENUM("curso","asesoria","evento") DEFAULT "curso",
+            holder_name VARCHAR(255) NULL,
+            holder_id_type VARCHAR(255) NULL,
+            holder_id_number VARCHAR(100) NULL,
+            is_group BOOLEAN DEFAULT FALSE,
             certificate_number VARCHAR(50) UNIQUE NOT NULL,
             issue_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             expiry_date DATE NULL,
@@ -181,18 +187,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($progress['total_items'] > 0 && $progress['completed_count'] === $progress['total_items']) {
             $stmtUpdate = $pdo->prepare('UPDATE registrations SET status = "completed" WHERE client_id = ? AND course_id = ? AND payment_status = "paid" AND status != "completed"');
             $stmtUpdate->execute([$auth['user_id'], $courseId]);
-            
+
             // Verificar si la actualización fue efectiva
             if ($stmtUpdate->rowCount() > 0) {
                 // Obtener el ID de la inscripción para emitir el certificado
                 $regStmt = $pdo->prepare('SELECT id FROM registrations WHERE client_id = ? AND course_id = ?');
                 $regStmt->execute([$auth['user_id'], $courseId]);
                 $registration = $regStmt->fetch();
-                
+
                 if ($registration) {
                     // Emitir certificado automáticamente
                     $certificateIssued = emitCertificate($auth['user_id'], $courseId, $registration['id']);
-                    
+
                     if (!$certificateIssued) {
                         error_log('Error al emitir certificado para el usuario ' . $auth['user_id'] . ' y curso ' . $courseId);
                     }

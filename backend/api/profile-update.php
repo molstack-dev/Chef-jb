@@ -5,7 +5,7 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Headers: Content-Type');
 
-require_once '../config.php';
+require_once __DIR__ . '/../config.php';
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
@@ -88,7 +88,7 @@ try {
             $stmt->execute([$name, $full_name, $id_type, $custom_doc_type, $id_number, $email, $user_id]);
         } else {
             // En otros casos, actualizar sin el campo de documento personalizado
-            $stmt = $pdo->prepare("UPDATE users SET name = ?, full_name = ?, id_type = ?, id_number = ?, email = ? WHERE id = ?");
+            $stmt = $pdo->prepare("UPDATE users SET name = ?, full_name = ?, id_type = ?, custom_doc_type = NULL, id_number = ?, email = ? WHERE id = ?");
             $stmt->execute([$name, $full_name, $id_type, $id_number, $email, $user_id]);
         }
     } else {
@@ -109,7 +109,7 @@ try {
             ]);
         } else {
             // Si el tipo de documento no es 'Otro' o no se proporciona un tipo personalizado
-            $stmt = $pdo->prepare("UPDATE users SET name = ?, full_name = ?, id_type = ?, id_number = ?, email = ?, security_question = ?, security_answer = ? WHERE id = ?");
+            $stmt = $pdo->prepare("UPDATE users SET name = ?, full_name = ?, id_type = ?, custom_doc_type = NULL, id_number = ?, email = ?, security_question = ?, security_answer = ? WHERE id = ?");
             $stmt->execute([
                 $name,
                 $full_name,

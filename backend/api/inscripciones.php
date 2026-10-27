@@ -1,8 +1,8 @@
 <?php
-require_once '../cors.php';
+require_once __DIR__ . '/../cors.php';
 header('Content-Type: application/json');
 
-require_once '../config.php';
+require_once __DIR__ . '/../config.php';
 
 // Iniciar sesión si no está iniciada
 if (session_status() === PHP_SESSION_NONE) {
@@ -88,6 +88,14 @@ if ($method === 'GET') {
         // User: sólo sus registros
         $where[] = 'r.client_id = ?';
         $params[] = $_SESSION['user_id'];
+        // Un curso con reembolso aprobado deja de ser un servicio activo.
+        $where[] = "r.payment_status <> 'refunded'";
+        $where[] = "NOT EXISTS (
+            SELECT 1 FROM refunds rf
+            WHERE rf.type = 'registration'
+              AND rf.refundable_id = r.id
+              AND rf.refund_status = 'approved'
+        )";
     }
 
     if ($status) {
